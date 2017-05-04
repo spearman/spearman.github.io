@@ -1,0 +1,1366 @@
+% ATS-Postiats `prelude/basics*`
+%
+%
+
+<link rel="stylesheet" href="style.css" />
+
+**********************************************************************
+
+(*) as of ATS-Postiats 0.3.3
+
+**********************************************************************
+**********************************************************************
+#   `prelude/basics_pre.sats`
+
+**********************************************************************
+**********************************************************************
+
+some pre-processor defines:
+
+```ats
+#define CHAR_MAX  127
+#define CHAR_MIN  ~128
+#define UCHAR_MAX 0xFF
+```
+
+"built-in" = "external" = `"ext#"` ?
+
+some built-in static boolean constants:
+
+```ats
+stacst true_bool     : bool
+stacst false_bool    : bool
+stacst neg_bool      : bool -> bool
+stacst add_bool_bool : (bool, bool) -> bool
+stacst mul_bool_bool : (bool, bool) -> bool
+stacst lt_bool_bool  : (bool, bool) -> bool
+stacst lte_bool_bool : (bool, bool) -> bool
+stacst gt_bool_bool  : (bool, bool) -> bool
+stacst gte_bool_bool : (bool, bool) -> bool
+stacst eq_bool_bool  : (bool, bool) -> bool
+stacst neq_bool_bool : (bool, bool) -> bool
+
+stadef true  = true_bool
+stadef false = false_bool
+stadef ~     = neg_bool
+stadef not   = neg_bool
+stadef +     = add_bool_bool
+stadef ||    = add_bool_bool
+stadef *     = mul_bool_bool
+stadef &&    = mul_bool_bool
+
+stadef <     = lt_bool_bool
+stadef <=    = lte_bool_bool
+stadef >     = gt_bool_bool
+stadef >=    = gte_bool_bool
+stadef ==    = eq_bool_bool
+stadef !=    = neq_bool_bool
+stadef <>    = neq_bool_bool  // backward compatibility
+```
+
+built-in static integer constants:
+
+```ats
+stacst neg_int            : (int) -> int
+stacst add_int_int        : (int, int) -> int
+stacst sub_int_int        : (int, int) -> int
+stacst mul_int_int        : (int, int) -> int
+stacst div_int_int        : (int, int) -> int
+stacst ndiv_int_int       : (int, int) -> int   // positive divisor
+stacst idiv_int_int       : (int, int) -> int   // alias for div_int_int
+stacst lt_int_int         : (int, int) -> bool
+stacst lte_int_int        : (int, int) -> bool
+stacst gt_int_int         : (int, int) -> bool
+stacst gte_int_int        : (int, int) -> bool
+stacst eq_int_int         : (int, int) -> bool
+stacst neq_int_int        : (int, int) -> bool
+stacst abs_int            : (int) -> int
+stacst sgn_int            : (int) -> int
+stacst max_int_int        : (int, int) -> int
+stacst min_int_int        : (int, int) -> int
+stacst ifint_bool_int_int : (bool, int, int) -> int
+
+stadef nmod_int_int              (x:int, y:int)
+stadef absrel_int_int            (x:int, v:int) : bool
+stadef sgnrel_int_int            (x:int, v:int) : bool
+stadef maxrel_int_int_int        (x:int, y:int, v:int) : bool
+stadef minrel_int_int_int        (x:int, y:int, v:int) : bool
+stadef nsub                      (x:int, y:int)
+stadef ndivrel_int_int_int       (x:int, y:int, q:int) : bool   // 0 < y
+stadef idivrel_int_int_int       (x:int, y:int, q:int) : bool   // y != 0
+stadef divmodrel_int_int_int_int (x:int, y:int, q:int, r:int)  : bool
+stadef ifintrel_bool_int_int_int (b:bool, x:int, y:int, r:int) : bool
+stadef bool2int                  (b:bool) : int
+stadef int2bool                  (i:int)  : bool
+
+stadef ~         = neg_int
+stadef +         = add_int_int
+stadef -         = sub_int_int
+stadef *         = mul_int_int
+stadef /         = div_int_int
+stadef ndiv      = ndiv_int_int
+stadef idiv      = idiv_int_int
+stadef <         = lt_int_int
+stadef <=        = lte_int_int
+stadef >         = gt_int_int
+stadef >=        = gte_int_int
+stadef ==        = eq_int_int
+stadef !=        = neq_int_int
+stadef <>        = neq_int_int   // backward compatibility
+stadef %         = nmod_int_int
+stadef mod       = nmod_int_int
+stadef nmod      = nmod_int_int
+stadef abs       = abs_int
+stadef absrel    = absrel_int_int
+stadef sgn       = sgn_int
+stadef sgnrel    = sgnrel_int_int
+stadef max       = max_int_int
+stadef min       = min_int_int
+stadef maxrel    = maxrel_int_int_int
+stadef minrel    = minrel_int_int_int
+stadef ndivrel   = ndivrel_int_int_int
+stadef idivrel   = idivrel_int_int_int
+stadef divmodrel = divmodrel_int_int_int_int
+stadef ifint     = ifint_bool_int_int
+stadef ifintrel  = ifintrel_bool_int_int_int
+stadef b2i       = bool2int
+stadef i2b       = int2bool
+```
+
+some numeric constants and conversions:
+
+```ats
+stadef pow2_7    = 128
+stadef pow2_8    = 256
+stadef pow2_15   = 32768
+stadef pow2_16   = 65536
+stadef pow2_32   = 0x100000000
+stadef pow2_64   = 0x10000000000000000
+
+stadef i2u_int8  (i:int)
+stadef u2i_int8  (u:int)
+stadef i2u_int16 (i:int)
+stadef u2i_int16 (u:int)
+
+stadef i2u8  = i2u_int8
+stadef u2i8  = u2i_int8
+stadef i2u16 = i2u_int16
+stadef u2i16 = u2i_int16
+```
+
+built-in address constants:
+
+```ats
+stacst null_addr     : addr
+stacst add_addr_int  : (addr, int) -> addr
+stacst sub_addr_int  : (addr, int) -> addr
+stacst sub_addr_addr : (addr, addr) -> int
+stacst lt_addr_addr  : (addr, addr) -> bool
+stacst lte_addr_addr : (addr, addr) -> bool
+stacst gt_addr_addr  : (addr, addr) -> bool
+stacst gte_addr_addr : (addr, addr) -> bool
+stacst eq_addr_addr  : (addr, addr) -> bool
+stacst neq_addr_addr : (addr, addr) -> bool
+
+stacst int_of_addr  : addr -> int
+stacst addr_of_int  : int -> addr
+
+stadef null = null_addr
+stadef NULL = null_addr
+stadef +    = add_addr_int
+stadef -    = sub_addr_int
+stadef -    = sub_addr_addr
+stadef <    = lt_addr_addr
+stadef <=   = lte_addr_addr
+stadef >    = gt_addr_addr
+stadef >=   = gte_addr_addr
+stadef ==   = eq_addr_addr
+stadef !=   = neq_addr_addr
+stadef <>   = neq_addr_addr   // backwards compatibility
+
+stadef a2i  = int_of_addr
+stadef i2a  = addr_of_int
+```
+
+built-in static constants for OOP inheritance support:
+
+```ats
+stacst lte_cls_cls : (cls, cls) -> bool
+stacst gte_cls_cls : (cls, cls) -> bool
+
+stadef lterel_cls_cls (c1:cls, c2:cls, ltrel_cls_cls_res:bool) : bool
+stadef gterel_cls_cls (c1:cls, c2:cls, gtrel_cls_cls_res:bool) : bool
+
+stadef <= = lte_cls_cls
+stadef >= = gte_cls_cls
+```
+
+built-in `sizeof` constant:
+
+```ats
+stacst sizeof_t0ype_int : t@ype -> int
+stadef sizeof (a:viewt@ype) : int
+```
+
+subset sorts for integers and addresses:
+
+```ats
+sortdef nat  = { i:int | 0 <= i }
+sortdef pos  = { i:int | 0 < i }
+sortdef neg  = { i:int | i < 0 }
+sortdef npos = { i:int | i <= 0 }
+sortdef nat1 = { n:nat | n < 1 }
+sortdef nat2 = { n:nat | n < 2 }
+sortdef nat3 = { n:nat | n < 3 }
+sortdef nat4 = { n:nat | n < 4 }
+sortdef sgn  = { i:int | ~1 <= i; i <= 1 }
+
+sortdef agz  = { l:addr | null < l }
+sortdef agez = { l:addr | null <= l }
+sortdef alez = { l:addr | l <= null }
+```
+
+effect static constants:
+
+```ats
+stacst effnil : eff   // nothing
+stacst effall : eff   // everything
+stacst effntm : eff   // nonterm
+stacst effref : eff   // reference
+stacst effwrt : eff   // writeover
+
+stacst add_eff_eff : (eff, eff) -> eff  // union of effsets
+stacst sub_eff_eff : (eff, eff) -> eff  // difference of effsets
+
+stadef + = add_eff_eff
+stadef - = sub_eff_eff
+```
+
+overloaded symbols:
+
+```ats
+symintr ~ not
+symintr + - * / % mod ndiv nmod
+symintr < <= > >= = == != <> compare
+symintr isltz isltez isgtz isgtez iseqz isneqz
+symintr neg abs max min
+symintr succ pred half double
+symintr square sqrt cube cbrt pow
+symintr ! []                            // deref, subscript
+symintr << >>                           // left/right-shift
+symintr ++ -- inc dec
+symintr get set exch
+symintr getinc setinc exchinc
+symintr decget decset decexch
+symintr !++ --!                         // getinc, decget
+symintr =++ --=                         // setinc, decset
+symintr assert
+symintr encode decode
+symintr uncons unsome
+symintr ptrcast                         // address of a boxed value
+symintr g0ofg1 g1ofg0                   // cast indexed/un-indexed
+symintr copy free length
+symintr print prerr fprint gprint
+symintr println prerrln fprintln gprintln
+symintr ofstring ofstrptr
+symintr tostring tostrptr
+```
+
+dot-notation overloading:
+
+```ats
+symintr .size
+symintr .len .length
+symintr .get .set .exch
+symintr .nrow .ncol
+symintr .head .tail
+symintr .next .prev
+symintr .init .last
+symintr .eval                           // convention: using `!`
+```
+
+for template args:
+
+```ats
+abstype  atskind_type  (tk:tkind)
+abst@ype atskind_t0ype (tk:tkind)
+
+typedef  tkind_type    (tk:tkind) = atskind_type tk
+typedef  tkind_t0ype   (tk:tkind) = atskind_t0ype tk
+```
+
+other stuff (*FIXME*):
+
+```ats
+absview  at_vt0ype_addr_view (a:viewt@ype+, l:addr)
+viewdef  @                   (a:viewt@ype, l:addr)  // @ infix
+
+abst@ype     clo_t0ype_t0ype    (a:t@ype)
+absviewt@ype clo_vt0ype_vtt0ype (a:viewt@ype)
+
+viewtypedef READ  (a:viewt@ype)
+viewtypedef WRITE (a:viewt@ype)
+
+absprop invar_prop_prop (a:prop)
+absview invar_view_view (a:view)
+
+abst@ype     invar_t0ype_t0ype   (a:t@ype)
+absviewt@ype invar_vt0ype_vt0ype (a:viewt@ype)
+
+// order is significant for the following:
+viewdef     INV (a:view)      = invar_view_view a
+propdef     INV (a:prop)      = invar_prop_prop a
+viewtypedef INV (a:viewt@ype) = invar_vt0ype_vt0ype a
+viewtypedef INV (a:t@ype)     = invar_t0ype_t0ype a
+```
+
+copy env (something to do with view changes ??? *FIXME*):
+
+```ats
+absview      vcopyenv_view_view     (v:view)
+absviewt@ype vcopyenv_vt0ype_vt0ype (vt:viewt@ype)
+
+stadef vcopyenv_v  = vcopyenv_view_view
+stadef vcopyenv_vt = vcopyenv_vt0ype_vt0ype
+```
+
+stamping:
+
+```ats
+abst@ype     stamped_t0ype  (a:t@ype, int)
+absviewt@ype stamped_vt0ype (a:viewt@ype, int)
+
+stadef stamped_t = stamped_t0ype
+stadef stamped_vt = stamped_vt0ype
+```
+
+
+
+**********************************************************************
+**********************************************************************
+#   `prelude/basics_sta.sats`
+
+**********************************************************************
+**********************************************************************
+
+for commenting: read-only -- used in `cmpref` definition
+
+```ats
+#define RD(x) x
+```
+
+alias for `tkind` sort:
+
+```ats
+sortdef  tk = tkind
+```
+
+`int8` and `uint8` sorts:
+
+```ats
+sortdef  int8  = { i:int | ~128 <= i; i < 128 }
+sortdef  uint8 = { i:int | 0 <= i; i < 256 }
+```
+
+booleans:
+
+```ats
+tkindef  bool_kind         = "atstype_bool"
+abst@ype bool_t0ype        = tkind_t0ype (bool_kind)
+abst@ype bool_bool_t0ype (b:bool) = bool_t0ype
+stadef   bool              = bool_t0ype
+stadef   bool              = bool_bool_t0ype
+typedef  Bool              = [b:bool]  bool b
+typedef  boolLte (b1:bool) = [b2:bool] bool (b2 <= b1)
+typedef  boolGte (b1:bool) = [b2:bool] bool (b1 <= b2)
+abst@ype atstype_bool      // internal use
+```
+
+bytes:
+
+```ats
+tkindef  byte_kind         = "atstype_byte"
+abst@ype byte_t0ype        = tkind_t0ype (byte_kind)
+stadef   byte              = byte_t0ype
+
+typedef  bytes    (n:int)         = @[byte][n]
+viewdef  bytes_v  (l:addr, n:int) = bytes(n)@l
+typedef  b0ytes   (n:int)         = @[byte?][n]
+viewdef  b0ytes_v (l:addr, n:int) = b0ytes(n)@l
+```
+
+characters:
+
+```ats
+tkindef  char_kind         = "atstype_char"
+abst@ype char_t0ype        = tkind_t0ype (char_kind)
+abst@ype char_int_t0ype (c:int) = char_t0ype
+stadef   char              = char_t0ype
+stadef   char              = char_int_t0ype
+typedef  Char              = [c:int8]          char c
+typedef  charNZ            = [c:int8 | c != 0] char c
+```
+
+signed characters:
+
+```ats
+tkindef  schar_kind        = "atstype_schar"
+abst@ype schar_t0ype       = tkind_t0ype (schar_kind)
+abst@ype schar_int_t0ype (c:int) = schar_t0ype
+stadef   schar             = schar_t0ype
+stadef   schar             = schar_int_t0ype
+typedef  sChar             = [c:int8] schar c
+```
+
+unsigned characters:
+
+```ats
+tkindef  uchar_kind        = "atstype_uchar"
+abst@ype uchar_t0ype       = tkind_t0ype (uchar_kind)
+abst@ype uchar_int_t0ype (c:int) = uchar_t0ype
+stadef   uchar             = uchar_t0ype
+stadef   uchar             = uchar_int_t0ype
+typedef  uChar             = [c:uint8] uchar c
+```
+
+`g0int`, `g1int`, `g0uint`, `g1uint`: *FIXME*
+
+```ats
+abst@ype g0int_t0ype (tk:tkind)       = tkind_t0ype tk
+stadef   g0int                        = g0int_t0ype
+
+abst@ype g1int_int_t0ype (tk:tkind, int) = g0int (tkind)
+stadef   g1int                        = g1int_int_t0ype
+typedef  g1int    (tk:tkind)          = [i:int]          g1int (tk,i)
+typedef  g1int0   (tk:tkind)          = [i:int | 0 <= i] g1int (tk,i)
+typedef  g1int1   (tk:tkind)          = [i:int | 1 <= i] g1int (tk,i)
+
+typedef g1intLt   (tk:tkind, n:int)   = [i:int | i < n]  g1int (tk,i)
+typedef g1intLte  (tk:tkind, n:int)   = [i:int | i <= n] g1int (tk,i)
+typedef g1intGt   (tk:tkind, n:int)   = [i:int | n < i]  g1int (tk,i)
+typedef g1intGte  (tk:tkind, n:int)   = [i:int | n <= i] g1int (tk,i)
+typedef g1intBtw  (tk:tkind, lb:int, ub:int) = [i:int | lb <= i; i < ub]  g1int (tk,i)
+typedef g1intBtwe (tk:tkind, lb:int, ub:int) = [i:int | lb <= i; i <= ub] g1int (tk,i)
+
+abst@ype g0uint_t0ype (tk:tkind)      = tkind_t0ype tk
+stadef   g0uint                       = g0uint_t0ype
+
+abst@ype g1uint_int_t0ype (tk:tkind, int) = g0uint (tkind)
+stadef   g1uint                       = g1uint_int_t0ype
+typedef  g1uint     (tk:tkind)        = [i:int]          g1uint (tk,i)
+typedef  g1uint0    (tk:tkind)        = [i:int | 0 <= i] g1uint (tk,i)
+typedef  g1uint1    (tk:tkind)        = [i:int | 1 <= i] g1uint (tk,i)
+
+typedef  g1uintLt   (tk:tkind, n:int) = [i:nat | i < n]  g1uint (tk,i)
+typedef  g1uintLte  (tk:tkind, n:int) = [i:nat | i <= n] g1uint (tk,i)
+typedef  g1uintGt   (tk:tkind, n:int) = [i:int | n < i]  g1uint (tk,i)
+typedef  g1uintGte  (tk:tkind, n:int) = [i:int | n <= i] g1uint (tk,i)
+typedef  g1uintBtw  (tk:tkind, lb:int, ub:int) = [i:int | lb <= i; i < ub]  g1uint (tk,i)
+typedef  g1uintBtwe (tk:tkind, lb:int, ub:int) = [i:int | lb <= i; i <= ub] g1uint (tk,i)
+```
+
+`g0float`: *FIXME*
+
+```ats
+abst@ype g0float_t0ype (tk:tkind) = tkind_t0ype tk
+stadef   g0float                  = g0float_t0ype
+```
+
+integers and natural numbers:
+
+```ats
+tkindef  int_kind                  = "atstype_int"
+typedef  int0                      = g0int (int_kind)
+typedef  int1 (i:int)              = g1int (int_kind, i)
+
+stadef   int                       = int1   // 2nd-select
+stadef   int                       = int0   // 1st-select
+
+typedef  Int                       = [i:int]          int1 i
+typedef  Nat                       = [i:int | 0 <= 0] int1 i
+
+typedef  intLt   (n:int)           = g1intLt   (int_kind, n)
+typedef  intLte  (n:int)           = g1intLte  (int_kind, n)
+typedef  intGt   (n:int)           = g1intGt   (int_kind, n)
+typedef  intGte  (n:int)           = g1intGte  (int_kind, n)
+typedef  intBtw  (lb:int, ub:int)  = g1intBtw  (int_kind, lb, ub)
+typedef  intBtwe (lb:int, ub:int)  = g1intBtwe (int_kind, lb, ub)
+
+typedef  Two                       = intBtw  ( 0, 2)
+typedef  Sgn                       = intBtwe (~1, 1)
+typedef  natLt  (n:int)            = intBtw  ( 0, n)
+typedef  natLte (n:int)            = intBtwe ( 0, n)
+
+abst@ype atstype_int    // internal use
+```
+
+unsigned integers:
+
+```ats
+tkindef  uint_kind                 = "atstype_uint"
+typedef  uint0                     = g0uint (uint_kind)
+typedef  uint1 (n:int)             = g1uint (uint_kind, n)
+
+stadef   uint                      = uint1   // 2nd-select
+stadef   uint                      = uint0   // 1st-select
+
+typedef  uInt                      = [n:int] uint1 n
+
+typedef  uintLt   (n:int)          = g1uintLt   (uint_kind, n)
+typedef  uintLte  (n:int)          = g1uintLte  (uint_kind, n)
+typedef  uintGt   (n:int)          = g1uintGt   (uint_kind, n)
+typedef  uintGte  (n:int)          = g1uintGte  (uint_kind, n)
+typedef  uintBtw  (lb:int, ub:int) = g1uintBtw  (uint_kind, lb, ub)
+typedef  uintBtwe (lb:int, ub:int) = g1uintBtwe (uint_kind, lb, ub)
+
+abst@ype atstype_uint   // internal use
+```
+
+long, long long, signed and unsigned integers:
+
+```ats
+tkindef lint_kind        = "atstype_lint"
+typedef lint0            = g0int (lint_kind)
+typedef lint1 (i:int)    = g1int (lint_kind, i)
+stadef  lint             = lint1   // 2nd-select
+stadef  lint             = lint0   // 1st-select
+
+tkindef ulint_kind       = "atstype_ulint"
+typedef ulint0           = g0uint (ulint_kind)
+typedef ulint1 (i:int)   = g1uint (ulint_kind, i)
+stadef  ulint            = ulint1   // 2nd-select
+stadef  ulint            = ulint0   // 1st-select
+
+tkindef llint_kind       = "atstype_llint"
+typedef llint0           = g0int (llint_kind)
+typedef llint1 (i:int)   = g1int (llint_kind, i)
+stadef  llint            = llint1   // 2nd-select
+stadef  llint            = llint0   // 1st-select
+
+tkindef ullint_kind      = "atstype_ullint"
+typedef ullint0          = g0uint (ullint_kind)
+typedef ullint1 (i:int)  = g1uint (ullint_kind, i)
+stadef  ullint           = ullint1   // 2nd-select
+stadef  ullint           = ullint0   // 1st-select
+
+tkindef intptr_kind      = "atstype_intptr"
+typedef intptr0          = g0int (intptr_kind)
+typedef intptr1 (i:int)  = g1int (intptr_kind, i)
+stadef  intptr           = intptr1   // 2nd-select
+stadef  intptr           = intptr0   // 1st-select
+
+tkindef uintptr_kind     = "atstype_uintptr"
+typedef uintptr0         = g0uint (uintptr_kind)
+typedef uintptr1 (i:int) = g1uint (uintptr_kind, i)
+stadef  uintptr          = uintptr1   // 2nd-select
+stadef  uintptr          = uintptr0   // 1st-select
+```
+
+short signed and unsigned integers:
+
+```ats
+tkindef sint_kind        = "atstype_sint"
+typedef sint0            = g0int (sint_kind)
+typedef sint1 (i:int)    = g1int (sint_kind, i)
+stadef  sint             = sint1   // 2nd-select
+stadef  sint             = sint0   // 1st-select
+
+tkindef usint_kind       = "atstype_usint"
+typedef usint0           = g0uint (usint_kind)
+typedef usint1 (i:int)   = g1uint (usint_kind, i)
+stadef  usint            = usint1   // 2nd-select
+stadef  usint            = usint0   // 1st-select
+```
+
+(unsigned) size and signed size types:
+
+```ats
+tkindef size_kind        = "atstype_size"
+typedef size0_t          = g0uint size_kind
+typedef size1_t (i:int)  = g1uint (size_kind, i)
+stadef  size_t           = size1_t   // 2nd-select
+stadef  size_t           = size0_t   // 1st-select
+
+typedef Size             = [i:int | 0 <= i] g1uint (size_kind, i)
+typedef Size_t           = Size
+
+typedef sizeLt   (n:int)          = g1uintLt   (size_kind, n)
+typedef sizeLte  (n:int)          = g1uintLte  (size_kind, n)
+typedef sizeGt   (n:int)          = g1uintGt   (size_kind, n)
+typedef sizeGte  (n:int)          = g1uintGte  (size_kind, n)
+typedef sizeBtw  (lb:int, ub:int) = g1uintBtw  (size_kind, lb, ub)
+typedef sizeBtwe (lb:int, ub:int) = g1uintBtwe (size_kind, lb, ub)
+
+typedef sizeof_t (a:viewt@ype)    = size_t (sizeof (a?))
+
+abst@ype atstype_size   // internal use
+
+tkindef ssize_kind        = "atstype_ssize"
+typedef ssize0_t          = g0int ssize_kind
+typedef ssize1_t (i:int)  = g1int (ssize_kind, i)
+stadef  ssize_t           = ssize1_t   // 2nd-select
+stadef  ssize_t           = ssize0_t   // 1st-select
+
+typedef Ssize             = [i:int | 0 <= i] g1int (ssize_kind, i)
+typedef Ssize_t           = Ssize
+
+typedef ssizeLt   (n:int)          = g1intLt   (ssize_kind, n)
+typedef ssizeLte  (n:int)          = g1intLte  (ssize_kind, n)
+typedef ssizeGt   (n:int)          = g1intGt   (ssize_kind, n)
+typedef ssizeGte  (n:int)          = g1intGte  (ssize_kind, n)
+typedef ssizeBtw  (lb:int, ub:int) = g1intBtw  (ssize_kind, lb, ub)
+typedef ssizeBtwe (lb:int, ub:int) = g1intBtwe (ssize_kind, lb, ub)
+
+abst@ype atstype_ssize  // internal use
+```
+
+8, 16, 32, 64-bit signed and unsigned integers:
+
+```ats
+tkindef int8_kind         = "atstype_int8"
+typedef int8_0            = g0int (int8_kind)
+typedef int8_1 (i:int)    = g1int (int8_kind, i)
+stadef  int8              = int8_1   // 2nd-select
+stadef  int8              = int8_0   // 1st-select
+stadef  Int8              = [i:int] int8_1 i
+
+tkindef uint8_kind        = "atstype_uint8"
+typedef uint8_0           = g0uint (uint8_kind)
+typedef uint8_1 (i:int)   = g1uint (uint8_kind, i)
+stadef  uint8             = uint8_1   // 2nd-select
+stadef  uint8             = uint8_0   // 1st-select
+stadef  uInt8             = [i:nat] uint8_1 i
+
+tkindef int16_kind        = "atstype_int16"
+typedef int16_0           = g0int (int16_kind)
+typedef int16_1 (i:int)   = g1int (int16_kind, i)
+stadef  int16             = int16_1   // 2nd-select
+stadef  int16             = int16_0   // 1st-select
+stadef  Int16             = [i:int] int16_1 i
+
+tkindef uint16_kind       = "atstype_uint16"
+typedef uint16_0          = g0uint (uint16_kind)
+typedef uint16_1 (i:int)  = g1uint (uint16_kind, i)
+stadef  uint16            = uint16_1   // 2nd-select
+stadef  uint16            = uint16_0   // 1st-select
+stadef  uInt16            = [i:nat] uint16_1 i
+
+tkindef int32_kind        = "atstype_int32"
+typedef int32_0           = g0int (int32_kind)
+typedef int32_1 (i:int)   = g1int (int32_kind, i)
+stadef  int32             = int32_1   // 2nd-select
+stadef  int32             = int32_0   // 1st-select
+stadef  Int32             = [i:int] int32_1 i
+
+tkindef uint32_kind       = "atstype_uint32"
+typedef uint32_0          = g0uint (uint32_kind)
+typedef uint32_1 (i:int)  = g1uint (uint32_kind, i)
+stadef  uint32            = uint32_1   // 2nd-select
+stadef  uint32            = uint32_0   // 1st-select
+stadef  uInt32            = [i:nat] uint32_1 i
+
+tkindef int64_kind        = "atstype_int64"
+typedef int64_0           = g0int (int64_kind)
+typedef int64_1 (i:int)   = g1int (int64_kind, i)
+stadef  int64             = int64_1   // 2nd-select
+stadef  int64             = int64_0   // 1st-select
+stadef  Int64             = [i:int] int64_1 i
+
+tkindef uint64_kind       = "atstype_uint64"
+typedef uint64_0          = g0uint (uint64_kind)
+typedef uint64_1 (i:int)  = g1uint (uint64_kind, i)
+stadef  uint64            = uint64_1   // 2nd-select
+stadef  uint64            = uint64_0   // 1st-select
+stadef  uInt64            = [i:nat] uint64_1 i
+```
+
+floats, doubles, long doubles:
+
+```ats
+tkindef float_kind        = "atstype_float"
+typedef float             = g0float (float_kind)
+
+tkindef double_kind       = "atstype_double"
+typedef double            = g0float (double_kind)
+
+tkindef ldouble_kind      = "atstype_ldouble"
+typedef ldouble           = g0float (ldouble_kind)
+```
+
+unindexed type for pointers:
+
+```ats
+tkindef ptr_kind                = "atstype_ptrk"
+abstype ptr_type                = tkind_type ptr_kind
+abstype ptr_addr_type (l:addr)  = ptr_type
+typedef ptr                     = ptr_type
+typedef ptr (l:addr)            = ptr_addr_type l
+typedef ptr (n:int)             = ptr_addr_type (addr_of_int n)  // "experiment"
+typedef Ptr                     = [l:addr]            ptr l
+typedef Ptr0                    = [l:agez]            ptr l
+typedef Ptr1                    = [l:addr | null < l] ptr l
+typedef Ptrnull (l:addr) = [l1:addr | l1 == null || l1 == l] ptr l1
+```
+
+persistent read-only strings:
+
+```ats
+abstype string_type             = ptr
+abstype string_int_type (n:int) = string_type
+stadef  string0                 = string_type
+stadef  string1                 = string_int_type
+stadef  string                  = string1   // 2nd-select
+stadef  string                  = string0   // 1nd-select
+typedef String                  = [n:int] string_int_type n
+typedef String0                 = [n:int | 0 <= n] string_int_type n
+typedef String1                 = [n:int | 1 <= n] string_int_type n
+```
+
+`stropt` ??? *FIXME*:
+
+```ats
+abstype stropt_int_type         = ptr
+typedef stropt (n:int)          = stropt_int_type n
+typedef stropt                  = [n:int] stropt_int_type n
+typedef Stropt                  = [n:int] stropt_int_type n
+typedef Stropt0                 = [n:int] stropt_int_type n
+typedef Stropt1                 = [n:int 0 <= n] stropt_int_type n
+```
+
+linear mutable strings:
+
+```ats
+absviewtype strptr_addr_vtype (l:addr) = ptr
+viewtypedef strptr            (l:addr) = strptr_addr_vtype l
+viewtypedef strptr                     = [l:addr] strptr l
+viewtypedef Strptr                     = [l:addr] strptr l
+viewtypedef Strptr0                    = [l:addr] strptr l
+viewtypedef Strptr1                    = [l:addr | null < l] strptr l
+
+absviewtype strnptr_addr_int_vtype (l:addr, n:int) = ptr
+viewtypedef strnptr (l:addr, n:int)  = strnptr_addr_int_vtype (l, n)
+viewtypedef strnptr (n:int) = [l:addr] strnptr_addr_int_vtype (l, n)
+
+viewtypedef Strnptr  = [l:addr; n:int]          strnptr (l, n)
+viewtypedef Strnptr0 = [l:addr; n:int]          strnptr (l, n)
+viewtypedef Strnptr1 = [l:addr; n:int | 0 <= n] strnptr (l, n)
+```
+
+persistent mutable strings:
+
+```ats
+abstype strref_addr_type (l:addr) = ptr
+stadef  strref                    = strref_addr_type
+typedef Strref0                   = [l:addr] strref l
+typedef Strref1                   = [l:addr | null < l] strref l
+```
+
+C-void:
+
+```ats
+abst@ype atsvoid_t0ype
+typedef  void = atsvoid_t0ype
+```
+
+exceptions:
+
+```ats
+absviewtype exception_vtype = $extype"atstype_exnconptr"
+viewtypedef exn             = exception_vtype
+```
+
+opt-type (disjunctive views):
+
+```ats
+absviewt@ype opt_vt0ype_bool_vt0ype (a:vt@ype+, opt:bool) = a
+stadef       opt = opt_vt0ype_bool_vt0ype
+```
+
+closure functions:
+
+```ats
+abstype     cloref_t0ype_type   (a:t@ype) = ptr
+stadef      cloref                        = cloref_t0ype_type
+
+absviewtype cloptr_vt0ype_vtype (a:t@ype) = ptr
+stadef      cloptr                        = cloptr_v0type_vtype
+viewtypedef cloptr0                       = cloptr_vt0ype_vtype(void)
+```
+
+"stamps" *FIXME*:
+
+```ats
+typedef     stamped_t  (a:t@ype)     = [x:int] stamped_t  (a, x)
+viewtypedef stamped_vt (a:viewt@ype) = [x:int] stamped_vt (a, x)
+```
+
+memory deallocation with and without GC:
+
+```ats
+absview mfree_gc_addr_view   (addr)
+absview mfree_ngc_addr_view  (addr)
+absview mfree_libc_addr_view (addr)         // libc-mfree
+stadef  mfree_gc_v   = mfree_gc_addr_view
+stadef  mfree_ngc_v  = mfree_ngc_addr_view
+stadef  mfree_libc_v = mfree_libc_addr_view
+```
+
+`arrpsz`*FIXME*:
+
+```ats
+absviewt@ype arrpsz_vt0ype_int_vt0ype (a:viewt@ype+, n:int) =
+  $extype"atstype_arrpsz"
+stadef arrpsz = arrpsz_vt0ype_int_vt0ype
+```
+
+references:
+
+```ats
+absprop vbox_view_prop  (v:view)
+propdef vbox            (v:view)      = vbox_view_prop v
+abstype ref_vt0ype_type (a:viewt@ype) = ptr
+typedef ref             (a:viewt@ype) = ref_vt0ype_type a
+```
+
+view changes:
+
+```ats
+viewdef     vtakeout    (v1:view, v2:view) = (v2, v2 -<lin,prf> v1)
+viewdef     vtakeout0   (v:view)           = vtakeout (void, v)
+viewtypedef vttakeout   (vt1:viewt@ype, vt2:viewt@ype) =
+  (vt2 -<lin,prf> vt1 | vt2)
+viewtypedef vttakeout0  (vt:viewt@ype)     = vttakeout (void, vt)
+viewtypedef vtakeoutptr (a:viewt@ype)      =
+  [l:addr] (a@l, a@l -<lin,prf> void | ptr l)
+```
+
+linear strings ???:
+
+```ats
+viewtypedef vstrptr (l:addr) = vttakeout0 (strptr l)
+viewtypedef vStrptr0         = [l:agez] vstrptr l
+viewtypedef vStrptr1         = [l:addr | null < l] vstrptr l
+```
+
+bottom:
+
+```ats
+typedef     bottom_t0ype_uni  = {a:t@ype}             a
+typedef     bottom_t0ype_exi  = [a:t@ype | false]     a
+viewtypedef bottom_vt0ype_uni = {a:viewt@ype}         a
+viewtypedef bottom_vt0ype_exi = [a:viewt@ype | false] a
+```
+
+`cmpval`, `cmpref` ??? *FIXME*:
+
+```ats
+typedef cmpval_fun    (a:t@ype)           = (a, a)      -<fun> int
+typedef cmpval_funenv (a:t@ype, vt:t@ype) = (a, a, !vt) -<fun> int
+stadef  cmpval = cmpval_fun
+stadef  cmpval = cmpval_funenv
+
+typedef cmpref_fun    (a:viewt@ype) = (&RD a, &RD a) -<fun> int
+typedef cmpref_funenv (a:viewt@ype, vt:viewt@ype) =
+  (&RD a, &RD a, !vt) -<fun> int
+stadef  cmpref = cmpref_fun
+stadef  cmpref = cmpref_funenv
+```
+
+lazy evaluation:
+
+```ats
+abstype     lazy_t0ype_type   (t@ype+)      = ptr
+typedef     lazy              (a:t@ype)     = lazy_t0ype_type a
+abstype     lazy_vt0ype_vtype (viewt@ype+)  = ptr
+viewtypedef lazy_vt           (a:viewt@ype) = lazy_vt0ype_vtype a
+```
+
+undefined:
+
+```ats
+abst@ype     undefined_t0ype  = $extype"atstype_undefined"
+absviewt@ype undefined_vt0ype = $extype"atstype_undefined"
+```
+
+
+
+**********************************************************************
+**********************************************************************
+#   `prelude/basics_dyn.sats`
+
+**********************************************************************
+**********************************************************************
+
+compiler version:
+
+```ats
+fun patsopt_version() : string = "mac#%"
+```
+
+some sort aliases:
+
+```ats
+sortdef t0p  = t@ype
+sortdef vt0p = viewt@ype
+```
+
+datatype for viewtypes ???:
+
+```ats
+datatype TYPE (a:viewt@ype) = TYPE a of ()
+```
+
+booleans:
+
+```ats
+#define true  true_bool
+#define false false_bool
+val true_bool  : bool(true)  = "mac#atsbool_true"   // = 1
+val false_bool : bool(false) = "mac#atsbool_false"  // = 0
+```
+
+type comparison:
+
+```ats
+typedef compopr_type (a:t@ype) = (a, a) -<fun0> bool
+typedef compare_type (a:t@ype) = (a, a) -<fun0> int   // -/0/+
+```
+
+false implies all:
+
+```ats
+prfun false_elim { X:prop | false } () : X
+```
+
+subclass proof axioms:
+
+```ats
+praxi lemma_subcls_reflexive  {c:cls} () : [c <= c] void
+praxi lemma_subcls_transitive {c1,c2,c3:cls | c1 <= c2; c2 <= c3}
+  () : [c1 <= c3] void
+```
+
+integer, addr/ptr, bool proof axiom and operation props:
+
+```ats
+praxi    praxi_int  {i:int}  () : int i
+praxi    praxi_ptr  {l:addr} () : ptr l
+praxi    praxi_bool {b:bool} () : bool l
+
+dataprop EQINT    (int, int)
+dataprop EQADDR   (addr, addr)
+dataprop EQBOOL   (bool, bool)
+dataprop EQTYPE   (viewt@ype, viewt@ype)
+
+
+dataprop SGN      (int, int)
+dataprop MUL_prop (int, int, int)
+
+absprop  DIVMOD   (x:int, y:int, q:int, r:int)
+
+propdef  MUL      (m:int, n:int, mn:int) = MUL_prop (m,n,mn)
+propdef  DIV      (x:int, y:int, q:int)  = [r:int] DIVMOD (x,y,q,r)
+propdef  MOD      (x:int, y:int, r:int)  = [q:int] DIVMOD (x,y,q,r)
+
+prfun    eqint_make       { x,y:int | x == y }  () : EQINT(x,y)
+prfun    eqint_make_gint  {tk:tkind} {x:int}
+  (x : g1int(tk,x))  : [y:int]  EQINT(x,y)
+prfun    eqint_make_guint {tk:tkind} {x:int}
+  (x : g1uint(tk,x)) : [y:int]  EQINT(x,y)
+
+prfun    eqaddr_make      { x,y:addr | x == y } () : EQADDR(x,y)
+prfun    eqaddr_make_ptr  { x:addr }
+  (x:ptr x)          : [y:addr] EQADDR(x,y)
+
+prfun    eqbool_make      { x,y:bool | x == y } () : EQBOOL(x,y)
+prfun    eqbool_make_bool {x:bool}
+  (x : bool x)       : [y:bool] EQBOOL(x,y)
+```
+
+more proof stuff:
+
+```ats
+prfun prop_verify         { b:bool | b } ()          :<prf>     void
+prfun prop_verify_and_add { b:bool | b } ()          :<prf> [b] void
+prfun pridentity_v        {v:view}       (x:!INV v)  :          void
+prfun pridentity_vt       {v:viewt@ype}  (x:!INV vt) :          void
+```
+
+some linear memory stuff:
+
+```ats
+castfn viewptr_match {a:viewt@ype} { l1,l2:addr | l1==l2 }
+  (pf:INV(a)@l1 | p:ptr l2) :<> [l:addr | l==l1] (a@l | ptr l)
+
+val {a:viewt@ype} sizeof : size_t (sizeof a)
+
+praxi  lemma_sizeof  {a:viewt@ype} () : [0 <= sizeof a] void
+praxi  topize        {a:t@ype}     (x:!INV a >> a?) : void
+castfn dataget       {a:viewt@ype} (x:!INV a >> a)  : a?!
+```
+
+return `pf` to GC:
+
+```ats
+praxi  mfree_gc_v_elim       {l:addr} (pf:mfree_gc_v l) :<prf> void
+```
+
+more GC:
+
+```ats
+praxi  mfree_gcngc_v_nullify {l:addr}
+  (pf1:mfree_gc_v l, pf1:mfree_ngc_v l) : void
+fun    cloptr_free {a:t@ype} (pclo:cloptr a) :<!wrt> void = "mac#%"
+```
+
+lazy force (internally assumed to overload `!`), lazy-to-cloref:
+
+```ats
+fun {a:t@ype}     lazy_force    (lazyval:lazy (INV a))    :<!laz> a
+fun {a:viewt@ype} lazy_vt_force (lazyval:lazy_vt (INV a)) :<!all> a
+fun lazy2cloref {a:t@ype} (lazy a) : () -<cloref1> a = "mac#%"
+```
+
+stamp functions:
+
+```ats
+castfn stamp_t   {a:t@ype}            (x:a) :<> stamped_t  a
+castfn stamp_vt  {a:viewt@ype}        (x:a) :<> stamped_vt a
+castfn unstamp_t {a:t@ype}    {x:int} (x:stamped_t  (INV a, x)) :<> a
+castfn unstamp_vt{a:viewt@ype}{x:int} (x:stamped_vt (INV a, x)) :<> a
+
+castfn stamped_t2vt {a:t@ype}{x:int}  (x:stamped_t  (INV a, x))
+  :<> stamped_vt (a,x)
+castfn stamped_vt2t {a:t@ype}{x:int}  (x:stamped_vt (INV a, x))
+  :<> stamped_t  (a,x)
+fun {a:t@ype} stamped_vt2t_ref{x:int} (x:&stamped_vt(INV a, x))
+  :<> stamped_t  (a,x)
+```
+
+copy env (something to do with view changes ??? *FIXME*):
+
+```ats
+praxi vcopyenv_v_decode
+  {v:view}      (x:vcopyenv_v v)   : vtakeout0 v
+praxi vcopyenv_vt_decode
+  {v:viewt@ype} (x:vcopyenv_vt vt) : vttakeout0 vt
+
+overload decode with vcopyenv_v_decode
+overload decode with vcopyenv_vt_decode
+```
+
+the null pointer:
+
+```ats
+val the_null_ptr : ptr null = "mac#the_atsptr_null"
+```
+
+addr and string param lemmas:
+
+```ats
+praxi lemma_addr_param   {l:addr} ()           : [null <= l] void
+praxi lemma_string_param {n:int}  (x:string n) : [0 <= n]    void
+praxi lemma_stropt_param {n:int}  (x:stropt n) : [~1 <= n]   void
+```
+
+exceptions:
+
+```ats
+exception AssertExn                     // assertion failure
+exception NotFoundExn                   // expected not found
+exception GenerallyExn  of (string)     // unspecified cause
+exception IllegalArgExn of (string)     // function arg out of domain
+praxi     __vfree_exn (x:exn) :<> void  // free nullary exception-con
+```
+
+unit types:
+
+```ats
+datatype     unit    = unit
+dataprop     unit_p  = unit_p
+dataview     unit_v  = unit_v
+dataviewtype unit_vt = unit_vt
+
+prfun unit_v_elim (pf:unit_v) : void
+```
+
+box/unbox:
+
+```ats
+abstype      boxed_t0ype_type   (a:t@ype+)     = unit
+absviewtype  boxed_vt0ype_vtype (a:viewt@ype+) = unit
+viewtypedef  boxed              (a:viewt@ype)  = boxed_vt0ype_vtype a
+viewtypedef  boxed_vt           (a:viewt@ype)  = boxed_vt0ype_vtype a
+typedef      boxed              (a:t@ype)      = boxed_t0ype_type a
+typedef      boxed_t            (a:t@ype)      = boxed_t0ype_type a
+fun {a:type}     box      : (INV a)          -> boxed_t a
+fun {a:type}     unbox    : boxed_t (INV a)  -> a
+fun {a:viewtype} box_vt   : (INV a)          -> boxed_vt a
+fun {a:viewtype} unbox_vt : boxed_vt (INV a) -> a
+```
+
+arrays:
+
+```ats
+typedef     array    (a, n)                       = @[a][n]
+viewdef     array_v  (a:viewt@ype, l:addr, n:int) = @[a][n] @ l
+
+absviewtype arrayptr_vt0ype_addr_int_vtype
+  (a:viewt@ype+, l:addr, n:int) = ptr l
+abstype     arrayref_vt0ype_int_type
+  (a:viewt@ype, n:int)          = ptr
+abstype     arrszref_vt0ype_type
+  (a:viewt@ype)                 = ptr
+
+stadef      arrayptr            = arrayptr_vt0ype_addr_int_vtype
+viewtypdef  arrayptr
+  (a:viewt@ype, n:int)          = [l:addr] arrayptr (a, l, n)
+stadef      arrayref            = arrayref_vt0ype_int_type
+stadef      arrszref            = arrszref_vt0ype_type
+```
+
+functional, singly-linked lists:
+
+```ats
+datatype list_t0ype_int_type (a:t@ype+, int)
+stadef   list                     = list_t0ype_int_type
+typedef  List    (a:t@ype)        = [n:int]          list (a,n)
+typedef  List0   (a:t@ype)        = [n:int | 0 <= n] list (a,n)
+typedef  List1   (a:t@ype)        = [n:int | 1 <= n] list (a,n)
+typedef  listLt  (a:t@ype, n:int) = [k:int | k <  n] list (a,k)
+typedef  listLte (a:t@ype, n:int) = [k:int | k <= n] list (a,k)
+typedef  listGt  (a:t@ype, n:int) = [k:int | n <  k] list (a,k)
+typedef  listGte (a:t@ype, n:int) = [k:int | n <= k] list (a,k)
+typedef  listBtw (a:t@ype, m:int, n:int)  =
+  [k:int | m < k, k < n]   list (a,k)
+typedef  listBtwe (a:t@ype, m:int, n:int) =
+  [k:int | m <= k, k <= n] list (a,k)
+```
+
+
+linear, singly-linked lists:
+
+```ats
+datatype    list_vt0ype_int_vtype (a:viewt@ype+, int)
+stadef      list_vt = list_vt0ype_int_vtype
+viewtypedef List_vt (a:viewt@ype) = [n:int] list_vt (a,n)
+
+viewtypedef List_vt     (a:viewt@ype)
+  = [n:int]                  list_vt (a,n)
+viewtypedef List0_vt    (a:viewt@ype)
+  = [n:int | 0 <= n]         list_vt (a,n)
+viewtypedef List1_vt    (a:viewt@ype)
+  = [n:int | 1 <= n]         list_vt (a,n)
+viewtypedef listLt_vt   (a:viewt@ype, n:int)
+  = [k:int | k <  n]         list_vt (a,k)
+viewtypedef listLte_vt  (a:viewt@ype, n:int)
+  = [k:int | k <= n]         list_vt (a,k)
+viewtypedef listGt_vt   (a:viewt@ype, n:int)
+  = [k:int | n <  k]         list_vt (a,k)
+viewtypedef listGte_vt  (a:viewt@ype, n:int)
+  = [k:int | n <= k]         list_vt (a,k)
+viewtypedef listBtw_vt  (a:viewt@ype, m:int, n:int)
+  = [k:int | m < k; k < n]   list_vt (a,k)
+viewtypedef listBtwe_vt (a:viewt@ype, m:int, n:int)
+  = [k:int | m <= k; k <= n] list_vt (a,k)
+```
+
+streams:
+
+```ats
+datatype stream_con    (a:t@ype+)
+datatype stream_vt_con (a:viewt@ype+)
+```
+
+options:
+
+```ats
+datatype     option_t0ype_bool_type   (a:t@ype+, bool)
+dataviewtype option_vt0ype_bool_vtype (a:viewt@ype+, bool)
+stadef   option                  = option_t0ype_bool_type
+stadef   option_vt               = option_vt0ype_bool_type
+typedef  Option    (a:t@ype)     = [b:bool] option    (a,b)
+typedef  Option_vt (a:viewt@ype) = [b:bool] option_vt (a,b)
+```
+
+disjunctive views:
+
+```ats
+praxi    opt_some
+  {a:viewt@ype}      (x:!INV a >> opt (a,true))   :<prf> void
+praxi    opt_unsome
+  {a:viewt@ype}      (x:!opt (INV a,true) >> a)   :<prf> void
+praxi    opt_none
+  {a:viewt@ype}      (x:!(a?) >> opt (a,false))   :<prf> void
+praxi    opt_unnone
+  {a:viewt@ype}      (x:!opt (INV a,false) >> a?) :<prf> void
+praxi    opt_clear
+  {a:t@ype} {b:bool} (x:!opt (INV a,b) >> a?)     :<prf> void
+fun {a:viewt@ype} opt_unsome_get (x:&opt (INV a, true) >> a?) : a
+```
+
+option and or ("either") for props and views:
+
+```ats
+dataprop or_prop_prop_int_prop (a0:prop+, a1:prop+, int)
+dataview or_view_view_int_view (a0:view+, a1:view+, int)
+dataprop option_prop_bool_prop (a:prop+, bool)
+dataview option_view_bool_view (a:view+, bool)
+
+stadef   por      = or_prop_prop_int_prop
+stadef   vor      = or_view_view_int_view
+stadef   option_p = option_prop_bool_prop
+stadef   option_v = option_view_bool_view
+```
+
+`arrayopt` ???:
+
+```ats
+absviewt@ype arrayopt (a:viewt@ype, n:int, b:bool) = array (a,n)
+praxi        arrayopt_some   {a:viewt@ype} {n:int}
+  (A : &array (a,n) >> arrayopt (a,n,true))   : void
+praxi        arrayopt_none   {a:viewt@ype} {n:int}
+  (A : &array (a?,n) >> arrayopt (a,n,false)) : void
+praxi        arrayopt_unsome {a:viewt@ype} {n:int}
+  (A : &arrayopt (a,n,true) >> array (a,n))   : void
+praxi        arrayopt_unnone {a:viewt@ype} {n:int}
+  (A : &arrayopt (a,n,false) >> array (a?,n)) : void
+```
+
+main function, args, exit:
+
+```ats
+absviewtype argv_int_vtype (n:int) = ptr
+stadef      argv = argv_int_vtype
+
+praxi  lemma_argv_param        {n:int}          (argv:!argv n)                      :       [0 <= n] void
+
+fun    argv_get_at             {n:int}          (argv:!argv n, i:natLt n)           :<>     string = "mac#%"
+fun    argv_set_at             {n:int}          (argv:!argv n, i:natLt n, x:string) :<!wrt> string = "mac#%"
+fun {} listize_argc_argv       {n:int}          (argc:int n, argv:!argv n)          :       list_vt (string,n)
+
+fun    main_void_0                              ()                                  :       void   = "ext#mainats_void_0"
+fun    main_argc_argv_0        {n:int | 1 <= n} (argc:int n, argv:!argv n)          :       void   = "ext#mainats_argc_argv_0"
+fun    main_void_int                            ()                                  :       int    = "ext#mainats_void_int"
+fun    main_argc_argv_int      {n:int | 1 <= n} (argc:int n, argv:!argv n)          :       int    = "ext#mainats_argc_argv_int"
+fun    main_argc_argv_envp_int {n:int | 1 <= n} (argc:int n, argv!argv n, envp:ptr) :       int    = "ext#mainats_argc_argv_envp_int"
+
+symintr  main0
+symintr  main
+overload [] with argv_get_at
+overload [] with argv_set_at
+overload main0 with main_void_0
+overload main0 with main_argc_argv_0
+overload main  with main_void_int
+overload main  with main_argc_argv_int
+overload main  with main_argc_argv_envp_int
+
+fun exit             (ecode:int)             :<!exn> {a:t@ype} a     = "mac#%"
+fun exit_errmsg      (ecode:int, msg:string) :<!exn> {a:t@ype} a     = "mac#%"
+fun exit_void        (ecode:int)             :<!exn>           void  = "mac#%"
+fun exit_errmsg_void (ecode:int, msg:string) :<!exn>           void  = "mac#%"
+```
+
+assertions:
+
+```ats
+fun assert_bool0                 (x:bool)   :<!exn>     void = "mac#%"
+fun assert_bool1        {b:bool} (x:bool b) :<!exn> [b] void = "mac#%"
+fun {} assertexn_bool0           (x:bool)   :<!exn>     void = "mac#%"
+fun {} assertexn_bool1  {b:bool} (x:bool b) :<!exn> [b] void = "mac#%"
+fun assert_errmsg_bool0
+           (x:bool, msg:string)                 :<!exn>     void = "mac#%"
+fun assert_errmsg_bool1
+  {b:bool} (x:bool b, msg:string)               :<!exn> [b] void = "mac#%"
+fun assert_errmsg2_bool0
+           (x:bool, msg1:string, msg2:string)   :<!exn>     void = "mac#%"
+fun assert_errmsg2_bool1
+  {b:bool} (x:bool b, msg1:string, msg2:string) :<!exn> [b] void = "mac#%"
+
+
+symintr assertexn
+symintr assert_errmsg
+symintr assert_errmsg2
+overload assert         with assert_bool0         of 0
+overload assert         with assert_bool1         of 10
+overload assertexn      with assertexn_bool0      of 0
+overload assertexn      with assertexn_bool1      of 10
+overload assert_errmsg  with assert_errmsg_bool0  of 0
+overload assert_errmsg  with assert_errmsg_bool1  of 10
+overload assert_errmsg2 with assert_errmsg2_bool0 of 0
+overload assert_errmsg2 with assert_errmsg2_bool1 of 10
+```
+
+files:
+
+```ats
+datasort file_mode = file_mode_r | file_mode_w | file_mode_rw
+
+abstype  file_mode (file_mode) = string
+typedef  file_mode             = [fm:file_mode] file_mode fm
+sortdef  fmode                 = file_mode
+typedef  fmode     (fm:mode)   = file_mode fm
+typedef  fmode                 = file_mode
+
+dataprop file_mode_lte (fmode, fmode)
+
+prval file_mode_lte_r_r
+  : file_mode_lte (file_mode_r(), file_mode_r())
+prval file_mode_lte_w_w
+  : file_mode_lte (file_mode_w(), file_mode_w())
+prval file_mode_lte_rw_rw
+  : file_mode_lte (file_mode_rw(), file_mode_rw())
+
+abstype FILEref_type = ptr
+typedef FILEref      = FILEref_type
+```
+
+printing:
+
+```ats
+typedef print_type   (a:t@ype)     = (a)           -> void
+typedef prerr_type   (a:t@ype)     = (a)           -> void
+typedef fprint_type  (a:t@ype)     = (FILEref, a)  -> void
+typedef print_vtype  (a:viewt@ype) = !a            -> void
+typedef prerr_vtype  (a:viewt@ype) = !a            -> void
+typedef fprint_vtype (a:viewt@ype) = (FILEref, !a) -> void
+
+fun print_newline  ()            : void = "mac#%"
+fun prerr_newline  ()            : void = "mac#%"
+fun fprint_newline (out:FILEref) : void = "mac#%"
+```
+
+
+
+**********************************************************************
+**********************************************************************
+#   `prelude/basics_gen.sats`
+
+**********************************************************************
+**********************************************************************
+
+```ats
+fun {a:t@ype}     gidentity      (x:INV a)          :<>     a
+fun {a:viewt@ype} gidentity_vt   (x:INV a)          :<>     a
+
+fun {a:t@ype}     gcopy_val      (x:INV a)          :<>     a
+fun {a:viewt@ype} gcopy_ref      (x:INV a)          :<!wrt> a
+
+fun {a:viewt@ype} gfree_val      (x:INV a)          :<!wrt> void
+fun {a:viewt@ype} ginit_ref      (x:&a? >> a)       :<!wrt> void
+fun {a:viewt@ype} gclear_ref     (x:&a >> a?)       :<!wrt> void
+fun {a:t@ype}     gequal_val_val (x:a, y:a)         :<>     void
+fun {a:viewt@ype} gequal_ref_ref (x:&INV a, y:&a)   :<>     bool
+
+fun {a:t@ype}     tostring_val   (x:a)              :<>     string
+fun {a:viewt@ype} tostring_ref   (x:&INV a)         :<>     string
+
+fun {a:t@ype}     tostrptr_val   (x:a)              :<!wrt> Strptr1
+fun {a:viewt@ype} tostrptr_ref   (x:&INV a)         :<!wrt> Strptr1
+
+fun {a:t@ype}     fprint_val     (out:FILEref, x:a)      : void
+fun {a:viewt@ype} fprint_ref     (out:FILEref, x:&INV a) : void
+
+fun {src:viewt@ype} {elt:viewt@ype}
+                  streamize_val  (source:src)       : stream_vt elt
+```

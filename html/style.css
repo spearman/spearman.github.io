@@ -1,0 +1,153 @@
+.title {
+  font-size: 32pt;
+  letter-spacing: -3px;
+  color: #333333;
+}
+
+#TOC {
+  font-family: sans-serif;
+}
+
+#TOC a, #TOC a code {
+  color: black;
+}
+
+#TOC a:visited, #TOC a:visited code {
+  color: grey;
+}
+
+.header-section-number {
+  position: absolute;
+  left: -8px;
+  text-align: right;
+  width: 120px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: sans-serif;
+  color: #101010;
+  margin: 0 0 0 0;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: #242424;
+  text-decoration: none;
+}
+
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
+  color: dimgrey;
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 28pt;
+}
+
+h2 {
+  font-size: 24pt;
+}
+
+h3 {
+  font-size: 20pt;
+}
+
+h4 {
+  font-size: 16pt;
+}
+
+h5 {
+  font-size: 14pt;
+}
+
+h6 {
+  font-size: 12pt;
+}
+
+hr {
+  height: 1px;
+  color: #dddddd;
+}
+
+body {
+  max-width: 35em;
+  padding-left: 120px;
+  background: ghostwhite;
+}
+
+pre {
+  background: #efe7e7;
+  margin-left: 2em;
+  margin-right: 2em;
+  font-size: 10pt;
+}
+
+p code {
+  color: darkred;
+  font-size: 10pt;
+}
+
+ul, ol {
+  padding-left: 1em;
+}
+
+ul code, ol code {
+  color: darkred;
+  font-size: 10pt;
+}
+
+ul pre code, ol pre code {
+  color: black;
+  font-size: 10pt;
+}
+
+blockquote {
+  margin: 0;
+  border: 1px solid lightgrey;
+  padding: 0 1.25em;
+  font-style: italic;
+}
+
+blockquote em {
+  font-style: normal;
+}
+
+dl {
+  background: ivory;
+}
+
+dt {
+  font-weight: bold;
+  background: lavender;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+p code, dd code {
+  color: darkred;
+}
+
+dt code {
+  color: #202020;
+  font-size: 11pt;
+}
+
+dd pre code {
+  color: black;
+  font-size: 11pt;
+}
+
+dd {
+  margin: 0;
+  background: beige;
+  margin-bottom: 1.0em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+}
+
+dd p:first-of-type {
+  margin-top: 0;
+}
+
+dd p {
+  margin-bottom: 0;
+}

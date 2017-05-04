@@ -1,0 +1,1071 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="" />
+  <title>ATS-Postiats prelude/basics*</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">ATS-Postiats <code>prelude/basics*</code></h1>
+<h2 class="author"></h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#preludebasics_pre.sats"><span class="toc-section-number">1</span> <code>prelude/basics_pre.sats</code></a></li>
+<li><a href="#preludebasics_sta.sats"><span class="toc-section-number">2</span> <code>prelude/basics_sta.sats</code></a></li>
+<li><a href="#preludebasics_dyn.sats"><span class="toc-section-number">3</span> <code>prelude/basics_dyn.sats</code></a></li>
+<li><a href="#preludebasics_gen.sats"><span class="toc-section-number">4</span> <code>prelude/basics_gen.sats</code></a></li>
+</ul>
+</div>
+<p><link rel="stylesheet" href="style.css" /></p>
+<hr />
+<p>(*) as of ATS-Postiats 0.3.3</p>
+<hr />
+<hr />
+<h1 id="preludebasics_pre.sats"><span class="header-section-number">1</span> <code>prelude/basics_pre.sats</code></h1>
+<hr />
+<hr />
+<p>some pre-processor defines:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="dt">#define</span> CHAR_MAX  <span class="dv">127</span>
+<span class="dt">#define</span> CHAR_MIN  <span class="dv">~128</span>
+<span class="dt">#define</span> UCHAR_MAX <span class="bn">0xFF</span></code></pre></div>
+<p>&quot;built-in&quot; = &quot;external&quot; = <code>&quot;ext#&quot;</code> ?</p>
+<p>some built-in static boolean constants:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">stacst</span> true_bool     : bool
+<span class="kw">stacst</span> false_bool    : bool
+<span class="kw">stacst</span> neg_bool      : bool -&gt; bool
+<span class="kw">stacst</span> add_bool_bool : (bool, bool) -&gt; bool
+<span class="kw">stacst</span> mul_bool_bool : (bool, bool) -&gt; bool
+<span class="kw">stacst</span> lt_bool_bool  : (bool, bool) -&gt; bool
+<span class="kw">stacst</span> lte_bool_bool : (bool, bool) -&gt; bool
+<span class="kw">stacst</span> gt_bool_bool  : (bool, bool) -&gt; bool
+<span class="kw">stacst</span> gte_bool_bool : (bool, bool) -&gt; bool
+<span class="kw">stacst</span> eq_bool_bool  : (bool, bool) -&gt; bool
+<span class="kw">stacst</span> neq_bool_bool : (bool, bool) -&gt; bool
+
+<span class="kw">stadef</span> true  = true_bool
+<span class="kw">stadef</span> false = false_bool
+<span class="kw">stadef</span> ~     = neg_bool
+<span class="kw">stadef</span> not   = neg_bool
+<span class="kw">stadef</span> +     = add_bool_bool
+<span class="kw">stadef</span> ||    = add_bool_bool
+<span class="kw">stadef</span> *     = mul_bool_bool
+<span class="kw">stadef</span> &amp;&amp;    = mul_bool_bool
+
+<span class="kw">stadef</span> &lt;     = lt_bool_bool
+<span class="kw">stadef</span> &lt;=    = lte_bool_bool
+<span class="kw">stadef</span> &gt;     = gt_bool_bool
+<span class="kw">stadef</span> &gt;=    = gte_bool_bool
+<span class="kw">stadef</span> ==    = eq_bool_bool
+<span class="kw">stadef</span> !=    = neq_bool_bool
+<span class="kw">stadef</span> &lt;&gt;    = neq_bool_bool  <span class="co">// backward compatibility</span></code></pre></div>
+<p>built-in static integer constants:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">stacst</span> neg_int            : (int) -&gt; int
+<span class="kw">stacst</span> add_int_int        : (int, int) -&gt; int
+<span class="kw">stacst</span> sub_int_int        : (int, int) -&gt; int
+<span class="kw">stacst</span> mul_int_int        : (int, int) -&gt; int
+<span class="kw">stacst</span> div_int_int        : (int, int) -&gt; int
+<span class="kw">stacst</span> ndiv_int_int       : (int, int) -&gt; int   <span class="co">// positive divisor</span>
+<span class="kw">stacst</span> idiv_int_int       : (int, int) -&gt; int   <span class="co">// alias for div_int_int</span>
+<span class="kw">stacst</span> lt_int_int         : (int, int) -&gt; bool
+<span class="kw">stacst</span> lte_int_int        : (int, int) -&gt; bool
+<span class="kw">stacst</span> gt_int_int         : (int, int) -&gt; bool
+<span class="kw">stacst</span> gte_int_int        : (int, int) -&gt; bool
+<span class="kw">stacst</span> eq_int_int         : (int, int) -&gt; bool
+<span class="kw">stacst</span> neq_int_int        : (int, int) -&gt; bool
+<span class="kw">stacst</span> abs_int            : (int) -&gt; int
+<span class="kw">stacst</span> sgn_int            : (int) -&gt; int
+<span class="kw">stacst</span> max_int_int        : (int, int) -&gt; int
+<span class="kw">stacst</span> min_int_int        : (int, int) -&gt; int
+<span class="kw">stacst</span> ifint_bool_int_int : (bool, int, int) -&gt; int
+
+<span class="kw">stadef</span> nmod_int_int              (x:int, y:int)
+<span class="kw">stadef</span> absrel_int_int            (x:int, v:int) : bool
+<span class="kw">stadef</span> sgnrel_int_int            (x:int, v:int) : bool
+<span class="kw">stadef</span> maxrel_int_int_int        (x:int, y:int, v:int) : bool
+<span class="kw">stadef</span> minrel_int_int_int        (x:int, y:int, v:int) : bool
+<span class="kw">stadef</span> nsub                      (x:int, y:int)
+<span class="kw">stadef</span> ndivrel_int_int_int       (x:int, y:int, q:int) : bool   <span class="co">// 0 &lt; y</span>
+<span class="kw">stadef</span> idivrel_int_int_int       (x:int, y:int, q:int) : bool   <span class="co">// y != 0</span>
+<span class="kw">stadef</span> divmodrel_int_int_int_int (x:int, y:int, q:int, r:int)  : bool
+<span class="kw">stadef</span> ifintrel_bool_int_int_int (b:bool, x:int, y:int, r:int) : bool
+<span class="kw">stadef</span> bool2int                  (b:bool) : int
+<span class="kw">stadef</span> int2bool                  (i:int)  : bool
+
+<span class="kw">stadef</span> ~         = neg_int
+<span class="kw">stadef</span> +         = add_int_int
+<span class="kw">stadef</span> -         = sub_int_int
+<span class="kw">stadef</span> *         = mul_int_int
+<span class="kw">stadef</span> /         = div_int_int
+<span class="kw">stadef</span> ndiv      = ndiv_int_int
+<span class="kw">stadef</span> idiv      = idiv_int_int
+<span class="kw">stadef</span> &lt;         = lt_int_int
+<span class="kw">stadef</span> &lt;=        = lte_int_int
+<span class="kw">stadef</span> &gt;         = gt_int_int
+<span class="kw">stadef</span> &gt;=        = gte_int_int
+<span class="kw">stadef</span> ==        = eq_int_int
+<span class="kw">stadef</span> !=        = neq_int_int
+<span class="kw">stadef</span> &lt;&gt;        = neq_int_int   <span class="co">// backward compatibility</span>
+<span class="kw">stadef</span> %         = nmod_int_int
+<span class="kw">stadef</span> mod       = nmod_int_int
+<span class="kw">stadef</span> nmod      = nmod_int_int
+<span class="kw">stadef</span> abs       = abs_int
+<span class="kw">stadef</span> absrel    = absrel_int_int
+<span class="kw">stadef</span> sgn       = sgn_int
+<span class="kw">stadef</span> sgnrel    = sgnrel_int_int
+<span class="kw">stadef</span> max       = max_int_int
+<span class="kw">stadef</span> min       = min_int_int
+<span class="kw">stadef</span> maxrel    = maxrel_int_int_int
+<span class="kw">stadef</span> minrel    = minrel_int_int_int
+<span class="kw">stadef</span> ndivrel   = ndivrel_int_int_int
+<span class="kw">stadef</span> idivrel   = idivrel_int_int_int
+<span class="kw">stadef</span> divmodrel = divmodrel_int_int_int_int
+<span class="kw">stadef</span> ifint     = ifint_bool_int_int
+<span class="kw">stadef</span> ifintrel  = ifintrel_bool_int_int_int
+<span class="kw">stadef</span> b2i       = bool2int
+<span class="kw">stadef</span> i2b       = int2bool</code></pre></div>
+<p>some numeric constants and conversions:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">stadef</span> pow2_7    = <span class="dv">128</span>
+<span class="kw">stadef</span> pow2_8    = <span class="dv">256</span>
+<span class="kw">stadef</span> pow2_15   = <span class="dv">32768</span>
+<span class="kw">stadef</span> pow2_16   = <span class="dv">65536</span>
+<span class="kw">stadef</span> pow2_32   = <span class="bn">0x100000000</span>
+<span class="kw">stadef</span> pow2_64   = <span class="bn">0x10000000000000000</span>
+
+<span class="kw">stadef</span> i2u_int8  (i:int)
+<span class="kw">stadef</span> u2i_int8  (u:int)
+<span class="kw">stadef</span> i2u_int16 (i:int)
+<span class="kw">stadef</span> u2i_int16 (u:int)
+
+<span class="kw">stadef</span> i2u8  = i2u_int8
+<span class="kw">stadef</span> u2i8  = u2i_int8
+<span class="kw">stadef</span> i2u16 = i2u_int16
+<span class="kw">stadef</span> u2i16 = u2i_int16</code></pre></div>
+<p>built-in address constants:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">stacst</span> null_addr     : addr
+<span class="kw">stacst</span> add_addr_int  : (addr, int) -&gt; addr
+<span class="kw">stacst</span> sub_addr_int  : (addr, int) -&gt; addr
+<span class="kw">stacst</span> sub_addr_addr : (addr, addr) -&gt; int
+<span class="kw">stacst</span> lt_addr_addr  : (addr, addr) -&gt; bool
+<span class="kw">stacst</span> lte_addr_addr : (addr, addr) -&gt; bool
+<span class="kw">stacst</span> gt_addr_addr  : (addr, addr) -&gt; bool
+<span class="kw">stacst</span> gte_addr_addr : (addr, addr) -&gt; bool
+<span class="kw">stacst</span> eq_addr_addr  : (addr, addr) -&gt; bool
+<span class="kw">stacst</span> neq_addr_addr : (addr, addr) -&gt; bool
+
+<span class="kw">stacst</span> int_of_addr  : addr -&gt; int
+<span class="kw">stacst</span> addr_of_int  : int -&gt; addr
+
+<span class="kw">stadef</span> null = null_addr
+<span class="kw">stadef</span> NULL = null_addr
+<span class="kw">stadef</span> +    = add_addr_int
+<span class="kw">stadef</span> -    = sub_addr_int
+<span class="kw">stadef</span> -    = sub_addr_addr
+<span class="kw">stadef</span> &lt;    = lt_addr_addr
+<span class="kw">stadef</span> &lt;=   = lte_addr_addr
+<span class="kw">stadef</span> &gt;    = gt_addr_addr
+<span class="kw">stadef</span> &gt;=   = gte_addr_addr
+<span class="kw">stadef</span> ==   = eq_addr_addr
+<span class="kw">stadef</span> !=   = neq_addr_addr
+<span class="kw">stadef</span> &lt;&gt;   = neq_addr_addr   <span class="co">// backwards compatibility</span>
+
+<span class="kw">stadef</span> a2i  = int_of_addr
+<span class="kw">stadef</span> i2a  = addr_of_int</code></pre></div>
+<p>built-in static constants for OOP inheritance support:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">stacst</span> lte_cls_cls : (cls, cls) -&gt; bool
+<span class="kw">stacst</span> gte_cls_cls : (cls, cls) -&gt; bool
+
+<span class="kw">stadef</span> lterel_cls_cls (c1:cls, c2:cls, ltrel_cls_cls_res:bool) : bool
+<span class="kw">stadef</span> gterel_cls_cls (c1:cls, c2:cls, gtrel_cls_cls_res:bool) : bool
+
+<span class="kw">stadef</span> &lt;= = lte_cls_cls
+<span class="kw">stadef</span> &gt;= = gte_cls_cls</code></pre></div>
+<p>built-in <code>sizeof</code> constant:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">stacst</span> sizeof_t0ype_int : t@ype -&gt; int
+<span class="kw">stadef</span> sizeof (a:viewt@ype) : int</code></pre></div>
+<p>subset sorts for integers and addresses:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">sortdef</span> nat  = { i:int | <span class="dv">0</span> &lt;= i }
+<span class="kw">sortdef</span> pos  = { i:int | <span class="dv">0</span> &lt; i }
+<span class="kw">sortdef</span> neg  = { i:int | i &lt; <span class="dv">0</span> }
+<span class="kw">sortdef</span> npos = { i:int | i &lt;= <span class="dv">0</span> }
+<span class="kw">sortdef</span> nat1 = { n:nat | n &lt; <span class="dv">1</span> }
+<span class="kw">sortdef</span> nat2 = { n:nat | n &lt; <span class="dv">2</span> }
+<span class="kw">sortdef</span> nat3 = { n:nat | n &lt; <span class="dv">3</span> }
+<span class="kw">sortdef</span> nat4 = { n:nat | n &lt; <span class="dv">4</span> }
+<span class="kw">sortdef</span> sgn  = { i:int | <span class="dv">~1</span> &lt;= i; i &lt;= <span class="dv">1</span> }
+
+<span class="kw">sortdef</span> agz  = { l:addr | null &lt; l }
+<span class="kw">sortdef</span> agez = { l:addr | null &lt;= l }
+<span class="kw">sortdef</span> alez = { l:addr | l &lt;= null }</code></pre></div>
+<p>effect static constants:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">stacst</span> effnil : eff   <span class="co">// nothing</span>
+<span class="kw">stacst</span> effall : eff   <span class="co">// everything</span>
+<span class="kw">stacst</span> effntm : eff   <span class="co">// nonterm</span>
+<span class="kw">stacst</span> effref : eff   <span class="co">// reference</span>
+<span class="kw">stacst</span> effwrt : eff   <span class="co">// writeover</span>
+
+<span class="kw">stacst</span> add_eff_eff : (eff, eff) -&gt; eff  <span class="co">// union of effsets</span>
+<span class="kw">stacst</span> sub_eff_eff : (eff, eff) -&gt; eff  <span class="co">// difference of effsets</span>
+
+<span class="kw">stadef</span> + = add_eff_eff
+<span class="kw">stadef</span> - = sub_eff_eff</code></pre></div>
+<p>overloaded symbols:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">symintr</span> ~ not
+<span class="kw">symintr</span> + - * / % mod ndiv nmod
+<span class="kw">symintr</span> &lt; &lt;= &gt; &gt;= = == != &lt;&gt; compare
+<span class="kw">symintr</span> isltz isltez isgtz isgtez iseqz isneqz
+<span class="kw">symintr</span> neg abs max min
+<span class="kw">symintr</span> succ pred half double
+<span class="kw">symintr</span> square sqrt cube cbrt pow
+<span class="kw">symintr</span> ! []                            <span class="co">// deref, subscript</span>
+<span class="kw">symintr</span> &lt;&lt; &gt;&gt;                           <span class="co">// left/right-shift</span>
+<span class="kw">symintr</span> ++ -- inc dec
+<span class="kw">symintr</span> get set exch
+<span class="kw">symintr</span> getinc setinc exchinc
+<span class="kw">symintr</span> decget decset decexch
+<span class="kw">symintr</span> !++ --!                         <span class="co">// getinc, decget</span>
+<span class="kw">symintr</span> =++ --=                         <span class="co">// setinc, decset</span>
+<span class="kw">symintr</span> assert
+<span class="kw">symintr</span> encode decode
+<span class="kw">symintr</span> uncons unsome
+<span class="kw">symintr</span> ptrcast                         <span class="co">// address of a boxed value</span>
+<span class="kw">symintr</span> g0ofg1 g1ofg0                   <span class="co">// cast indexed/un-indexed</span>
+<span class="kw">symintr</span> copy free length
+<span class="kw">symintr</span> print prerr fprint gprint
+<span class="kw">symintr</span> println prerrln fprintln gprintln
+<span class="kw">symintr</span> ofstring ofstrptr
+<span class="kw">symintr</span> tostring tostrptr</code></pre></div>
+<p>dot-notation overloading:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">symintr</span> .size
+<span class="kw">symintr</span> .len .length
+<span class="kw">symintr</span> .get .set .exch
+<span class="kw">symintr</span> .nrow .ncol
+<span class="kw">symintr</span> .head .tail
+<span class="kw">symintr</span> .next .prev
+<span class="kw">symintr</span> .init .last
+<span class="kw">symintr</span> .eval                           <span class="co">// convention: using `!`</span></code></pre></div>
+<p>for template args:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">abstype</span>  atskind_type  (tk:tkind)
+abst@ype atskind_t0ype (tk:tkind)
+
+<span class="kw">typedef</span>  tkind_type    (tk:tkind) = atskind_type tk
+<span class="kw">typedef</span>  tkind_t0ype   (tk:tkind) = atskind_t0ype tk</code></pre></div>
+<p>other stuff (<em>FIXME</em>):</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">absview</span>  at_vt0ype_addr_view (a:viewt@ype+, l:addr)
+<span class="kw">viewdef</span>  @                   (a:viewt@ype, l:addr)  <span class="co">// @ infix</span>
+
+abst@ype     clo_t0ype_t0ype    (a:t@ype)
+absviewt@ype clo_vt0ype_vtt0ype (a:viewt@ype)
+
+<span class="kw">viewtypedef</span> READ  (a:viewt@ype)
+<span class="kw">viewtypedef</span> WRITE (a:viewt@ype)
+
+<span class="kw">absprop</span> invar_prop_prop (a:prop)
+<span class="kw">absview</span> invar_view_view (a:view)
+
+abst@ype     invar_t0ype_t0ype   (a:t@ype)
+absviewt@ype invar_vt0ype_vt0ype (a:viewt@ype)
+
+<span class="co">// order is significant for the following:</span>
+<span class="kw">viewdef</span>     INV (a:view)      = invar_view_view a
+<span class="kw">propdef</span>     INV (a:prop)      = invar_prop_prop a
+<span class="kw">viewtypedef</span> INV (a:viewt@ype) = invar_vt0ype_vt0ype a
+<span class="kw">viewtypedef</span> INV (a:t@ype)     = invar_t0ype_t0ype a</code></pre></div>
+<p>copy env (something to do with view changes ??? <em>FIXME</em>):</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">absview</span>      vcopyenv_view_view     (v:view)
+absviewt@ype vcopyenv_vt0ype_vt0ype (vt:viewt@ype)
+
+<span class="kw">stadef</span> vcopyenv_v  = vcopyenv_view_view
+<span class="kw">stadef</span> vcopyenv_vt = vcopyenv_vt0ype_vt0ype</code></pre></div>
+<p>stamping:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats">abst@ype     stamped_t0ype  (a:t@ype, int)
+absviewt@ype stamped_vt0ype (a:viewt@ype, int)
+
+<span class="kw">stadef</span> stamped_t = stamped_t0ype
+<span class="kw">stadef</span> stamped_vt = stamped_vt0ype</code></pre></div>
+<hr />
+<hr />
+<h1 id="preludebasics_sta.sats"><span class="header-section-number">2</span> <code>prelude/basics_sta.sats</code></h1>
+<hr />
+<hr />
+<p>for commenting: read-only -- used in <code>cmpref</code> definition</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="dt">#define</span> RD(x) x</code></pre></div>
+<p>alias for <code>tkind</code> sort:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">sortdef</span>  tk = tkind</code></pre></div>
+<p><code>int8</code> and <code>uint8</code> sorts:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">sortdef</span>  int8  = { i:int | <span class="dv">~128</span> &lt;= i; i &lt; <span class="dv">128</span> }
+<span class="kw">sortdef</span>  uint8 = { i:int | <span class="dv">0</span> &lt;= i; i &lt; <span class="dv">256</span> }</code></pre></div>
+<p>booleans:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span>  bool_kind         = &quot;atstype_bool&quot;
+abst@ype bool_t0ype        = tkind_t0ype (bool_kind)
+abst@ype bool_bool_t0ype (b:bool) = bool_t0ype
+<span class="kw">stadef</span>   bool              = bool_t0ype
+<span class="kw">stadef</span>   bool              = bool_bool_t0ype
+<span class="kw">typedef</span>  Bool              = [b:bool]  bool b
+<span class="kw">typedef</span>  boolLte (b1:bool) = [b2:bool] bool (b2 &lt;= b1)
+<span class="kw">typedef</span>  boolGte (b1:bool) = [b2:bool] bool (b1 &lt;= b2)
+abst@ype atstype_bool      <span class="co">// internal use</span></code></pre></div>
+<p>bytes:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span>  byte_kind         = &quot;atstype_byte&quot;
+abst@ype byte_t0ype        = tkind_t0ype (byte_kind)
+<span class="kw">stadef</span>   byte              = byte_t0ype
+
+<span class="kw">typedef</span>  bytes    (n:int)         = @[byte][n]
+<span class="kw">viewdef</span>  bytes_v  (l:addr, n:int) = bytes(n)@l
+<span class="kw">typedef</span>  b0ytes   (n:int)         = @[byte?][n]
+<span class="kw">viewdef</span>  b0ytes_v (l:addr, n:int) = b0ytes(n)@l</code></pre></div>
+<p>characters:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span>  char_kind         = &quot;atstype_char&quot;
+abst@ype char_t0ype        = tkind_t0ype (char_kind)
+abst@ype char_int_t0ype (c:int) = char_t0ype
+<span class="kw">stadef</span>   char              = char_t0ype
+<span class="kw">stadef</span>   char              = char_int_t0ype
+<span class="kw">typedef</span>  Char              = [c:int8]          char c
+<span class="kw">typedef</span>  charNZ            = [c:int8 | c != <span class="dv">0</span>] char c</code></pre></div>
+<p>signed characters:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span>  schar_kind        = &quot;atstype_schar&quot;
+abst@ype schar_t0ype       = tkind_t0ype (schar_kind)
+abst@ype schar_int_t0ype (c:int) = schar_t0ype
+<span class="kw">stadef</span>   schar             = schar_t0ype
+<span class="kw">stadef</span>   schar             = schar_int_t0ype
+<span class="kw">typedef</span>  sChar             = [c:int8] schar c</code></pre></div>
+<p>unsigned characters:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span>  uchar_kind        = &quot;atstype_uchar&quot;
+abst@ype uchar_t0ype       = tkind_t0ype (uchar_kind)
+abst@ype uchar_int_t0ype (c:int) = uchar_t0ype
+<span class="kw">stadef</span>   uchar             = uchar_t0ype
+<span class="kw">stadef</span>   uchar             = uchar_int_t0ype
+<span class="kw">typedef</span>  uChar             = [c:uint8] uchar c</code></pre></div>
+<p><code>g0int</code>, <code>g1int</code>, <code>g0uint</code>, <code>g1uint</code>: <em>FIXME</em></p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats">abst@ype g0int_t0ype (tk:tkind)       = tkind_t0ype tk
+<span class="kw">stadef</span>   g0int                        = g0int_t0ype
+
+abst@ype g1int_int_t0ype (tk:tkind, int) = g0int (tkind)
+<span class="kw">stadef</span>   g1int                        = g1int_int_t0ype
+<span class="kw">typedef</span>  g1int    (tk:tkind)          = [i:int]          g1int (tk,i)
+<span class="kw">typedef</span>  g1int0   (tk:tkind)          = [i:int | <span class="dv">0</span> &lt;= i] g1int (tk,i)
+<span class="kw">typedef</span>  g1int1   (tk:tkind)          = [i:int | <span class="dv">1</span> &lt;= i] g1int (tk,i)
+
+<span class="kw">typedef</span> g1intLt   (tk:tkind, n:int)   = [i:int | i &lt; n]  g1int (tk,i)
+<span class="kw">typedef</span> g1intLte  (tk:tkind, n:int)   = [i:int | i &lt;= n] g1int (tk,i)
+<span class="kw">typedef</span> g1intGt   (tk:tkind, n:int)   = [i:int | n &lt; i]  g1int (tk,i)
+<span class="kw">typedef</span> g1intGte  (tk:tkind, n:int)   = [i:int | n &lt;= i] g1int (tk,i)
+<span class="kw">typedef</span> g1intBtw  (tk:tkind, lb:int, ub:int) = [i:int | lb &lt;= i; i &lt; ub]  g1int (tk,i)
+<span class="kw">typedef</span> g1intBtwe (tk:tkind, lb:int, ub:int) = [i:int | lb &lt;= i; i &lt;= ub] g1int (tk,i)
+
+abst@ype g0uint_t0ype (tk:tkind)      = tkind_t0ype tk
+<span class="kw">stadef</span>   g0uint                       = g0uint_t0ype
+
+abst@ype g1uint_int_t0ype (tk:tkind, int) = g0uint (tkind)
+<span class="kw">stadef</span>   g1uint                       = g1uint_int_t0ype
+<span class="kw">typedef</span>  g1uint     (tk:tkind)        = [i:int]          g1uint (tk,i)
+<span class="kw">typedef</span>  g1uint0    (tk:tkind)        = [i:int | <span class="dv">0</span> &lt;= i] g1uint (tk,i)
+<span class="kw">typedef</span>  g1uint1    (tk:tkind)        = [i:int | <span class="dv">1</span> &lt;= i] g1uint (tk,i)
+
+<span class="kw">typedef</span>  g1uintLt   (tk:tkind, n:int) = [i:nat | i &lt; n]  g1uint (tk,i)
+<span class="kw">typedef</span>  g1uintLte  (tk:tkind, n:int) = [i:nat | i &lt;= n] g1uint (tk,i)
+<span class="kw">typedef</span>  g1uintGt   (tk:tkind, n:int) = [i:int | n &lt; i]  g1uint (tk,i)
+<span class="kw">typedef</span>  g1uintGte  (tk:tkind, n:int) = [i:int | n &lt;= i] g1uint (tk,i)
+<span class="kw">typedef</span>  g1uintBtw  (tk:tkind, lb:int, ub:int) = [i:int | lb &lt;= i; i &lt; ub]  g1uint (tk,i)
+<span class="kw">typedef</span>  g1uintBtwe (tk:tkind, lb:int, ub:int) = [i:int | lb &lt;= i; i &lt;= ub] g1uint (tk,i)</code></pre></div>
+<p><code>g0float</code>: <em>FIXME</em></p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats">abst@ype g0float_t0ype (tk:tkind) = tkind_t0ype tk
+<span class="kw">stadef</span>   g0float                  = g0float_t0ype</code></pre></div>
+<p>integers and natural numbers:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span>  int_kind                  = &quot;atstype_int&quot;
+<span class="kw">typedef</span>  int0                      = g0int (int_kind)
+<span class="kw">typedef</span>  int1 (i:int)              = g1int (int_kind, i)
+
+<span class="kw">stadef</span>   int                       = int1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>   int                       = int0   <span class="co">// 1st-select</span>
+
+<span class="kw">typedef</span>  Int                       = [i:int]          int1 i
+<span class="kw">typedef</span>  Nat                       = [i:int | <span class="dv">0</span> &lt;= <span class="dv">0</span>] int1 i
+
+<span class="kw">typedef</span>  intLt   (n:int)           = g1intLt   (int_kind, n)
+<span class="kw">typedef</span>  intLte  (n:int)           = g1intLte  (int_kind, n)
+<span class="kw">typedef</span>  intGt   (n:int)           = g1intGt   (int_kind, n)
+<span class="kw">typedef</span>  intGte  (n:int)           = g1intGte  (int_kind, n)
+<span class="kw">typedef</span>  intBtw  (lb:int, ub:int)  = g1intBtw  (int_kind, lb, ub)
+<span class="kw">typedef</span>  intBtwe (lb:int, ub:int)  = g1intBtwe (int_kind, lb, ub)
+
+<span class="kw">typedef</span>  Two                       = intBtw  ( <span class="dv">0</span>, <span class="dv">2</span>)
+<span class="kw">typedef</span>  Sgn                       = intBtwe (<span class="dv">~1</span>, <span class="dv">1</span>)
+<span class="kw">typedef</span>  natLt  (n:int)            = intBtw  ( <span class="dv">0</span>, n)
+<span class="kw">typedef</span>  natLte (n:int)            = intBtwe ( <span class="dv">0</span>, n)
+
+abst@ype atstype_int    <span class="co">// internal use</span></code></pre></div>
+<p>unsigned integers:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span>  uint_kind                 = &quot;atstype_uint&quot;
+<span class="kw">typedef</span>  uint0                     = g0uint (uint_kind)
+<span class="kw">typedef</span>  uint1 (n:int)             = g1uint (uint_kind, n)
+
+<span class="kw">stadef</span>   uint                      = uint1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>   uint                      = uint0   <span class="co">// 1st-select</span>
+
+<span class="kw">typedef</span>  uInt                      = [n:int] uint1 n
+
+<span class="kw">typedef</span>  uintLt   (n:int)          = g1uintLt   (uint_kind, n)
+<span class="kw">typedef</span>  uintLte  (n:int)          = g1uintLte  (uint_kind, n)
+<span class="kw">typedef</span>  uintGt   (n:int)          = g1uintGt   (uint_kind, n)
+<span class="kw">typedef</span>  uintGte  (n:int)          = g1uintGte  (uint_kind, n)
+<span class="kw">typedef</span>  uintBtw  (lb:int, ub:int) = g1uintBtw  (uint_kind, lb, ub)
+<span class="kw">typedef</span>  uintBtwe (lb:int, ub:int) = g1uintBtwe (uint_kind, lb, ub)
+
+abst@ype atstype_uint   <span class="co">// internal use</span></code></pre></div>
+<p>long, long long, signed and unsigned integers:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span> lint_kind        = &quot;atstype_lint&quot;
+<span class="kw">typedef</span> lint0            = g0int (lint_kind)
+<span class="kw">typedef</span> lint1 (i:int)    = g1int (lint_kind, i)
+<span class="kw">stadef</span>  lint             = lint1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  lint             = lint0   <span class="co">// 1st-select</span>
+
+<span class="kw">tkindef</span> ulint_kind       = &quot;atstype_ulint&quot;
+<span class="kw">typedef</span> ulint0           = g0uint (ulint_kind)
+<span class="kw">typedef</span> ulint1 (i:int)   = g1uint (ulint_kind, i)
+<span class="kw">stadef</span>  ulint            = ulint1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  ulint            = ulint0   <span class="co">// 1st-select</span>
+
+<span class="kw">tkindef</span> llint_kind       = &quot;atstype_llint&quot;
+<span class="kw">typedef</span> llint0           = g0int (llint_kind)
+<span class="kw">typedef</span> llint1 (i:int)   = g1int (llint_kind, i)
+<span class="kw">stadef</span>  llint            = llint1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  llint            = llint0   <span class="co">// 1st-select</span>
+
+<span class="kw">tkindef</span> ullint_kind      = &quot;atstype_ullint&quot;
+<span class="kw">typedef</span> ullint0          = g0uint (ullint_kind)
+<span class="kw">typedef</span> ullint1 (i:int)  = g1uint (ullint_kind, i)
+<span class="kw">stadef</span>  ullint           = ullint1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  ullint           = ullint0   <span class="co">// 1st-select</span>
+
+<span class="kw">tkindef</span> intptr_kind      = &quot;atstype_intptr&quot;
+<span class="kw">typedef</span> intptr0          = g0int (intptr_kind)
+<span class="kw">typedef</span> intptr1 (i:int)  = g1int (intptr_kind, i)
+<span class="kw">stadef</span>  intptr           = intptr1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  intptr           = intptr0   <span class="co">// 1st-select</span>
+
+<span class="kw">tkindef</span> uintptr_kind     = &quot;atstype_uintptr&quot;
+<span class="kw">typedef</span> uintptr0         = g0uint (uintptr_kind)
+<span class="kw">typedef</span> uintptr1 (i:int) = g1uint (uintptr_kind, i)
+<span class="kw">stadef</span>  uintptr          = uintptr1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  uintptr          = uintptr0   <span class="co">// 1st-select</span></code></pre></div>
+<p>short signed and unsigned integers:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span> sint_kind        = &quot;atstype_sint&quot;
+<span class="kw">typedef</span> sint0            = g0int (sint_kind)
+<span class="kw">typedef</span> sint1 (i:int)    = g1int (sint_kind, i)
+<span class="kw">stadef</span>  sint             = sint1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  sint             = sint0   <span class="co">// 1st-select</span>
+
+<span class="kw">tkindef</span> usint_kind       = &quot;atstype_usint&quot;
+<span class="kw">typedef</span> usint0           = g0uint (usint_kind)
+<span class="kw">typedef</span> usint1 (i:int)   = g1uint (usint_kind, i)
+<span class="kw">stadef</span>  usint            = usint1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  usint            = usint0   <span class="co">// 1st-select</span></code></pre></div>
+<p>(unsigned) size and signed size types:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span> size_kind        = &quot;atstype_size&quot;
+<span class="kw">typedef</span> size0_t          = g0uint size_kind
+<span class="kw">typedef</span> size1_t (i:int)  = g1uint (size_kind, i)
+<span class="kw">stadef</span>  size_t           = size1_t   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  size_t           = size0_t   <span class="co">// 1st-select</span>
+
+<span class="kw">typedef</span> Size             = [i:int | <span class="dv">0</span> &lt;= i] g1uint (size_kind, i)
+<span class="kw">typedef</span> Size_t           = Size
+
+<span class="kw">typedef</span> sizeLt   (n:int)          = g1uintLt   (size_kind, n)
+<span class="kw">typedef</span> sizeLte  (n:int)          = g1uintLte  (size_kind, n)
+<span class="kw">typedef</span> sizeGt   (n:int)          = g1uintGt   (size_kind, n)
+<span class="kw">typedef</span> sizeGte  (n:int)          = g1uintGte  (size_kind, n)
+<span class="kw">typedef</span> sizeBtw  (lb:int, ub:int) = g1uintBtw  (size_kind, lb, ub)
+<span class="kw">typedef</span> sizeBtwe (lb:int, ub:int) = g1uintBtwe (size_kind, lb, ub)
+
+<span class="kw">typedef</span> sizeof_t (a:viewt@ype)    = size_t (sizeof (a?))
+
+abst@ype atstype_size   <span class="co">// internal use</span>
+
+<span class="kw">tkindef</span> ssize_kind        = &quot;atstype_ssize&quot;
+<span class="kw">typedef</span> ssize0_t          = g0int ssize_kind
+<span class="kw">typedef</span> ssize1_t (i:int)  = g1int (ssize_kind, i)
+<span class="kw">stadef</span>  ssize_t           = ssize1_t   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  ssize_t           = ssize0_t   <span class="co">// 1st-select</span>
+
+<span class="kw">typedef</span> Ssize             = [i:int | <span class="dv">0</span> &lt;= i] g1int (ssize_kind, i)
+<span class="kw">typedef</span> Ssize_t           = Ssize
+
+<span class="kw">typedef</span> ssizeLt   (n:int)          = g1intLt   (ssize_kind, n)
+<span class="kw">typedef</span> ssizeLte  (n:int)          = g1intLte  (ssize_kind, n)
+<span class="kw">typedef</span> ssizeGt   (n:int)          = g1intGt   (ssize_kind, n)
+<span class="kw">typedef</span> ssizeGte  (n:int)          = g1intGte  (ssize_kind, n)
+<span class="kw">typedef</span> ssizeBtw  (lb:int, ub:int) = g1intBtw  (ssize_kind, lb, ub)
+<span class="kw">typedef</span> ssizeBtwe (lb:int, ub:int) = g1intBtwe (ssize_kind, lb, ub)
+
+abst@ype atstype_ssize  <span class="co">// internal use</span></code></pre></div>
+<p>8, 16, 32, 64-bit signed and unsigned integers:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span> int8_kind         = &quot;atstype_int8&quot;
+<span class="kw">typedef</span> int8_0            = g0int (int8_kind)
+<span class="kw">typedef</span> int8_1 (i:int)    = g1int (int8_kind, i)
+<span class="kw">stadef</span>  int8              = int8_1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  int8              = int8_0   <span class="co">// 1st-select</span>
+<span class="kw">stadef</span>  Int8              = [i:int] int8_1 i
+
+<span class="kw">tkindef</span> uint8_kind        = &quot;atstype_uint8&quot;
+<span class="kw">typedef</span> uint8_0           = g0uint (uint8_kind)
+<span class="kw">typedef</span> uint8_1 (i:int)   = g1uint (uint8_kind, i)
+<span class="kw">stadef</span>  uint8             = uint8_1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  uint8             = uint8_0   <span class="co">// 1st-select</span>
+<span class="kw">stadef</span>  uInt8             = [i:nat] uint8_1 i
+
+<span class="kw">tkindef</span> int16_kind        = &quot;atstype_int16&quot;
+<span class="kw">typedef</span> int16_0           = g0int (int16_kind)
+<span class="kw">typedef</span> int16_1 (i:int)   = g1int (int16_kind, i)
+<span class="kw">stadef</span>  int16             = int16_1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  int16             = int16_0   <span class="co">// 1st-select</span>
+<span class="kw">stadef</span>  Int16             = [i:int] int16_1 i
+
+<span class="kw">tkindef</span> uint16_kind       = &quot;atstype_uint16&quot;
+<span class="kw">typedef</span> uint16_0          = g0uint (uint16_kind)
+<span class="kw">typedef</span> uint16_1 (i:int)  = g1uint (uint16_kind, i)
+<span class="kw">stadef</span>  uint16            = uint16_1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  uint16            = uint16_0   <span class="co">// 1st-select</span>
+<span class="kw">stadef</span>  uInt16            = [i:nat] uint16_1 i
+
+<span class="kw">tkindef</span> int32_kind        = &quot;atstype_int32&quot;
+<span class="kw">typedef</span> int32_0           = g0int (int32_kind)
+<span class="kw">typedef</span> int32_1 (i:int)   = g1int (int32_kind, i)
+<span class="kw">stadef</span>  int32             = int32_1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  int32             = int32_0   <span class="co">// 1st-select</span>
+<span class="kw">stadef</span>  Int32             = [i:int] int32_1 i
+
+<span class="kw">tkindef</span> uint32_kind       = &quot;atstype_uint32&quot;
+<span class="kw">typedef</span> uint32_0          = g0uint (uint32_kind)
+<span class="kw">typedef</span> uint32_1 (i:int)  = g1uint (uint32_kind, i)
+<span class="kw">stadef</span>  uint32            = uint32_1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  uint32            = uint32_0   <span class="co">// 1st-select</span>
+<span class="kw">stadef</span>  uInt32            = [i:nat] uint32_1 i
+
+<span class="kw">tkindef</span> int64_kind        = &quot;atstype_int64&quot;
+<span class="kw">typedef</span> int64_0           = g0int (int64_kind)
+<span class="kw">typedef</span> int64_1 (i:int)   = g1int (int64_kind, i)
+<span class="kw">stadef</span>  int64             = int64_1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  int64             = int64_0   <span class="co">// 1st-select</span>
+<span class="kw">stadef</span>  Int64             = [i:int] int64_1 i
+
+<span class="kw">tkindef</span> uint64_kind       = &quot;atstype_uint64&quot;
+<span class="kw">typedef</span> uint64_0          = g0uint (uint64_kind)
+<span class="kw">typedef</span> uint64_1 (i:int)  = g1uint (uint64_kind, i)
+<span class="kw">stadef</span>  uint64            = uint64_1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  uint64            = uint64_0   <span class="co">// 1st-select</span>
+<span class="kw">stadef</span>  uInt64            = [i:nat] uint64_1 i</code></pre></div>
+<p>floats, doubles, long doubles:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span> float_kind        = &quot;atstype_float&quot;
+<span class="kw">typedef</span> float             = g0float (float_kind)
+
+<span class="kw">tkindef</span> double_kind       = &quot;atstype_double&quot;
+<span class="kw">typedef</span> double            = g0float (double_kind)
+
+<span class="kw">tkindef</span> ldouble_kind      = &quot;atstype_ldouble&quot;
+<span class="kw">typedef</span> ldouble           = g0float (ldouble_kind)</code></pre></div>
+<p>unindexed type for pointers:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">tkindef</span> ptr_kind                = &quot;atstype_ptrk&quot;
+<span class="kw">abstype</span> ptr_type                = tkind_type ptr_kind
+<span class="kw">abstype</span> ptr_addr_type (l:addr)  = ptr_type
+<span class="kw">typedef</span> ptr                     = ptr_type
+<span class="kw">typedef</span> ptr (l:addr)            = ptr_addr_type l
+<span class="kw">typedef</span> ptr (n:int)             = ptr_addr_type (addr_of_int n)  <span class="co">// &quot;experiment&quot;</span>
+<span class="kw">typedef</span> Ptr                     = [l:addr]            ptr l
+<span class="kw">typedef</span> Ptr0                    = [l:agez]            ptr l
+<span class="kw">typedef</span> Ptr1                    = [l:addr | null &lt; l] ptr l
+<span class="kw">typedef</span> Ptrnull (l:addr) = [l1:addr | l1 == null || l1 == l] ptr l1</code></pre></div>
+<p>persistent read-only strings:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">abstype</span> string_type             = ptr
+<span class="kw">abstype</span> string_int_type (n:int) = string_type
+<span class="kw">stadef</span>  string0                 = string_type
+<span class="kw">stadef</span>  string1                 = string_int_type
+<span class="kw">stadef</span>  string                  = string1   <span class="co">// 2nd-select</span>
+<span class="kw">stadef</span>  string                  = string0   <span class="co">// 1nd-select</span>
+<span class="kw">typedef</span> String                  = [n:int] string_int_type n
+<span class="kw">typedef</span> String0                 = [n:int | <span class="dv">0</span> &lt;= n] string_int_type n
+<span class="kw">typedef</span> String1                 = [n:int | <span class="dv">1</span> &lt;= n] string_int_type n</code></pre></div>
+<p><code>stropt</code> ??? <em>FIXME</em>:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">abstype</span> stropt_int_type         = ptr
+<span class="kw">typedef</span> stropt (n:int)          = stropt_int_type n
+<span class="kw">typedef</span> stropt                  = [n:int] stropt_int_type n
+<span class="kw">typedef</span> Stropt                  = [n:int] stropt_int_type n
+<span class="kw">typedef</span> Stropt0                 = [n:int] stropt_int_type n
+<span class="kw">typedef</span> Stropt1                 = [n:int <span class="dv">0</span> &lt;= n] stropt_int_type n</code></pre></div>
+<p>linear mutable strings:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">absviewtype</span> strptr_addr_vtype (l:addr) = ptr
+<span class="kw">viewtypedef</span> strptr            (l:addr) = strptr_addr_vtype l
+<span class="kw">viewtypedef</span> strptr                     = [l:addr] strptr l
+<span class="kw">viewtypedef</span> Strptr                     = [l:addr] strptr l
+<span class="kw">viewtypedef</span> Strptr0                    = [l:addr] strptr l
+<span class="kw">viewtypedef</span> Strptr1                    = [l:addr | null &lt; l] strptr l
+
+<span class="kw">absviewtype</span> strnptr_addr_int_vtype (l:addr, n:int) = ptr
+<span class="kw">viewtypedef</span> strnptr (l:addr, n:int)  = strnptr_addr_int_vtype (l, n)
+<span class="kw">viewtypedef</span> strnptr (n:int) = [l:addr] strnptr_addr_int_vtype (l, n)
+
+<span class="kw">viewtypedef</span> Strnptr  = [l:addr; n:int]          strnptr (l, n)
+<span class="kw">viewtypedef</span> Strnptr0 = [l:addr; n:int]          strnptr (l, n)
+<span class="kw">viewtypedef</span> Strnptr1 = [l:addr; n:int | <span class="dv">0</span> &lt;= n] strnptr (l, n)</code></pre></div>
+<p>persistent mutable strings:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">abstype</span> strref_addr_type (l:addr) = ptr
+<span class="kw">stadef</span>  strref                    = strref_addr_type
+<span class="kw">typedef</span> Strref0                   = [l:addr] strref l
+<span class="kw">typedef</span> Strref1                   = [l:addr | null &lt; l] strref l</code></pre></div>
+<p>C-void:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats">abst@ype atsvoid_t0ype
+<span class="kw">typedef</span>  void = atsvoid_t0ype</code></pre></div>
+<p>exceptions:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">absviewtype</span> exception_vtype = $extype&quot;atstype_exnconptr&quot;
+<span class="kw">viewtypedef</span> exn             = exception_vtype</code></pre></div>
+<p>opt-type (disjunctive views):</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats">absviewt@ype opt_vt0ype_bool_vt0ype (a:vt@ype+, opt:bool) = a
+<span class="kw">stadef</span>       opt = opt_vt0ype_bool_vt0ype</code></pre></div>
+<p>closure functions:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">abstype</span>     cloref_t0ype_type   (a:t@ype) = ptr
+<span class="kw">stadef</span>      cloref                        = cloref_t0ype_type
+
+<span class="kw">absviewtype</span> cloptr_vt0ype_vtype (a:t@ype) = ptr
+<span class="kw">stadef</span>      cloptr                        = cloptr_v0type_vtype
+<span class="kw">viewtypedef</span> cloptr0                       = cloptr_vt0ype_vtype(void)</code></pre></div>
+<p>&quot;stamps&quot; <em>FIXME</em>:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">typedef</span>     stamped_t  (a:t@ype)     = [x:int] stamped_t  (a, x)
+<span class="kw">viewtypedef</span> stamped_vt (a:viewt@ype) = [x:int] stamped_vt (a, x)</code></pre></div>
+<p>memory deallocation with and without GC:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">absview</span> mfree_gc_addr_view   (addr)
+<span class="kw">absview</span> mfree_ngc_addr_view  (addr)
+<span class="kw">absview</span> mfree_libc_addr_view (addr)         <span class="co">// libc-mfree</span>
+<span class="kw">stadef</span>  mfree_gc_v   = mfree_gc_addr_view
+<span class="kw">stadef</span>  mfree_ngc_v  = mfree_ngc_addr_view
+<span class="kw">stadef</span>  mfree_libc_v = mfree_libc_addr_view</code></pre></div>
+<p><code>arrpsz</code><em>FIXME</em>:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats">absviewt@ype arrpsz_vt0ype_int_vt0ype (a:viewt@ype+, n:int) =
+  $extype&quot;atstype_arrpsz&quot;
+<span class="kw">stadef</span> arrpsz = arrpsz_vt0ype_int_vt0ype</code></pre></div>
+<p>references:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">absprop</span> vbox_view_prop  (v:view)
+<span class="kw">propdef</span> vbox            (v:view)      = vbox_view_prop v
+<span class="kw">abstype</span> ref_vt0ype_type (a:viewt@ype) = ptr
+<span class="kw">typedef</span> ref             (a:viewt@ype) = ref_vt0ype_type a</code></pre></div>
+<p>view changes:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">viewdef</span>     vtakeout    (v1:view, v2:view) = (v2, v2 -&lt;lin,prf&gt; v1)
+<span class="kw">viewdef</span>     vtakeout0   (v:view)           = vtakeout (void, v)
+<span class="kw">viewtypedef</span> vttakeout   (vt1:viewt@ype, vt2:viewt@ype) =
+  (vt2 -&lt;lin,prf&gt; vt1 | vt2)
+<span class="kw">viewtypedef</span> vttakeout0  (vt:viewt@ype)     = vttakeout (void, vt)
+<span class="kw">viewtypedef</span> vtakeoutptr (a:viewt@ype)      =
+  [l:addr] (a@l, a@l -&lt;lin,prf&gt; void | ptr l)</code></pre></div>
+<p>linear strings ???:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">viewtypedef</span> vstrptr (l:addr) = vttakeout0 (strptr l)
+<span class="kw">viewtypedef</span> vStrptr0         = [l:agez] vstrptr l
+<span class="kw">viewtypedef</span> vStrptr1         = [l:addr | null &lt; l] vstrptr l</code></pre></div>
+<p>bottom:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">typedef</span>     bottom_t0ype_uni  = {a:t@ype}             a
+<span class="kw">typedef</span>     bottom_t0ype_exi  = [a:t@ype | false]     a
+<span class="kw">viewtypedef</span> bottom_vt0ype_uni = {a:viewt@ype}         a
+<span class="kw">viewtypedef</span> bottom_vt0ype_exi = [a:viewt@ype | false] a</code></pre></div>
+<p><code>cmpval</code>, <code>cmpref</code> ??? <em>FIXME</em>:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">typedef</span> cmpval_fun    (a:t@ype)           = (a, a)      -&lt;<span class="kw">fun</span>&gt; int
+<span class="kw">typedef</span> cmpval_funenv (a:t@ype, vt:t@ype) = (a, a, !vt) -&lt;<span class="kw">fun</span>&gt; int
+<span class="kw">stadef</span>  cmpval = cmpval_fun
+<span class="kw">stadef</span>  cmpval = cmpval_funenv
+
+<span class="kw">typedef</span> cmpref_fun    (a:viewt@ype) = (&amp;RD a, &amp;RD a) -&lt;<span class="kw">fun</span>&gt; int
+<span class="kw">typedef</span> cmpref_funenv (a:viewt@ype, vt:viewt@ype) =
+  (&amp;RD a, &amp;RD a, !vt) -&lt;<span class="kw">fun</span>&gt; int
+<span class="kw">stadef</span>  cmpref = cmpref_fun
+<span class="kw">stadef</span>  cmpref = cmpref_funenv</code></pre></div>
+<p>lazy evaluation:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">abstype</span>     lazy_t0ype_type   (t@ype+)      = ptr
+<span class="kw">typedef</span>     lazy              (a:t@ype)     = lazy_t0ype_type a
+<span class="kw">abstype</span>     lazy_vt0ype_vtype (viewt@ype+)  = ptr
+<span class="kw">viewtypedef</span> lazy_vt           (a:viewt@ype) = lazy_vt0ype_vtype a</code></pre></div>
+<p>undefined:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats">abst@ype     undefined_t0ype  = $extype&quot;atstype_undefined&quot;
+absviewt@ype undefined_vt0ype = $extype&quot;atstype_undefined&quot;</code></pre></div>
+<hr />
+<hr />
+<h1 id="preludebasics_dyn.sats"><span class="header-section-number">3</span> <code>prelude/basics_dyn.sats</code></h1>
+<hr />
+<hr />
+<p>compiler version:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">fun</span> patsopt_version() : string = &quot;mac#%&quot;</code></pre></div>
+<p>some sort aliases:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">sortdef</span> t0p  = t@ype
+<span class="kw">sortdef</span> vt0p = viewt@ype</code></pre></div>
+<p>datatype for viewtypes ???:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">datatype</span> TYPE (a:viewt@ype) = TYPE a <span class="kw">of</span> ()</code></pre></div>
+<p>booleans:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="dt">#define</span> true  true_bool
+<span class="dt">#define</span> false false_bool
+<span class="kw">val</span> true_bool  : bool(true)  = &quot;mac#atsbool_true&quot;   <span class="co">// = 1</span>
+<span class="kw">val</span> false_bool : bool(false) = &quot;mac#atsbool_false&quot;  <span class="co">// = 0</span></code></pre></div>
+<p>type comparison:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">typedef</span> compopr_type (a:t@ype) = (a, a) -&lt;fun0&gt; bool
+<span class="kw">typedef</span> compare_type (a:t@ype) = (a, a) -&lt;fun0&gt; int   <span class="co">// -/0/+</span></code></pre></div>
+<p>false implies all:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">prfun</span> false_elim <span class="dt">{ X:prop | false }</span> () : X</code></pre></div>
+<p>subclass proof axioms:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">praxi</span> lemma_subcls_reflexive  <span class="dt">{c:cls}</span> () : <span class="dt">[c &lt;= c]</span> void
+<span class="kw">praxi</span> lemma_subcls_transitive <span class="dt">{c1,c2,c3:cls | c1 &lt;= c2; c2 &lt;= c3}</span>
+  () : <span class="dt">[c1 &lt;= c3]</span> void</code></pre></div>
+<p>integer, addr/ptr, bool proof axiom and operation props:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">praxi</span>    praxi_int  <span class="dt">{i:int}</span>  () : int i
+<span class="kw">praxi</span>    praxi_ptr  <span class="dt">{l:addr}</span> () : ptr l
+<span class="kw">praxi</span>    praxi_bool <span class="dt">{b:bool}</span> () : bool l
+
+<span class="kw">dataprop</span> EQINT    (int, int)
+<span class="kw">dataprop</span> EQADDR   (addr, addr)
+<span class="kw">dataprop</span> EQBOOL   (bool, bool)
+<span class="kw">dataprop</span> EQTYPE   (viewt@ype, viewt@ype)
+
+
+<span class="kw">dataprop</span> SGN      (int, int)
+<span class="kw">dataprop</span> MUL_prop (int, int, int)
+
+<span class="kw">absprop</span>  DIVMOD   (x:int, y:int, q:int, r:int)
+
+<span class="kw">propdef</span>  MUL      (m:int, n:int, mn:int) = MUL_prop (m,n,mn)
+<span class="kw">propdef</span>  DIV      (x:int, y:int, q:int)  = <span class="dt">[r:int]</span> DIVMOD (x,y,q,r)
+<span class="kw">propdef</span>  MOD      (x:int, y:int, r:int)  = [q:int] DIVMOD (x,y,q,r)
+
+<span class="kw">prfun</span>    eqint_make       <span class="dt">{ x,y:int | x == y }</span>  () : EQINT(x,y)
+<span class="kw">prfun</span>    eqint_make_gint  <span class="dt">{tk:tkind}</span> <span class="dt">{x:int}</span>
+  (x : g1int(tk,x))  : <span class="dt">[y:int]</span>  EQINT(x,y)
+<span class="kw">prfun</span>    eqint_make_guint <span class="dt">{tk:tkind}</span> <span class="dt">{x:int}</span>
+  (x : g1uint(tk,x)) : <span class="dt">[y:int]</span>  EQINT(x,y)
+
+<span class="kw">prfun</span>    eqaddr_make      <span class="dt">{ x,y:addr | x == y }</span> () : EQADDR(x,y)
+<span class="kw">prfun</span>    eqaddr_make_ptr  <span class="dt">{ x:addr }</span>
+  (x:ptr x)          : <span class="dt">[y:addr]</span> EQADDR(x,y)
+
+<span class="kw">prfun</span>    eqbool_make      <span class="dt">{ x,y:bool | x == y }</span> () : EQBOOL(x,y)
+<span class="kw">prfun</span>    eqbool_make_bool <span class="dt">{x:bool}</span>
+  (x : bool x)       : <span class="dt">[y:bool]</span> EQBOOL(x,y)</code></pre></div>
+<p>more proof stuff:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">prfun</span> prop_verify         <span class="dt">{ b:bool | b }</span> ()          :&lt;prf&gt;     void
+<span class="kw">prfun</span> prop_verify_and_add <span class="dt">{ b:bool | b }</span> ()          :&lt;prf&gt; <span class="dt">[b]</span> void
+<span class="kw">prfun</span> pridentity_v        <span class="dt">{v:view}</span>       (x:!INV v)  :          void
+<span class="kw">prfun</span> pridentity_vt       <span class="dt">{v:viewt@ype}</span>  (x:!INV vt) :          void</code></pre></div>
+<p>some linear memory stuff:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">castfn</span> viewptr_match <span class="dt">{a:viewt@ype}</span> <span class="dt">{ l1,l2:addr | l1==l2 }</span>
+  (pf:INV(a)@l1 | p:ptr l2) :&lt;&gt; <span class="dt">[l:addr | l==l1]</span> (a@l | ptr l)
+
+<span class="kw">val</span> <span class="dt">{a:viewt@ype}</span> sizeof : size_t (sizeof a)
+
+<span class="kw">praxi</span>  lemma_sizeof  <span class="dt">{a:viewt@ype}</span> () : <span class="dt">[0 &lt;= sizeof a]</span> void
+<span class="kw">praxi</span>  topize        <span class="dt">{a:t@ype}</span>     (x:!INV a &gt;&gt; a?) : void
+<span class="kw">castfn</span> dataget       <span class="dt">{a:viewt@ype}</span> (x:!INV a &gt;&gt; a)  : a?!</code></pre></div>
+<p>return <code>pf</code> to GC:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">praxi</span>  mfree_gc_v_elim       <span class="dt">{l:addr}</span> (pf:mfree_gc_v l) :&lt;prf&gt; void</code></pre></div>
+<p>more GC:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">praxi</span>  mfree_gcngc_v_nullify <span class="dt">{l:addr}</span>
+  (pf1:mfree_gc_v l, pf1:mfree_ngc_v l) : void
+<span class="kw">fun</span>    cloptr_free <span class="dt">{a:t@ype}</span> (pclo:cloptr a) :&lt;!wrt&gt; void = &quot;mac#%&quot;</code></pre></div>
+<p>lazy force (internally assumed to overload <code>!</code>), lazy-to-cloref:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">fun</span> <span class="dt">{a:t@ype}</span>     lazy_force    (lazyval:lazy (INV a))    :&lt;!laz&gt; a
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> lazy_vt_force (lazyval:lazy_vt (INV a)) :&lt;!all&gt; a
+<span class="kw">fun</span> lazy2cloref <span class="dt">{a:t@ype}</span> (lazy a) : () -&lt;cloref1&gt; a = &quot;mac#%&quot;</code></pre></div>
+<p>stamp functions:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">castfn</span> stamp_t   <span class="dt">{a:t@ype}</span>            (x:a) :&lt;&gt; stamped_t  a
+<span class="kw">castfn</span> stamp_vt  <span class="dt">{a:viewt@ype}</span>        (x:a) :&lt;&gt; stamped_vt a
+<span class="kw">castfn</span> unstamp_t <span class="dt">{a:t@ype}</span>    <span class="dt">{x:int}</span> (x:stamped_t  (INV a, x)) :&lt;&gt; a
+<span class="kw">castfn</span> unstamp_vt<span class="dt">{a:viewt@ype}{x:int}</span> (x:stamped_vt (INV a, x)) :&lt;&gt; a
+
+<span class="kw">castfn</span> stamped_t2vt <span class="dt">{a:t@ype}{x:int}</span>  (x:stamped_t  (INV a, x))
+  :&lt;&gt; stamped_vt (a,x)
+<span class="kw">castfn</span> stamped_vt2t <span class="dt">{a:t@ype}{x:int}</span>  (x:stamped_vt (INV a, x))
+  :&lt;&gt; stamped_t  (a,x)
+<span class="kw">fun</span> <span class="dt">{a:t@ype}</span> stamped_vt2t_ref<span class="dt">{x:int}</span> (x:&amp;stamped_vt(INV a, x))
+  :&lt;&gt; stamped_t  (a,x)</code></pre></div>
+<p>copy env (something to do with view changes ??? <em>FIXME</em>):</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">praxi</span> vcopyenv_v_decode
+  <span class="dt">{v:view}</span>      (x:vcopyenv_v v)   : vtakeout0 v
+<span class="kw">praxi</span> vcopyenv_vt_decode
+  <span class="dt">{v:viewt@ype}</span> (x:vcopyenv_vt vt) : vttakeout0 vt
+
+<span class="kw">overload</span> decode <span class="kw">with</span> vcopyenv_v_decode
+<span class="kw">overload</span> decode <span class="kw">with</span> vcopyenv_vt_decode</code></pre></div>
+<p>the null pointer:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">val</span> the_null_ptr : ptr null = &quot;mac#the_atsptr_null&quot;</code></pre></div>
+<p>addr and string param lemmas:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">praxi</span> lemma_addr_param   <span class="dt">{l:addr}</span> ()           : <span class="dt">[null &lt;= l]</span> void
+<span class="kw">praxi</span> lemma_string_param <span class="dt">{n:int}</span>  (x:string n) : <span class="dt">[0 &lt;= n]</span>    void
+<span class="kw">praxi</span> lemma_stropt_param <span class="dt">{n:int}</span>  (x:stropt n) : <span class="dt">[~1 &lt;= n]</span>   void</code></pre></div>
+<p>exceptions:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">exception</span> AssertExn                     <span class="co">// assertion failure</span>
+<span class="kw">exception</span> NotFoundExn                   <span class="co">// expected not found</span>
+<span class="kw">exception</span> GenerallyExn  <span class="kw">of</span> (string)     <span class="co">// unspecified cause</span>
+<span class="kw">exception</span> IllegalArgExn <span class="kw">of</span> (string)     <span class="co">// function arg out of domain</span>
+<span class="kw">praxi</span>     __vfree_exn (x:exn) :&lt;&gt; void  <span class="co">// free nullary exception-con</span></code></pre></div>
+<p>unit types:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">datatype</span>     unit    = unit
+<span class="kw">dataprop</span>     unit_p  = unit_p
+<span class="kw">dataview</span>     unit_v  = unit_v
+<span class="kw">dataviewtype</span> unit_vt = unit_vt
+
+<span class="kw">prfun</span> unit_v_elim (pf:unit_v) : void</code></pre></div>
+<p>box/unbox:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">abstype</span>      boxed_t0ype_type   (a:t@ype+)     = unit
+<span class="kw">absviewtype</span>  boxed_vt0ype_vtype (a:viewt@ype+) = unit
+<span class="kw">viewtypedef</span>  boxed              (a:viewt@ype)  = boxed_vt0ype_vtype a
+<span class="kw">viewtypedef</span>  boxed_vt           (a:viewt@ype)  = boxed_vt0ype_vtype a
+<span class="kw">typedef</span>      boxed              (a:t@ype)      = boxed_t0ype_type a
+<span class="kw">typedef</span>      boxed_t            (a:t@ype)      = boxed_t0ype_type a
+<span class="kw">fun</span> <span class="dt">{a:type}</span>     box      : (INV a)          -&gt; boxed_t a
+<span class="kw">fun</span> <span class="dt">{a:type}</span>     unbox    : boxed_t (INV a)  -&gt; a
+<span class="kw">fun</span> <span class="dt">{a:viewtype}</span> box_vt   : (INV a)          -&gt; boxed_vt a
+<span class="kw">fun</span> <span class="dt">{a:viewtype}</span> unbox_vt : boxed_vt (INV a) -&gt; a</code></pre></div>
+<p>arrays:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">typedef</span>     array    (a, n)                       = @[a][n]
+<span class="kw">viewdef</span>     array_v  (a:viewt@ype, l:addr, n:int) = @[a][n] @ l
+
+<span class="kw">absviewtype</span> arrayptr_vt0ype_addr_int_vtype
+  (a:viewt@ype+, l:addr, n:int) = ptr l
+<span class="kw">abstype</span>     arrayref_vt0ype_int_type
+  (a:viewt@ype, n:int)          = ptr
+<span class="kw">abstype</span>     arrszref_vt0ype_type
+  (a:viewt@ype)                 = ptr
+
+<span class="kw">stadef</span>      arrayptr            = arrayptr_vt0ype_addr_int_vtype
+viewtypdef  arrayptr
+  (a:viewt@ype, n:int)          = [l:addr] arrayptr (a, l, n)
+<span class="kw">stadef</span>      arrayref            = arrayref_vt0ype_int_type
+<span class="kw">stadef</span>      arrszref            = arrszref_vt0ype_type</code></pre></div>
+<p>functional, singly-linked lists:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">datatype</span> list_t0ype_int_type (a:t@ype+, int)
+<span class="kw">stadef</span>   list                     = list_t0ype_int_type
+<span class="kw">typedef</span>  List    (a:t@ype)        = [n:int]          list (a,n)
+<span class="kw">typedef</span>  List0   (a:t@ype)        = [n:int | <span class="dv">0</span> &lt;= n] list (a,n)
+<span class="kw">typedef</span>  List1   (a:t@ype)        = [n:int | <span class="dv">1</span> &lt;= n] list (a,n)
+<span class="kw">typedef</span>  listLt  (a:t@ype, n:int) = [k:int | k &lt;  n] list (a,k)
+<span class="kw">typedef</span>  listLte (a:t@ype, n:int) = [k:int | k &lt;= n] list (a,k)
+<span class="kw">typedef</span>  listGt  (a:t@ype, n:int) = [k:int | n &lt;  k] list (a,k)
+<span class="kw">typedef</span>  listGte (a:t@ype, n:int) = [k:int | n &lt;= k] list (a,k)
+<span class="kw">typedef</span>  listBtw (a:t@ype, m:int, n:int)  =
+  [k:int | m &lt; k, k &lt; n]   list (a,k)
+<span class="kw">typedef</span>  listBtwe (a:t@ype, m:int, n:int) =
+  [k:int | m &lt;= k, k &lt;= n] list (a,k)</code></pre></div>
+<p>linear, singly-linked lists:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">datatype</span>    list_vt0ype_int_vtype (a:viewt@ype+, int)
+<span class="kw">stadef</span>      list_vt = list_vt0ype_int_vtype
+<span class="kw">viewtypedef</span> List_vt (a:viewt@ype) = [n:int] list_vt (a,n)
+
+<span class="kw">viewtypedef</span> List_vt     (a:viewt@ype)
+  = [n:int]                  list_vt (a,n)
+<span class="kw">viewtypedef</span> List0_vt    (a:viewt@ype)
+  = [n:int | <span class="dv">0</span> &lt;= n]         list_vt (a,n)
+<span class="kw">viewtypedef</span> List1_vt    (a:viewt@ype)
+  = [n:int | <span class="dv">1</span> &lt;= n]         list_vt (a,n)
+<span class="kw">viewtypedef</span> listLt_vt   (a:viewt@ype, n:int)
+  = [k:int | k &lt;  n]         list_vt (a,k)
+<span class="kw">viewtypedef</span> listLte_vt  (a:viewt@ype, n:int)
+  = [k:int | k &lt;= n]         list_vt (a,k)
+<span class="kw">viewtypedef</span> listGt_vt   (a:viewt@ype, n:int)
+  = [k:int | n &lt;  k]         list_vt (a,k)
+<span class="kw">viewtypedef</span> listGte_vt  (a:viewt@ype, n:int)
+  = [k:int | n &lt;= k]         list_vt (a,k)
+<span class="kw">viewtypedef</span> listBtw_vt  (a:viewt@ype, m:int, n:int)
+  = [k:int | m &lt; k; k &lt; n]   list_vt (a,k)
+<span class="kw">viewtypedef</span> listBtwe_vt (a:viewt@ype, m:int, n:int)
+  = [k:int | m &lt;= k; k &lt;= n] list_vt (a,k)</code></pre></div>
+<p>streams:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">datatype</span> stream_con    (a:t@ype+)
+<span class="kw">datatype</span> stream_vt_con (a:viewt@ype+)</code></pre></div>
+<p>options:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">datatype</span>     option_t0ype_bool_type   (a:t@ype+, bool)
+<span class="kw">dataviewtype</span> option_vt0ype_bool_vtype (a:viewt@ype+, bool)
+<span class="kw">stadef</span>   option                  = option_t0ype_bool_type
+<span class="kw">stadef</span>   option_vt               = option_vt0ype_bool_type
+<span class="kw">typedef</span>  Option    (a:t@ype)     = [b:bool] option    (a,b)
+<span class="kw">typedef</span>  Option_vt (a:viewt@ype) = [b:bool] option_vt (a,b)</code></pre></div>
+<p>disjunctive views:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">praxi</span>    opt_some
+  <span class="dt">{a:viewt@ype}</span>      (x:!INV a &gt;&gt; opt (a,true))   :&lt;prf&gt; void
+<span class="kw">praxi</span>    opt_unsome
+  <span class="dt">{a:viewt@ype}</span>      (x:!opt (INV a,true) &gt;&gt; a)   :&lt;prf&gt; void
+<span class="kw">praxi</span>    opt_none
+  <span class="dt">{a:viewt@ype}</span>      (x:!(a?) &gt;&gt; opt (a,false))   :&lt;prf&gt; void
+<span class="kw">praxi</span>    opt_unnone
+  <span class="dt">{a:viewt@ype}</span>      (x:!opt (INV a,false) &gt;&gt; a?) :&lt;prf&gt; void
+<span class="kw">praxi</span>    opt_clear
+  <span class="dt">{a:t@ype}</span> <span class="dt">{b:bool}</span> (x:!opt (INV a,b) &gt;&gt; a?)     :&lt;prf&gt; void
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> opt_unsome_get (x:&amp;opt (INV a, true) &gt;&gt; a?) : a</code></pre></div>
+<p>option and or (&quot;either&quot;) for props and views:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">dataprop</span> or_prop_prop_int_prop (a0:prop+, a1:prop+, int)
+<span class="kw">dataview</span> or_view_view_int_view (a0:view+, a1:view+, int)
+<span class="kw">dataprop</span> option_prop_bool_prop (a:prop+, bool)
+<span class="kw">dataview</span> option_view_bool_view (a:view+, bool)
+
+<span class="kw">stadef</span>   por      = or_prop_prop_int_prop
+<span class="kw">stadef</span>   vor      = or_view_view_int_view
+<span class="kw">stadef</span>   option_p = option_prop_bool_prop
+<span class="kw">stadef</span>   option_v = option_view_bool_view</code></pre></div>
+<p><code>arrayopt</code> ???:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats">absviewt@ype arrayopt (a:viewt@ype, n:int, b:bool) = array (a,n)
+<span class="kw">praxi</span>        arrayopt_some   <span class="dt">{a:viewt@ype}</span> <span class="dt">{n:int}</span>
+  (A : &amp;array (a,n) &gt;&gt; arrayopt (a,n,true))   : void
+<span class="kw">praxi</span>        arrayopt_none   <span class="dt">{a:viewt@ype}</span> <span class="dt">{n:int}</span>
+  (A : &amp;array (a?,n) &gt;&gt; arrayopt (a,n,false)) : void
+<span class="kw">praxi</span>        arrayopt_unsome <span class="dt">{a:viewt@ype}</span> <span class="dt">{n:int}</span>
+  (A : &amp;arrayopt (a,n,true) &gt;&gt; array (a,n))   : void
+<span class="kw">praxi</span>        arrayopt_unnone <span class="dt">{a:viewt@ype}</span> <span class="dt">{n:int}</span>
+  (A : &amp;arrayopt (a,n,false) &gt;&gt; array (a?,n)) : void</code></pre></div>
+<p>main function, args, exit:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">absviewtype</span> argv_int_vtype (n:int) = ptr
+<span class="kw">stadef</span>      argv = argv_int_vtype
+
+<span class="kw">praxi</span>  lemma_argv_param        <span class="dt">{n:int}</span>          (argv:!argv n)                      :       <span class="dt">[0 &lt;= n]</span> void
+
+<span class="kw">fun</span>    argv_get_at             <span class="dt">{n:int}</span>          (argv:!argv n, i:natLt n)           :&lt;&gt;     string = &quot;mac#%&quot;
+<span class="kw">fun</span>    argv_set_at             <span class="dt">{n:int}</span>          (argv:!argv n, i:natLt n, x:string) :&lt;!wrt&gt; string = &quot;mac#%&quot;
+<span class="kw">fun</span> <span class="dt">{}</span> listize_argc_argv       <span class="dt">{n:int}</span>          (argc:int n, argv:!argv n)          :       list_vt (string,n)
+
+<span class="kw">fun</span>    main_void_0                              ()                                  :       void   = &quot;ext#mainats_void_0&quot;
+<span class="kw">fun</span>    main_argc_argv_0        <span class="dt">{n:int | 1 &lt;= n}</span> (argc:int n, argv:!argv n)          :       void   = &quot;ext#mainats_argc_argv_0&quot;
+<span class="kw">fun</span>    main_void_int                            ()                                  :       int    = &quot;ext#mainats_void_int&quot;
+<span class="kw">fun</span>    main_argc_argv_int      <span class="dt">{n:int | 1 &lt;= n}</span> (argc:int n, argv:!argv n)          :       int    = &quot;ext#mainats_argc_argv_int&quot;
+<span class="kw">fun</span>    main_argc_argv_envp_int <span class="dt">{n:int | 1 &lt;= n}</span> (argc:int n, argv!argv n, envp:ptr) :       int    = &quot;ext#mainats_argc_argv_envp_int&quot;
+
+<span class="kw">symintr</span>  main0
+<span class="kw">symintr</span>  main
+<span class="kw">overload</span> <span class="dt">[]</span> <span class="kw">with</span> argv_get_at
+<span class="kw">overload</span> <span class="dt">[]</span> <span class="kw">with</span> argv_set_at
+<span class="kw">overload</span> main0 <span class="kw">with</span> main_void_0
+<span class="kw">overload</span> main0 <span class="kw">with</span> main_argc_argv_0
+<span class="kw">overload</span> main  <span class="kw">with</span> main_void_int
+<span class="kw">overload</span> main  <span class="kw">with</span> main_argc_argv_int
+<span class="kw">overload</span> main  <span class="kw">with</span> main_argc_argv_envp_int
+
+<span class="kw">fun</span> exit             (ecode:int)             :&lt;!exn&gt; <span class="dt">{a:t@ype}</span> a     = &quot;mac#%&quot;
+<span class="kw">fun</span> exit_errmsg      (ecode:int, msg:string) :&lt;!exn&gt; <span class="dt">{a:t@ype}</span> a     = &quot;mac#%&quot;
+<span class="kw">fun</span> exit_void        (ecode:int)             :&lt;!exn&gt;           void  = &quot;mac#%&quot;
+<span class="kw">fun</span> exit_errmsg_void (ecode:int, msg:string) :&lt;!exn&gt;           void  = &quot;mac#%&quot;</code></pre></div>
+<p>assertions:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">fun</span> assert_bool0                 (x:bool)   :&lt;!exn&gt;     void = &quot;mac#%&quot;
+<span class="kw">fun</span> assert_bool1        <span class="dt">{b:bool}</span> (x:bool b) :&lt;!exn&gt; <span class="dt">[b]</span> void = &quot;mac#%&quot;
+<span class="kw">fun</span> <span class="dt">{}</span> assertexn_bool0           (x:bool)   :&lt;!exn&gt;     void = &quot;mac#%&quot;
+<span class="kw">fun</span> <span class="dt">{}</span> assertexn_bool1  <span class="dt">{b:bool}</span> (x:bool b) :&lt;!exn&gt; <span class="dt">[b]</span> void = &quot;mac#%&quot;
+<span class="kw">fun</span> assert_errmsg_bool0
+           (x:bool, msg:string)                 :&lt;!exn&gt;     void = &quot;mac#%&quot;
+<span class="kw">fun</span> assert_errmsg_bool1
+  <span class="dt">{b:bool}</span> (x:bool b, msg:string)               :&lt;!exn&gt; <span class="dt">[b]</span> void = &quot;mac#%&quot;
+<span class="kw">fun</span> assert_errmsg2_bool0
+           (x:bool, msg1:string, msg2:string)   :&lt;!exn&gt;     void = &quot;mac#%&quot;
+<span class="kw">fun</span> assert_errmsg2_bool1
+  <span class="dt">{b:bool}</span> (x:bool b, msg1:string, msg2:string) :&lt;!exn&gt; <span class="dt">[b]</span> void = &quot;mac#%&quot;
+
+
+<span class="kw">symintr</span> assertexn
+<span class="kw">symintr</span> assert_errmsg
+<span class="kw">symintr</span> assert_errmsg2
+<span class="kw">overload</span> assert         <span class="kw">with</span> assert_bool0         <span class="kw">of</span> <span class="dv">0</span>
+<span class="kw">overload</span> assert         <span class="kw">with</span> assert_bool1         <span class="kw">of</span> <span class="dv">10</span>
+<span class="kw">overload</span> assertexn      <span class="kw">with</span> assertexn_bool0      <span class="kw">of</span> <span class="dv">0</span>
+<span class="kw">overload</span> assertexn      <span class="kw">with</span> assertexn_bool1      <span class="kw">of</span> <span class="dv">10</span>
+<span class="kw">overload</span> assert_errmsg  <span class="kw">with</span> assert_errmsg_bool0  <span class="kw">of</span> <span class="dv">0</span>
+<span class="kw">overload</span> assert_errmsg  <span class="kw">with</span> assert_errmsg_bool1  <span class="kw">of</span> <span class="dv">10</span>
+<span class="kw">overload</span> assert_errmsg2 <span class="kw">with</span> assert_errmsg2_bool0 <span class="kw">of</span> <span class="dv">0</span>
+<span class="kw">overload</span> assert_errmsg2 <span class="kw">with</span> assert_errmsg2_bool1 <span class="kw">of</span> <span class="dv">10</span></code></pre></div>
+<p>files:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">datasort</span> file_mode = file_mode_r | file_mode_w | file_mode_rw
+
+<span class="kw">abstype</span>  file_mode (file_mode) = string
+<span class="kw">typedef</span>  file_mode             = [fm:file_mode] file_mode fm
+<span class="kw">sortdef</span>  fmode                 = file_mode
+<span class="kw">typedef</span>  fmode     (fm:mode)   = file_mode fm
+<span class="kw">typedef</span>  fmode                 = file_mode
+
+<span class="kw">dataprop</span> file_mode_lte (fmode, fmode)
+
+<span class="kw">prval</span> file_mode_lte_r_r
+  : file_mode_lte (file_mode_r(), file_mode_r())
+<span class="kw">prval</span> file_mode_lte_w_w
+  : file_mode_lte (file_mode_w(), file_mode_w())
+<span class="kw">prval</span> file_mode_lte_rw_rw
+  : file_mode_lte (file_mode_rw(), file_mode_rw())
+
+<span class="kw">abstype</span> FILEref_type = ptr
+<span class="kw">typedef</span> FILEref      = FILEref_type</code></pre></div>
+<p>printing:</p>
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">typedef</span> print_type   (a:t@ype)     = (a)           -&gt; void
+<span class="kw">typedef</span> prerr_type   (a:t@ype)     = (a)           -&gt; void
+<span class="kw">typedef</span> fprint_type  (a:t@ype)     = (FILEref, a)  -&gt; void
+<span class="kw">typedef</span> print_vtype  (a:viewt@ype) = !a            -&gt; void
+<span class="kw">typedef</span> prerr_vtype  (a:viewt@ype) = !a            -&gt; void
+<span class="kw">typedef</span> fprint_vtype (a:viewt@ype) = (FILEref, !a) -&gt; void
+
+<span class="kw">fun</span> print_newline  ()            : void = &quot;mac#%&quot;
+<span class="kw">fun</span> prerr_newline  ()            : void = &quot;mac#%&quot;
+<span class="kw">fun</span> fprint_newline (out:FILEref) : void = &quot;mac#%&quot;</code></pre></div>
+<hr />
+<hr />
+<h1 id="preludebasics_gen.sats"><span class="header-section-number">4</span> <code>prelude/basics_gen.sats</code></h1>
+<hr />
+<hr />
+<div class="sourceCode"><pre class="sourceCode ats"><code class="sourceCode ats"><span class="kw">fun</span> <span class="dt">{a:t@ype}</span>     gidentity      (x:INV a)          :&lt;&gt;     a
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> gidentity_vt   (x:INV a)          :&lt;&gt;     a
+
+<span class="kw">fun</span> <span class="dt">{a:t@ype}</span>     gcopy_val      (x:INV a)          :&lt;&gt;     a
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> gcopy_ref      (x:INV a)          :&lt;!wrt&gt; a
+
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> gfree_val      (x:INV a)          :&lt;!wrt&gt; void
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> ginit_ref      (x:&amp;a? &gt;&gt; a)       :&lt;!wrt&gt; void
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> gclear_ref     (x:&amp;a &gt;&gt; a?)       :&lt;!wrt&gt; void
+<span class="kw">fun</span> <span class="dt">{a:t@ype}</span>     gequal_val_val (x:a, y:a)         :&lt;&gt;     void
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> gequal_ref_ref (x:&amp;INV a, y:&amp;a)   :&lt;&gt;     bool
+
+<span class="kw">fun</span> <span class="dt">{a:t@ype}</span>     tostring_val   (x:a)              :&lt;&gt;     string
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> tostring_ref   (x:&amp;INV a)         :&lt;&gt;     string
+
+<span class="kw">fun</span> <span class="dt">{a:t@ype}</span>     tostrptr_val   (x:a)              :&lt;!wrt&gt; Strptr1
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> tostrptr_ref   (x:&amp;INV a)         :&lt;!wrt&gt; Strptr1
+
+<span class="kw">fun</span> <span class="dt">{a:t@ype}</span>     fprint_val     (out:FILEref, x:a)      : void
+<span class="kw">fun</span> <span class="dt">{a:viewt@ype}</span> fprint_ref     (out:FILEref, x:&amp;INV a) : void
+
+<span class="kw">fun</span> <span class="dt">{src:viewt@ype}</span> <span class="dt">{elt:viewt@ype}</span>
+                  streamize_val  (source:src)       : stream_vt elt</code></pre></div>
+</body>
+</html>

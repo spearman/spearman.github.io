@@ -1,0 +1,111 @@
+% ATS reference card
+%
+%
+
+<link rel="stylesheet" href="style.css" />
+
+**********************************************************************
+**********************************************************************
+#   Overview
+
+**********************************************************************
+**********************************************************************
+
+- *statics* -- compile-time
+    * *sorts* -- types of static terms
+        - *base sorts*
+            * predicative sorts:
+                + `bool`, `int`, `char`, `addr`
+            * impredicative sorts:
+                + `type`, `t@ype`, `viewtype`, `viewt@ype`
+                  -- program (runtime) types
+                + `prop`, `view` -- propositions
+            * other sorts
+                + `eff` -- effects
+                + `cls` -- class-based inheritance
+                + `tkind` -- external types needed only by name
+        - `sortdef` -- bind names to sorts or *subsorts*
+        - `datasort` -- define an algebraic sort constructor
+    * *static terms* -- the types of dynamic and static terms  
+        `stadef` -- bind names to static terms  
+        `sta` -- bind names to hidden static representations
+        + `type`, `t@ype` -- static terms that are types of (dynamic)
+          non-linear program terms
+            - `typedef` -- bind names to (static) type terms
+            - `abstype`, `abst@ype` -- bind names to hidden type
+              representations
+            - `datatype` -- define an algebraic type constructor
+        + `viewtype`, `viewt@ype` -- types of (dynamic) linear program
+          terms
+            - `viewtypedef` -- bind names to (static) viewtype terms
+            - `absviewtype`, `absviewt@ype` -- bind names to hidden
+              viewtype representations
+            - `dataviewtype` -- define an algebraic viewtype
+              constructor
+        + `prop` -- types of (dynamic) classical proof terms
+            - `propdef` -- bind names to (static) prop terms
+            - `absprop` -- bind names to hidden prop representations
+            - `dataprop` -- define an algebraic prop constructor
+        + `view` -- types of (dynamic) linear proof terms
+            - `viewdef` -- bind names to (static) view terms
+            - `absview` -- bind names to hidden view representations
+            - `dataview` -- define an algebraic view constructor
+- *dynamics* -- compile-time (proofs) and run-time (programs)
+    * dynamic terms -- have *types* indexed by *static terms*
+        + program terms -- `val`, `fun`: bind names to program terms
+            - non-linear terms -- typed by `type`, `t@ype`
+            - linear terms -- typed by `viewtype`, `viewt@ype`
+        + proof terms -- `prval`, `prfun`: bind names to proof terms
+            - classical (non-linear) proof terms -- typed by `prop`
+            - linear proof terms -- typed by `view`
+
+
+
+**********************************************************************
+**********************************************************************
+#   Types
+
+**********************************************************************
+**********************************************************************
+
+**Lists**
+
+`datatype     list    (a:t@ype+, int)`
+
+  ~ functional (immutable) singly-linked list
+
+`dataviewtype list_vt (a:viewt@ype+, int)`
+
+  ~ linear (mutable?) singly-linked list
+
+**References**
+
+**Arrays**
+
+| `typedef      array     (a,n) = @[a][n]`
+| `viewdef      array_v   (a:viewt@ype, l:addr, n:int)  = @[a][n]@l`
+| `absviewtype  arrayptr  (a:viewt@ype+, l:addr, n:int) = ptr l`
+| `abstype      arrayref  (a:viewt@ype, n:int)          = ptr l`
+| `abstype      arrszref  (a:viewt@ype)                 = ptr l`
+
+**Strings**
+
+| `abstype     string                  = ptr`
+
+`abstype     string  (n:int)         = string`
+
+  ~ persistent read-only strings
+
+| `absviewtype strptr  (l:addr)        = ptr`
+| `viewtypedef strptr                  = [l:addr] strptr  l`
+| `absviewtype strnptr (l:addr, n:int) = ptr`
+
+`viewtypedef strnptr (n:int)         = [l:addr] strnptr (l, n)`
+
+  ~ linear mutable strings
+
+`abstype     strref  (l:addr)        = ptr`
+
+  ~ persistent mutable strings
+
+**Option types**
