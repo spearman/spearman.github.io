@@ -5,3 +5,4 @@
 | [ats-ref](html/ats-ref.html)
 | [ats-basics](html/ats-basics.html)
 | [Rust macro expand diagram](img/rust-macro-expand.svg)
+| [Rust macro expand invoc diagram](img/rust-expand-invoc.svg)
