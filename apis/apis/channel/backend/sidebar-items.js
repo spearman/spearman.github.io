@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["broadcast",""],["buffer",""],["session_typed",""]],"struct":[["Simplex","An SPSC stream."],["Sink","An MPSC sink."],["Source","An SPMC source."]],"trait":[["Backend",""]]});

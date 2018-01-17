@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Def` struct in crate `apis`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Def">
+
+    <title>apis::channel::Def - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Struct Def</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.define">define</a><a href="#method.id">id</a><a href="#method.kind">kind</a><a href="#method.producers">producers</a><a href="#method.consumers">consumers</a><a href="#method.to_channel">to_channel</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-TryFrom%3CDef%3CCTX%3E%3E">TryFrom&lt;Def&lt;CTX&gt;&gt;</a><a href="#impl-Clone">Clone</a><a href="#impl-Debug">Debug</a><a href="#impl-Eq">Eq</a><a href="#impl-PartialEq">PartialEq</a></div></div><p class='location'><a href='../index.html'>apis</a>::<wbr><a href='index.html'>channel</a></p><script>window.sidebarCurrent = {name: 'Def', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>apis</a>::<wbr><a href='index.html'>channel</a>::<wbr><a class="struct" href=''>Def</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/apis/channel/mod.rs.html#30-36' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Def&lt;CTX:&nbsp;<a class="trait" href="../../apis/session/trait.Context.html" title="trait apis::session::Context">Context</a>&gt; { /* fields omitted */ }</pre><div class='docblock'><p>Channel definition.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;CTX:&nbsp;<a class="trait" href="../../apis/session/trait.Context.html" title="trait apis::session::Context">Context</a>&gt; <a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt;</code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#149-354' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.define' class="method"><span id='define.v' class='invisible'><code>pub fn <a href='#method.define' class='fnname'>define</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;id: CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.CID" title="type apis::session::Context::CID">CID</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;kind: <a class="enum" href="../../apis/channel/enum.Kind.html" title="enum apis::channel::Kind">Kind</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;producers: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;consumers: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>&gt;<br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="enum" href="../../apis/channel/enum.DefineError.html" title="enum apis::channel::DefineError">DefineError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#255-267' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>The only method for creating valid channel def struct; validates
+specification of sourcepoints and endpoints for <em>well-formedness</em> (at
+least one process at each end, no duplicates or self-loops) and
+<em>compatibility</em> with channel kind (restricted to single process
+sourcepoint or endpoint where appropriate).</p>
+
+<h1 id='errors' class='section-header'><a href='#errors'>Errors</a></h1>
+<p>Zero producers or consumers:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">channel</span>::<span class="ident">Def</span>::<span class="op">&lt;</span><span class="ident">Mycontext</span><span class="op">&gt;</span>::<span class="ident">define</span> (
+  <span class="ident">ChannelId</span>::<span class="ident">X</span>,
+  <span class="ident">channel</span>::<span class="ident">Kind</span>::<span class="ident">Sink</span>,
+  <span class="macro">vec</span><span class="macro">!</span>[],
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">B</span>]);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">Err</span> (<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">channel</span>::<span class="ident">DefineError</span>::<span class="ident">ZeroProducers</span>]));
+<span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">channel</span>::<span class="ident">Def</span>::<span class="op">&lt;</span><span class="ident">Mycontext</span><span class="op">&gt;</span>::<span class="ident">define</span> (
+  <span class="ident">ChannelId</span>::<span class="ident">X</span>,
+  <span class="ident">channel</span>::<span class="ident">Kind</span>::<span class="ident">Sink</span>,
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">A</span>],
+  <span class="macro">vec</span><span class="macro">!</span>[]);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">Err</span> (<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">channel</span>::<span class="ident">DefineError</span>::<span class="ident">ZeroConsumers</span>]));</pre>
+
+<p>Producer equals consumer:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">channel</span>::<span class="ident">Def</span>::<span class="op">&lt;</span><span class="ident">Mycontext</span><span class="op">&gt;</span>::<span class="ident">define</span> (
+  <span class="ident">ChannelId</span>::<span class="ident">X</span>,
+  <span class="ident">channel</span>::<span class="ident">Kind</span>::<span class="ident">Sink</span>,
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">A</span>, <span class="ident">ProcessId</span>::<span class="ident">B</span>],
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">A</span>]);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">Err</span> (<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">channel</span>::<span class="ident">DefineError</span>::<span class="ident">ProducerEqConsumer</span>]));</pre>
+
+<p>Duplicate producer:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">channel</span>::<span class="ident">Def</span>::<span class="op">&lt;</span><span class="ident">Mycontext</span><span class="op">&gt;</span>::<span class="ident">define</span> (
+  <span class="ident">ChannelId</span>::<span class="ident">X</span>,
+  <span class="ident">channel</span>::<span class="ident">Kind</span>::<span class="ident">Sink</span>,
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">A</span>, <span class="ident">ProcessId</span>::<span class="ident">A</span>],
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">B</span>]);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">Err</span> (<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">channel</span>::<span class="ident">DefineError</span>::<span class="ident">DuplicateProducer</span>]));</pre>
+
+<p>Duplicate consumer:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">channel</span>::<span class="ident">Def</span>::<span class="op">&lt;</span><span class="ident">Mycontext</span><span class="op">&gt;</span>::<span class="ident">define</span> (
+  <span class="ident">ChannelId</span>::<span class="ident">X</span>,
+  <span class="ident">channel</span>::<span class="ident">Kind</span>::<span class="ident">Source</span>,
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">A</span>],
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">B</span>, <span class="ident">ProcessId</span>::<span class="ident">B</span>]);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">Err</span> (<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">channel</span>::<span class="ident">DefineError</span>::<span class="ident">DuplicateConsumer</span>]));</pre>
+
+<p>Kind does not support multiple producers and/or consumers:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">channel</span>::<span class="ident">Def</span>::<span class="op">&lt;</span><span class="ident">Mycontext</span><span class="op">&gt;</span>::<span class="ident">define</span> (
+  <span class="ident">ChannelId</span>::<span class="ident">X</span>,
+  <span class="ident">channel</span>::<span class="ident">Kind</span>::<span class="ident">Source</span>,
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">A</span>, <span class="ident">ProcessId</span>::<span class="ident">B</span>],
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">C</span>, <span class="ident">ProcessId</span>::<span class="ident">D</span>]);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">Err</span> (<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">channel</span>::<span class="ident">DefineError</span>::<span class="ident">MultipleProducers</span>]));
+<span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">channel</span>::<span class="ident">Def</span>::<span class="op">&lt;</span><span class="ident">Mycontext</span><span class="op">&gt;</span>::<span class="ident">define</span> (
+  <span class="ident">ChannelId</span>::<span class="ident">X</span>,
+  <span class="ident">channel</span>::<span class="ident">Kind</span>::<span class="ident">Simplex</span>,
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">A</span>],
+  <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ProcessId</span>::<span class="ident">B</span>, <span class="ident">ProcessId</span>::<span class="ident">C</span>]);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">Err</span> (<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">channel</span>::<span class="ident">DefineError</span>::<span class="ident">MultipleConsumers</span>]));</pre>
+</div><h4 id='method.id' class="method"><span id='id.v' class='invisible'><code>pub fn <a href='#method.id' class='fnname'>id</a>(&amp;self) -&gt; &amp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.CID" title="type apis::session::Context::CID">CID</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#269-271' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.kind' class="method"><span id='kind.v' class='invisible'><code>pub fn <a href='#method.kind' class='fnname'>kind</a>(&amp;self) -&gt; &amp;<a class="enum" href="../../apis/channel/enum.Kind.html" title="enum apis::channel::Kind">Kind</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#273-275' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.producers' class="method"><span id='producers.v' class='invisible'><code>pub fn <a href='#method.producers' class='fnname'>producers</a>(&amp;self) -&gt; &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#277-279' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.consumers' class="method"><span id='consumers.v' class='invisible'><code>pub fn <a href='#method.consumers' class='fnname'>consumers</a>(&amp;self) -&gt; &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#281-283' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.to_channel' class="method"><span id='to_channel.v' class='invisible'><code>pub fn <a href='#method.to_channel' class='fnname'>to_channel</a>&lt;M&gt;(self) -&gt; <a class="struct" href="../../apis/channel/struct.Channel.html" title="struct apis::channel::Channel">Channel</a>&lt;CTX&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX: 'static,<br>&nbsp;&nbsp;&nbsp;&nbsp;M: <a class="trait" href="../../apis/message/trait.Message.html" title="trait apis::message::Message">Message</a>&lt;CTX&gt; + 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#285-298' title='goto source code'>[src]</a></span></h4>
+</div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-TryFrom%3CDef%3CCTX%3E%3E' class='impl'><span class='in-band'><code>impl&lt;CTX, M&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;<a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt;&gt; for <a class="struct" href="../../apis/channel/backend/struct.Simplex.html" title="struct apis::channel::backend::Simplex">Simplex</a>&lt;CTX, M&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX: <a class="trait" href="../../apis/session/trait.Context.html" title="trait apis::session::Context">Context</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;M: <a class="trait" href="../../apis/message/trait.Message.html" title="trait apis::message::Message">Message</a>&lt;CTX&gt; + 'static,&nbsp;</span></code><a href='#impl-TryFrom%3CDef%3CCTX%3E%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/backend/mod.rs.html#204-226' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Error' class="type"><span id='Error.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html#associatedtype.Error' class="type">Error</a> = <a class="enum" href="../../apis/channel/enum.CreateError.html" title="enum apis::channel::CreateError">CreateError</a></code></span></h4>
+<div class='stability'><div class='stab unstable'><span class=microscope>🔬</span> This is a nightly-only experimental API.  (<code>try_from</code>)</div></div><div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div><h4 id='method.try_from' class="method"><span id='try_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html#tymethod.try_from' class='fnname'>try_from</a>(def: <a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="type" href="https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/backend/mod.rs.html#211-225' title='goto source code'>[src]</a></span></h4>
+<div class='stability'><div class='stab unstable'><span class=microscope>🔬</span> This is a nightly-only experimental API.  (<code>try_from</code>)</div></div><div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-TryFrom%3CDef%3CCTX%3E%3E-1' class='impl'><span class='in-band'><code>impl&lt;CTX, M&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;<a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt;&gt; for <a class="struct" href="../../apis/channel/backend/struct.Sink.html" title="struct apis::channel::backend::Sink">Sink</a>&lt;CTX, M&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX: <a class="trait" href="../../apis/session/trait.Context.html" title="trait apis::session::Context">Context</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;M: <a class="trait" href="../../apis/message/trait.Message.html" title="trait apis::message::Message">Message</a>&lt;CTX&gt; + 'static,&nbsp;</span></code><a href='#impl-TryFrom%3CDef%3CCTX%3E%3E-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/backend/mod.rs.html#260-287' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Error-1' class="type"><span id='Error.t-1' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html#associatedtype.Error' class="type">Error</a> = <a class="enum" href="../../apis/channel/enum.CreateError.html" title="enum apis::channel::CreateError">CreateError</a></code></span></h4>
+<div class='stability'><div class='stab unstable'><span class=microscope>🔬</span> This is a nightly-only experimental API.  (<code>try_from</code>)</div></div><div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div><h4 id='method.try_from-1' class="method"><span id='try_from.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html#tymethod.try_from' class='fnname'>try_from</a>(def: <a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="type" href="https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/backend/mod.rs.html#267-286' title='goto source code'>[src]</a></span></h4>
+<div class='stability'><div class='stab unstable'><span class=microscope>🔬</span> This is a nightly-only experimental API.  (<code>try_from</code>)</div></div><div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-TryFrom%3CDef%3CCTX%3E%3E-2' class='impl'><span class='in-band'><code>impl&lt;CTX, M&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;<a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt;&gt; for <a class="struct" href="../../apis/channel/backend/struct.Source.html" title="struct apis::channel::backend::Source">Source</a>&lt;CTX, M&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX: <a class="trait" href="../../apis/session/trait.Context.html" title="trait apis::session::Context">Context</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;M: <a class="trait" href="../../apis/message/trait.Message.html" title="trait apis::message::Message">Message</a>&lt;CTX&gt; + 'static,&nbsp;</span></code><a href='#impl-TryFrom%3CDef%3CCTX%3E%3E-2' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/backend/mod.rs.html#319-349' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Error-2' class="type"><span id='Error.t-2' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html#associatedtype.Error' class="type">Error</a> = <a class="enum" href="../../apis/channel/enum.CreateError.html" title="enum apis::channel::CreateError">CreateError</a></code></span></h4>
+<div class='stability'><div class='stab unstable'><span class=microscope>🔬</span> This is a nightly-only experimental API.  (<code>try_from</code>)</div></div><div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div><h4 id='method.try_from-2' class="method"><span id='try_from.v-2' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html#tymethod.try_from' class='fnname'>try_from</a>(def: <a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="type" href="https://doc.rust-lang.org/nightly/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/backend/mod.rs.html#326-348' title='goto source code'>[src]</a></span></h4>
+<div class='stability'><div class='stab unstable'><span class=microscope>🔬</span> This is a nightly-only experimental API.  (<code>try_from</code>)</div></div><div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl&lt;CTX:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="../../apis/session/trait.Context.html" title="trait apis::session::Context">Context</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.CID" title="type apis::session::Context::CID">CID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.MID" title="type apis::session::Context::MID">MID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,&nbsp;</span></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#29' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#29' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Self)</code></span><span class='out-of-band'><div class='ghost'></div><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div><a class='srclink' href='https://doc.rust-lang.org/nightly/src/core/clone.rs.html#112-114' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl&lt;CTX:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> + <a class="trait" href="../../apis/session/trait.Context.html" title="trait apis::session::Context">Context</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.CID" title="type apis::session::Context::CID">CID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.MID" title="type apis::session::Context::MID">MID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>,&nbsp;</span></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#29' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#29' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
+</div></div><h3 id='impl-Eq' class='impl'><span class='in-band'><code>impl&lt;CTX:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="../../apis/session/trait.Context.html" title="trait apis::session::Context">Context</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> for <a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.CID" title="type apis::session::Context::CID">CID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.MID" title="type apis::session::Context::MID">MID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a>,&nbsp;</span></code><a href='#impl-Eq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#29' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 id='impl-PartialEq' class='impl'><span class='in-band'><code>impl&lt;CTX:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> + <a class="trait" href="../../apis/session/trait.Context.html" title="trait apis::session::Context">Context</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> for <a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.CID" title="type apis::session::Context::CID">CID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.PID" title="type apis::session::Context::PID">PID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;CTX::<a class="type" href="../../apis/session/trait.Context.html#associatedtype.MID" title="type apis::session::Context::MID">MID</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>,&nbsp;</span></code><a href='#impl-PartialEq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#29' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt;) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#29' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class="struct" href="../../apis/channel/struct.Def.html" title="struct apis::channel::Def">Def</a>&lt;CTX&gt;) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/channel/mod.rs.html#29' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "apis";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

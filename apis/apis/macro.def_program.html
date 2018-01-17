@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `def_program` macro in crate `apis`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, def_program">
+
+    <title>apis::def_program - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc macro">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'><a href='index.html'>apis</a></p><script>window.sidebarCurrent = {name: 'def_program', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Macro <a href='index.html'>apis</a>::<wbr><a class="macro" href=''>def_program</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/apis/program/macro_def.rs.html#3-363' title='goto source code'>[src]</a></span></h1>
+<pre class="rust macro">
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">def_program</span> {
+    ( <span class="ident">program</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">program</span>:<span class="ident">ident</span> <span class="kw">where</span> <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">result</span>:<span class="ident">ident</span> <span class="op">=</span> <span class="ident">session</span>.<span class="ident">run</span>() {
+      <span class="ident">MODES</span> [
+        $(
+        <span class="ident">mode</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_mod</span>:<span class="ident">ident</span> :: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_context</span>:<span class="ident">ident</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">transition_choice</span>:<span class="ident">block</span>)<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">TRANSITIONS</span> [
+        $(<span class="ident">transition</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">transition</span>:<span class="ident">ident</span>
+          <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source_mod</span>:<span class="ident">ident</span> :: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">source_context</span>:<span class="ident">ident</span><span class="op">&gt;</span> <span class="op">=&gt;</span>
+          <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_mod</span>:<span class="ident">ident</span> :: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_context</span>:<span class="ident">ident</span><span class="op">&gt;</span> $([
+            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">source_proc</span>:<span class="ident">ident</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">prev_proc</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span>
+              <span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_proc</span>:<span class="ident">ident</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">next_proc</span>:<span class="ident">ident</span>) <span class="macro-nonterminal">$</span><span class="macro-nonterminal">closure_block</span>:<span class="ident">block</span>)<span class="op">*</span>
+          ])<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">initial_mode</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial_mode</span>:<span class="ident">ident</span>
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    (@<span class="ident">option_transition_choice</span> <span class="comment">/* no choice */</span>) <span class="op">=&gt;</span> { ... };
+    (@<span class="ident">option_transition_choice</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">transition_choice</span>:<span class="ident">block</span>) <span class="op">=&gt;</span> { ... };
+}</pre>
+<div class='docblock'><p>Define a program state machine.</p>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "apis";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

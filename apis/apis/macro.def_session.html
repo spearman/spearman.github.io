@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `def_session` macro in crate `apis`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, def_session">
+
+    <title>apis::def_session - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc macro">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'><a href='index.html'>apis</a></p><script>window.sidebarCurrent = {name: 'def_session', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Macro <a href='index.html'>apis</a>::<wbr><a class="macro" href=''>def_session</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/apis/session/macro_def.rs.html#90-1103' title='goto source code'>[src]</a></span></h1>
+<pre class="rust macro">
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">def_session</span> {
+    ( <span class="ident">context</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">context</span>:<span class="ident">ident</span> {
+      <span class="ident">PROCESSES</span> <span class="kw">where</span>
+        <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">process_self</span>:<span class="ident">ident</span> <span class="op">=</span> <span class="self">self</span>,
+        <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">message_in</span>:<span class="ident">ident</span>   <span class="op">=</span> <span class="ident">message_in</span>
+      [
+        $(<span class="ident">process</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">process</span>:<span class="ident">ident</span> (
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+        ) $(<span class="op">-&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">presult_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">presult_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>))<span class="op">*</span> {
+          <span class="ident">kind</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">process_kind</span>:<span class="ident">expr</span> }
+          <span class="ident">sourcepoints</span> [ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sourcepoint</span>:<span class="ident">ident</span>),<span class="op">*</span> ]
+          <span class="ident">endpoints</span>    [ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">endpoint</span>:<span class="ident">ident</span>),<span class="op">*</span> ]
+          $(<span class="ident">initialize</span>   <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initialize</span>:<span class="ident">block</span>)<span class="op">*</span>
+          $(<span class="ident">terminate</span>    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate</span>:<span class="ident">block</span>)<span class="op">*</span>
+          <span class="ident">handle_message</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">handle_message</span>:<span class="ident">block</span>
+          <span class="ident">update</span>         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">update</span>:<span class="ident">block</span>
+        })<span class="op">+</span>
+      ]
+      <span class="ident">CHANNELS</span> [
+        $(<span class="ident">channel</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">channel</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">local_type</span>:<span class="ident">ident</span><span class="op">&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ident</span>) {
+          <span class="ident">producers</span> [ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">producer</span>:<span class="ident">ident</span>),<span class="op">+</span> ]
+          <span class="ident">consumers</span> [ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">consumer</span>:<span class="ident">ident</span>),<span class="op">+</span> ]
+        })<span class="op">*</span>
+      ]
+      <span class="ident">MESSAGES</span> [
+        $(<span class="ident">message</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">message_type</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">message_variants</span>:<span class="ident">tt</span>)<span class="op">*</span>
+      ]
+      $(<span class="ident">main</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">main_process</span>:<span class="ident">ident</span>)<span class="op">*</span>
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">expr_option</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">expr</span>:<span class="ident">expr</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">expr_option</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">expr_default</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">default</span>:<span class="ident">expr</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">expr_default</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">impl_fn_dotfile</span>
+    <span class="ident">context</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">context</span>:<span class="ident">ident</span> {
+      <span class="ident">PROCESSES</span> [
+        $(<span class="ident">process</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">process</span>:<span class="ident">ident</span>
+          ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="kw-2">*</span>)
+          $(<span class="op">-&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">presult_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">presult_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>))<span class="op">*</span>
+        {})<span class="op">+</span>
+      ]
+      <span class="ident">CHANNELS</span> [
+        $(<span class="ident">channel</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">channel</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">local_type</span>:<span class="ident">ident</span><span class="op">&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ident</span>) {
+          <span class="ident">producers</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">producer</span>:<span class="ident">ident</span>),<span class="op">+</span>]
+          <span class="ident">consumers</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">consumer</span>:<span class="ident">ident</span>),<span class="op">+</span>]
+        })<span class="op">*</span>
+      ]
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_begin</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_subgraph_begin</span>
+    <span class="ident">context</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">context</span>:<span class="ident">ident</span> {}
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_node</span>
+    <span class="ident">process</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">process</span>:<span class="ident">ident</span>
+      ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="kw-2">*</span>)
+      $(<span class="op">-&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">presult_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">presult_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>))<span class="op">*</span> {}
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_node_hide_defaults</span>
+    <span class="ident">process</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">process</span>:<span class="ident">ident</span>
+      ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">field_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="kw-2">*</span>)
+      $(<span class="op">-&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">presult_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">presult_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>))<span class="op">*</span> {}
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_channel</span>
+    <span class="ident">channel</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">channel</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">local_type</span>:<span class="ident">ident</span><span class="op">&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ident</span>) {
+      <span class="ident">producers</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">producer</span>:<span class="ident">ident</span>),<span class="op">+</span>]
+      <span class="ident">consumers</span> [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">consumer</span>:<span class="ident">ident</span>),<span class="op">+</span>]
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_end</span> ) <span class="op">=&gt;</span> { ... };
+}</pre>
+<div class='docblock'><p>Macro to define all parts of a session.</p>
+
+<p>Defines an instance of <code>session:Context</code> with the given name and the
+following associated types:</p>
+
+<ul>
+<li><code>type MID = MessageId</code></li>
+<li><code>type CID = ChannelId</code></li>
+<li><code>type PID = ProcessId</code></li>
+<li><code>type GMSG = GlobalMessage</code></li>
+<li><code>type GPROC = GlobalProcess</code></li>
+<li><code>type GPRES = GlobalPresult</code></li>
+</ul>
+
+<p>Process and message types with the given names and specifications are
+defined with implementations of relevant traits.</p>
+
+<p>Process <code>handle_message</code> and <code>update</code> behavior is provided as a block of
+code which is to be run inside of the actual trait methods where <code>self</code> is
+bound to the provided identifier in both cases, and the <code>message_in</code>
+(global message) argument of <code>handle_message</code> is bound to the provided
+identifier.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<p>From <code>examples/simplex.rs</code>-- defines two processes (<code>Chargen</code> and <code>Upcase</code>)
+connected by a channel sending <code>Charstreammessage</code>s:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="attribute">#![<span class="ident">feature</span>(<span class="ident">const_fn</span>)]</span>
+<span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">macro_attr</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">enum_derive</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">enum_unitary</span>;
+
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">vec_map</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">escapade</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">apis</span>;
+
+<span class="kw">use</span> <span class="ident">apis</span>::{<span class="ident">channel</span>,<span class="ident">message</span>,<span class="ident">process</span>,<span class="ident">session</span>};
+
+<span class="macro">def_session</span><span class="macro">!</span> {
+  <span class="ident">context</span> <span class="ident">Mycontext</span> {
+    <span class="ident">PROCESSES</span> <span class="kw">where</span>
+      <span class="kw">let</span> <span class="ident">_proc</span>       <span class="op">=</span> <span class="self">self</span>,
+      <span class="kw">let</span> <span class="ident">_message_in</span> <span class="op">=</span> <span class="ident">message_in</span>
+    [
+      <span class="ident">process</span> <span class="ident">Chargen</span> (<span class="ident">update_count</span> : <span class="ident">u64</span>) {
+        <span class="ident">kind</span> { <span class="ident">process</span>::<span class="ident">Kind</span>::<span class="ident">Isochronous</span> {
+          <span class="ident">tick_ms</span>: <span class="number">20</span>,
+          <span class="ident">ticks_per_update</span>: <span class="number">1</span> } }
+        <span class="ident">sourcepoints</span> [<span class="ident">Charstream</span>]
+        <span class="ident">endpoints</span>    []
+        <span class="ident">handle_message</span> { <span class="ident">apis</span>::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+        <span class="ident">update</span>         { <span class="ident">apis</span>::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+      }
+      <span class="ident">process</span> <span class="ident">Upcase</span> (<span class="ident">history</span> : <span class="ident">String</span>) {
+        <span class="ident">kind</span> { <span class="ident">process</span>::<span class="ident">Kind</span>::<span class="ident">asynchronous_default</span>() }
+        <span class="ident">sourcepoints</span> []
+        <span class="ident">endpoints</span>    [<span class="ident">Charstream</span>]
+        <span class="ident">handle_message</span> { <span class="ident">apis</span>::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+        <span class="ident">update</span>         { <span class="ident">apis</span>::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+      }
+    ]
+    <span class="ident">CHANNELS</span>  [
+      <span class="ident">channel</span> <span class="ident">Charstream</span> <span class="op">&lt;</span><span class="ident">Charstreammessage</span><span class="op">&gt;</span> (<span class="ident">Simplex</span>) {
+        <span class="ident">producers</span> [<span class="ident">Chargen</span>]
+        <span class="ident">consumers</span> [<span class="ident">Upcase</span>]
+      }
+    ]
+    <span class="ident">MESSAGES</span> [
+      <span class="ident">message</span> <span class="ident">Charstreammessage</span> {
+        <span class="ident">Achar</span> (<span class="ident">char</span>),
+        <span class="ident">Quit</span>
+      }
+    ]
+  }
+}
+</pre>
+
+<p>The <code>handle_message</code> and <code>update</code> definitions have been ommitted for
+brevity, but in general any block of code can be substituted that
+references the <code>self</code> and <code>message_in</code> bindings.</p>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "apis";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

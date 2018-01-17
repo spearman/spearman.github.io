@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `def_machine` macro in crate `macro_machines`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, def_machine">
+
+    <title>macro_machines::def_machine - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc macro">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'><a href='index.html'>macro_machines</a></p><script>window.sidebarCurrent = {name: 'def_machine', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Macro <a href='index.html'>macro_machines</a>::<wbr><a class="macro" href=''>def_machine</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/macro_machines/lib.rs.html#15-2284' title='goto source code'>[src]</a></span></h1>
+<pre class="rust macro">
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">def_machine</span> {
+    ( <span class="ident">machine</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>:<span class="ident">ident</span>
+      $(<span class="op">&lt;</span>$(
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>:<span class="ident">ident</span> $(: { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_constraint</span>:<span class="ident">path</span>),<span class="op">+</span> })<span class="op">*</span>
+      ),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span>
+    {
+      <span class="ident">STATES</span> [
+        $(<span class="ident">state</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">state</span>:<span class="ident">ident</span> (
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+        ))<span class="op">+</span>
+      ]
+      <span class="ident">EVENTS</span> [
+        $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+          $({ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">state_data</span>:<span class="ident">ident</span>),<span class="op">*</span> } <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">EXTENDED</span> [
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+      ]
+      $(<span class="ident">self_reference</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">self_reference</span>:<span class="ident">ident</span>)<span class="op">*</span>
+      <span class="ident">initial_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial</span>:<span class="ident">ident</span> $({
+        $(<span class="ident">initial_action</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial_action</span>:<span class="ident">block</span>)<span class="op">*</span>
+      })<span class="op">*</span>
+      $(<span class="ident">terminal_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminal</span>:<span class="ident">ident</span> $({
+        $(<span class="ident">terminate_success</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate_success</span>:<span class="ident">block</span>)<span class="op">*</span>
+        $(<span class="ident">terminate_failure</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate_failure</span>:<span class="ident">block</span>)<span class="op">*</span>
+      })<span class="kw-2">*</span>)<span class="op">*</span>
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>:<span class="ident">ident</span>
+    $(<span class="op">&lt;</span>$(
+      <span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>:<span class="ident">ident</span> $(: { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_constraint</span>:<span class="ident">path</span>),<span class="op">+</span> })<span class="op">*</span>
+    ),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span>
+    $(($(
+      <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_default</span>:<span class="ident">expr</span>)<span class="op">*</span>
+    ),<span class="kw-2">*</span>))<span class="op">*</span>
+      $(<span class="kw">where</span> <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">self_reference</span>:<span class="ident">ident</span> <span class="op">=</span> <span class="self">self</span>)<span class="op">*</span>
+    {
+      <span class="ident">STATES</span> [
+        $(<span class="ident">state</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">state</span>:<span class="ident">ident</span> (
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+        ))<span class="op">+</span>
+      ]
+      <span class="ident">EVENTS</span> [
+        $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+          $({ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">state_data</span>:<span class="ident">ident</span>),<span class="op">*</span> } <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">initial_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial</span>:<span class="ident">ident</span> $({
+        $(<span class="ident">initial_action</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial_action</span>:<span class="ident">block</span>)<span class="op">*</span>
+      })<span class="op">*</span>
+      $(<span class="ident">terminal_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminal</span>:<span class="ident">ident</span> $({
+        $(<span class="ident">terminate_success</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate_success</span>:<span class="ident">block</span>)<span class="op">*</span>
+        $(<span class="ident">terminate_failure</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate_failure</span>:<span class="ident">block</span>)<span class="op">*</span>
+      })<span class="kw-2">*</span>)<span class="op">*</span>
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">impl_fn_handle_event</span>
+    <span class="ident">machine</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>:<span class="ident">ident</span> $(<span class="kw">where</span> <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">self_reference</span>:<span class="ident">ident</span> <span class="op">=</span> <span class="self">self</span>)<span class="op">*</span> {
+      <span class="ident">STATES</span> [
+        $(<span class="ident">state</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">state</span>:<span class="ident">ident</span> (
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+        ))<span class="op">+</span>
+      ]
+      <span class="ident">EVENTS</span> [
+        $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+          $({ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">state_data</span>:<span class="ident">ident</span>),<span class="op">*</span> } <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">EXTENDED</span> [
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+      ]
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">event_action_external</span>
+    <span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">event_action_external</span>
+    <span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">event_action_internal</span>
+    <span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">event_action_internal</span>
+    <span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">event_transition</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">event_transition</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">expr_default</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">default</span>:<span class="ident">expr</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">expr_default</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">expr_option</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">default</span>:<span class="ident">expr</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">expr_option</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">impl_fn_dotfile</span>
+    <span class="ident">machine</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>:<span class="ident">ident</span> $(<span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>:<span class="ident">ident</span>),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span> {
+      <span class="ident">STATES</span> [
+        $(<span class="ident">state</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">state</span>:<span class="ident">ident</span> (
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+        ))<span class="op">+</span>
+      ]
+      <span class="ident">EVENTS</span> [
+        $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">EVENTS_TT</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">events_tt</span>:<span class="ident">tt</span>
+      <span class="ident">EXTENDED</span> [
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+      ]
+      <span class="ident">initial_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial</span>:<span class="ident">ident</span> $({
+        $(<span class="ident">initial_action</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial_action</span>:<span class="ident">block</span>)<span class="op">*</span>
+      })<span class="op">*</span>
+      $(<span class="ident">terminal_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminal</span>:<span class="ident">ident</span> $({
+        $(<span class="ident">terminate_success</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate_success</span>:<span class="ident">block</span>)<span class="op">*</span>
+        $(<span class="ident">terminate_failure</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate_failure</span>:<span class="ident">block</span>)<span class="op">*</span>
+      })<span class="kw-2">*</span>)<span class="op">*</span>
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">impl_fn_dotfile_nodefault</span>
+    <span class="ident">machine</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>:<span class="ident">ident</span> $(<span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>:<span class="ident">ident</span>),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span> {
+      <span class="ident">STATES</span> [
+        $(<span class="ident">state</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">state</span>:<span class="ident">ident</span> (
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+        ))<span class="op">+</span>
+      ]
+      <span class="ident">EVENTS</span> [
+        $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">EVENTS_TT</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">events_tt</span>:<span class="ident">tt</span>
+      <span class="ident">EXTENDED</span> [
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+      ]
+      <span class="ident">initial_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial</span>:<span class="ident">ident</span> $({
+        $(<span class="ident">initial_action</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial_action</span>:<span class="ident">block</span>)<span class="op">*</span>
+      })<span class="op">*</span>
+      $(<span class="ident">terminal_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminal</span>:<span class="ident">ident</span> $({
+        $(<span class="ident">terminate_success</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate_success</span>:<span class="ident">block</span>)<span class="op">*</span>
+        $(<span class="ident">terminate_failure</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate_failure</span>:<span class="ident">block</span>)<span class="op">*</span>
+      })<span class="kw-2">*</span>)<span class="op">*</span>
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_begin</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_subgraph_begin</span>
+    <span class="ident">machine</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>:<span class="ident">ident</span> $(<span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>:<span class="ident">ident</span>),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span> {
+      <span class="ident">EVENTS</span> [
+        $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">EXTENDED</span> [
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+      ]
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_subgraph_begin_hide_defaults</span>
+    <span class="ident">machine</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>:<span class="ident">ident</span> $(<span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>:<span class="ident">ident</span>),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span> {
+      <span class="ident">EVENTS</span> [
+        $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">EXTENDED</span> [
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>:<span class="ident">ty</span>),<span class="op">*</span>
+      ]
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_subgraph_begin_nodefault</span>
+    <span class="ident">machine</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>:<span class="ident">ident</span> $(<span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>:<span class="ident">ident</span>),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span> {
+      <span class="ident">EVENTS</span> [
+        $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">EXTENDED</span> [
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+      ]
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_node</span>
+    <span class="ident">state</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">state</span>:<span class="ident">ident</span> (
+      $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+    )
+    <span class="ident">EVENTS</span> [
+      $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+      )<span class="op">+</span>
+    ]
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_node_pretty_defaults</span>
+    <span class="ident">state</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">state</span>:<span class="ident">ident</span> (
+      $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+    )
+    <span class="ident">EVENTS</span> [
+      $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+      )<span class="op">+</span>
+    ]
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_node_hide_defaults</span>
+    <span class="ident">state</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">state</span>:<span class="ident">ident</span> (
+      $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_type</span>:<span class="ident">ty</span>),<span class="op">*</span>
+    )
+    <span class="ident">EVENTS</span> [
+      $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+      )<span class="op">+</span>
+    ]
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_node_initial</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_node_terminal</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_transition</span>
+    <span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_transition</span>
+    <span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+  ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_transition_initial</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial</span>:<span class="ident">ident</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_transition_terminal</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminal</span>:<span class="ident">ident</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">fn_dotfile_end</span> ) <span class="op">=&gt;</span> { ... };
+    ( @<span class="ident">base</span>
+    <span class="ident">machine</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>:<span class="ident">ident</span>
+      $(<span class="op">&lt;</span>$(
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>:<span class="ident">ident</span> $(: { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_constraint</span>:<span class="ident">path</span>),<span class="op">+</span> })<span class="op">*</span>
+      ),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span>
+    {
+      <span class="ident">STATES</span> [
+        $(<span class="ident">state</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">state</span>:<span class="ident">ident</span> (
+          $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+        ))<span class="op">+</span>
+      ]
+      <span class="ident">EVENTS</span> [
+        $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span>:<span class="ident">ident</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span>:<span class="ident">ident</span><span class="op">&gt;</span>)<span class="op">*</span>
+          $({ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">state_data</span>:<span class="ident">ident</span>),<span class="op">*</span> } <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>:<span class="ident">block</span>)<span class="op">*</span>
+        )<span class="op">+</span>
+      ]
+      <span class="ident">EXTENDED</span> [
+        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
+      ]
+      $(<span class="ident">self_reference</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">self_reference</span>:<span class="ident">ident</span>)<span class="op">*</span>
+      <span class="ident">initial_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial</span>:<span class="ident">ident</span> $({
+        $(<span class="ident">initial_action</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial_action</span>:<span class="ident">block</span>)<span class="op">*</span>
+      })<span class="op">*</span>
+      $(<span class="ident">terminal_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminal</span>:<span class="ident">ident</span> $({
+        $(<span class="ident">terminate_success</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate_success</span>:<span class="ident">block</span>)<span class="op">*</span>
+        $(<span class="ident">terminate_failure</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">terminate_failure</span>:<span class="ident">block</span>)<span class="op">*</span>
+      })<span class="kw-2">*</span>)<span class="op">*</span>
+    }
+
+  ) <span class="op">=&gt;</span> { ... };
+}</pre>
+<div class='docblock'><p>State machines with a default <code>initial</code> state.</p>
+
+<p>For each extended state field, either the type must implement <code>Default</code>, or
+else a default expression is provided following <code>=</code>.</p>
+
+<p>For a state machine that requires runtime initialization, see
+<code>def_machine_nodefault!</code>.</p>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "macro_machines";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

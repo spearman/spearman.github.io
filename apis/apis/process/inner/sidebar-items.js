@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["EventId",""],["StateData",""],["StateId",""],["Transition",""]],"struct":[["Event",""],["ExtendedState",""],["Inner",""],["State",""]]});
