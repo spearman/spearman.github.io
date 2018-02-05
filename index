@@ -2,6 +2,7 @@
 %
 %
 
+| [foodir/](html/foodir/)
 | [ats-ref](html/ats-ref.html)
 | [ats-basics](html/ats-basics.html)
 | [Rust macro expand diagram](img/rust-macro-expand.svg)
