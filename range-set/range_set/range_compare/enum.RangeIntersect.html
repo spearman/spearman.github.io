@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `RangeIntersect` enum in crate `range_set`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, RangeIntersect">
+
+    <title>range_set::range_compare::RangeIntersect - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc enum">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Enum RangeIntersect</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.EqualTo">EqualTo</a><a href="#variant.OverlapsLeft">OverlapsLeft</a><a href="#variant.OverlapsRight">OverlapsRight</a><a href="#variant.ContainsFirst">ContainsFirst</a><a href="#variant.ContainsProper">ContainsProper</a><a href="#variant.ContainsLast">ContainsLast</a><a href="#variant.ContainedByFirst">ContainedByFirst</a><a href="#variant.ContainedByProper">ContainedByProper</a><a href="#variant.ContainedByLast">ContainedByLast</a></div><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.compare">compare</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-Eq">Eq</a><a href="#impl-PartialEq">PartialEq</a><a href="#impl-From%3CRangeIntersect%3E">From&lt;RangeIntersect&gt;</a></div></div><p class='location'><a href='../index.html'>range_set</a>::<wbr><a href='index.html'>range_compare</a></p><script>window.sidebarCurrent = {name: 'RangeIntersect', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>range_set</a>::<wbr><a href='index.html'>range_compare</a>::<wbr><a class="enum" href=''>RangeIntersect</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/range_set/range_compare.rs.html#37-56' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum RangeIntersect {
+    EqualTo,
+    OverlapsLeft,
+    OverlapsRight,
+    ContainsFirst,
+    ContainsProper,
+    ContainsLast,
+    ContainedByFirst,
+    ContainedByProper,
+    ContainedByLast,
+}</pre><div class='docblock'><p>Ways in which a pair of ranges <code>(A,B)</code> can intersect</p>
+</div><h2 id='variants' class='variants small-section-header'>
+                   Variants<a href='#variants' class='anchor'></a></h2>
+<span id="variant.EqualTo" class="variant small-section-header"><a href="#variant.EqualTo" class="anchor field"></a><span id='EqualTo.v' class='invisible'><code>EqualTo</code></span></span><div class='docblock'><p><code>[ A=B ]</code></p>
+</div><span id="variant.OverlapsLeft" class="variant small-section-header"><a href="#variant.OverlapsLeft" class="anchor field"></a><span id='OverlapsLeft.v' class='invisible'><code>OverlapsLeft</code></span></span><div class='docblock'><p><code>[ A [ ] B ]</code></p>
+</div><span id="variant.OverlapsRight" class="variant small-section-header"><a href="#variant.OverlapsRight" class="anchor field"></a><span id='OverlapsRight.v' class='invisible'><code>OverlapsRight</code></span></span><div class='docblock'><p><code>[ B [ ] A ]</code></p>
+</div><span id="variant.ContainsFirst" class="variant small-section-header"><a href="#variant.ContainsFirst" class="anchor field"></a><span id='ContainsFirst.v' class='invisible'><code>ContainsFirst</code></span></span><div class='docblock'><p><code>[ B ] A ]</code></p>
+</div><span id="variant.ContainsProper" class="variant small-section-header"><a href="#variant.ContainsProper" class="anchor field"></a><span id='ContainsProper.v' class='invisible'><code>ContainsProper</code></span></span><div class='docblock'><p><code>[ A [ B ] ]</code></p>
+</div><span id="variant.ContainsLast" class="variant small-section-header"><a href="#variant.ContainsLast" class="anchor field"></a><span id='ContainsLast.v' class='invisible'><code>ContainsLast</code></span></span><div class='docblock'><p><code>[ A [ B ]</code></p>
+</div><span id="variant.ContainedByFirst" class="variant small-section-header"><a href="#variant.ContainedByFirst" class="anchor field"></a><span id='ContainedByFirst.v' class='invisible'><code>ContainedByFirst</code></span></span><div class='docblock'><p><code>[ A ] B ]</code></p>
+</div><span id="variant.ContainedByProper" class="variant small-section-header"><a href="#variant.ContainedByProper" class="anchor field"></a><span id='ContainedByProper.v' class='invisible'><code>ContainedByProper</code></span></span><div class='docblock'><p><code>[ [ A ] B ]</code></p>
+</div><span id="variant.ContainedByLast" class="variant small-section-header"><a href="#variant.ContainedByLast" class="anchor field"></a><span id='ContainedByLast.v' class='invisible'><code>ContainedByLast</code></span></span><div class='docblock'><p><code>[ B [ A ]</code></p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="enum" href="../../range_set/range_compare/enum.RangeIntersect.html" title="enum range_set::range_compare::RangeIntersect">RangeIntersect</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/range_set/range_compare.rs.html#198-266' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.compare' class="method"><span id='compare.v' class='invisible'><code>pub fn <a href='#method.compare' class='fnname'>compare</a>&lt;T:&nbsp;<a class="trait" href="https://docs.rs/num-traits/0.2/num_traits/int/trait.PrimInt.html" title="trait num_traits::int::PrimInt">PrimInt</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;left: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/core/ops/range/struct.RangeInclusive.html" title="struct core::ops::range::RangeInclusive">RangeInclusive</a>&lt;T&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;right: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/core/ops/range/struct.RangeInclusive.html" title="struct core::ops::range::RangeInclusive">RangeInclusive</a>&lt;T&gt;<br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/range_set/range_compare.rs.html#234-265' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Test two inclusive ranges for intersection, returning <code>None</code> if the
+ranges are disjoint.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">RangeIntersect</span>::<span class="ident">compare</span> (<span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">1</span>), <span class="kw-2">&amp;</span>(<span class="number">4</span>..=<span class="number">5</span>)), <span class="prelude-val">None</span>);
+<span class="macro">assert_eq</span><span class="macro">!</span>(
+  <span class="ident">RangeIntersect</span>::<span class="ident">compare</span> (<span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">5</span>), <span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">5</span>)),
+  <span class="prelude-val">Some</span> (<span class="ident">RangeIntersect</span>::<span class="ident">EqualTo</span>));
+<span class="macro">assert_eq</span><span class="macro">!</span>(
+  <span class="ident">RangeIntersect</span>::<span class="ident">compare</span> (<span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">5</span>), <span class="kw-2">&amp;</span>(<span class="number">1</span>..=<span class="number">4</span>)),
+  <span class="prelude-val">Some</span> (<span class="ident">RangeIntersect</span>::<span class="ident">ContainsProper</span>));
+<span class="macro">assert_eq</span><span class="macro">!</span>(
+  <span class="ident">RangeIntersect</span>::<span class="ident">compare</span> (<span class="kw-2">&amp;</span>(<span class="number">1</span>..=<span class="number">4</span>), <span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">5</span>)),
+  <span class="prelude-val">Some</span> (<span class="ident">RangeIntersect</span>::<span class="ident">ContainedByProper</span>));
+<span class="macro">assert_eq</span><span class="macro">!</span>(
+  <span class="ident">RangeIntersect</span>::<span class="ident">compare</span> (<span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">5</span>), <span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">3</span>)),
+  <span class="prelude-val">Some</span> (<span class="ident">RangeIntersect</span>::<span class="ident">ContainsFirst</span>));
+<span class="macro">assert_eq</span><span class="macro">!</span>(
+  <span class="ident">RangeIntersect</span>::<span class="ident">compare</span> (<span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">5</span>), <span class="kw-2">&amp;</span>(<span class="number">4</span>..=<span class="number">5</span>)),
+  <span class="prelude-val">Some</span> (<span class="ident">RangeIntersect</span>::<span class="ident">ContainsLast</span>));
+<span class="macro">assert_eq</span><span class="macro">!</span>(
+  <span class="ident">RangeIntersect</span>::<span class="ident">compare</span> (<span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">2</span>), <span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">5</span>)),
+  <span class="prelude-val">Some</span> (<span class="ident">RangeIntersect</span>::<span class="ident">ContainedByFirst</span>));
+<span class="macro">assert_eq</span><span class="macro">!</span>(
+  <span class="ident">RangeIntersect</span>::<span class="ident">compare</span> (<span class="kw-2">&amp;</span>(<span class="number">4</span>..=<span class="number">5</span>), <span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">5</span>)),
+  <span class="prelude-val">Some</span> (<span class="ident">RangeIntersect</span>::<span class="ident">ContainedByLast</span>));
+<span class="macro">assert_eq</span><span class="macro">!</span>(
+  <span class="ident">RangeIntersect</span>::<span class="ident">compare</span> (<span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">3</span>), <span class="kw-2">&amp;</span>(<span class="number">3</span>..=<span class="number">5</span>)),
+  <span class="prelude-val">Some</span> (<span class="ident">RangeIntersect</span>::<span class="ident">OverlapsLeft</span>));
+<span class="macro">assert_eq</span><span class="macro">!</span>(
+  <span class="ident">RangeIntersect</span>::<span class="ident">compare</span> (<span class="kw-2">&amp;</span>(<span class="number">3</span>..=<span class="number">5</span>), <span class="kw-2">&amp;</span>(<span class="number">0</span>..=<span class="number">3</span>)),
+  <span class="prelude-val">Some</span> (<span class="ident">RangeIntersect</span>::<span class="ident">OverlapsRight</span>));</pre>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../range_set/range_compare/enum.RangeIntersect.html" title="enum range_set::range_compare::RangeIntersect">RangeIntersect</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/range_set/range_compare.rs.html#36' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/range_set/range_compare.rs.html#36' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
+</div></div><h3 id='impl-Eq' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> for <a class="enum" href="../../range_set/range_compare/enum.RangeIntersect.html" title="enum range_set::range_compare::RangeIntersect">RangeIntersect</a></code><a href='#impl-Eq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/range_set/range_compare.rs.html#36' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 id='impl-PartialEq' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> for <a class="enum" href="../../range_set/range_compare/enum.RangeIntersect.html" title="enum range_set::range_compare::RangeIntersect">RangeIntersect</a></code><a href='#impl-PartialEq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/range_set/range_compare.rs.html#36' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class="enum" href="../../range_set/range_compare/enum.RangeIntersect.html" title="enum range_set::range_compare::RangeIntersect">RangeIntersect</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/range_set/range_compare.rs.html#36' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div><a class='srclink' href='https://doc.rust-lang.org/nightly/src/core/cmp.rs.html#121' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div><h3 id='impl-From%3CRangeIntersect%3E' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="enum" href="../../range_set/range_compare/enum.RangeIntersect.html" title="enum range_set::range_compare::RangeIntersect">RangeIntersect</a>&gt; for <a class="enum" href="../../range_set/range_compare/enum.RangeCompare.html" title="enum range_set::range_compare::RangeCompare">RangeCompare</a></code><a href='#impl-From%3CRangeIntersect%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/range_set/range_compare.rs.html#131-135' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from' class="method"><span id='from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(intersect: <a class="enum" href="../../range_set/range_compare/enum.RangeIntersect.html" title="enum range_set::range_compare::RangeIntersect">RangeIntersect</a>) -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/range_set/range_compare.rs.html#132-134' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "range_set";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
