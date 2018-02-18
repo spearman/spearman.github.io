@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["array","Array utilities"],["file","File utilities."],["numeric","Numeric utilities."],["process","Process related utilities."]]});
+initSidebarItems({"mod":[["array","Array utilities"],["file","File utilities"],["numeric","Numeric utilities"],["process","Process related utilities"]]});
