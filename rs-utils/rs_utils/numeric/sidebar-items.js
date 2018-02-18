@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["max_partial","Returns the maximum of two partially ordered values, returning the rhs when they are incomparable."],["min_partial","Returns the minimum of two partially ordered values, returning the rhs when they are incomparable."]]});

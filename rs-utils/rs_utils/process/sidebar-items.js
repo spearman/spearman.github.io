@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["EXE_FILE_NAME","A lazy static string loaded from the first element of `std::env::args()` (the name of the executable file currently being run)."]]});
