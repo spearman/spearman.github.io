@@ -360,12 +360,16 @@
 <span id="314">314</span>
 <span id="315">315</span>
 <span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! State machine macros with logging and graphviz dotfile output</span>
+
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">escapade</span>;
 
 <span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">mod</span> <span class="ident">macro_def</span>;
 
-<span class="doccomment">/// Methods mostly relating to dotfile creation.</span>
+<span class="doccomment">/// Methods for dotfile creation</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">MachineDotfile</span> {
   <span class="comment">// required</span>
   <span class="kw">fn</span> <span class="ident">name</span>()                       <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
