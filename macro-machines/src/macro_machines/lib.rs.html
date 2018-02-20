@@ -392,6 +392,15 @@
 <span id="346">346</span>
 <span id="347">347</span>
 <span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! State machine macros with logging and graphviz dotfile output</span>
 <span class="doccomment">//!</span>
@@ -402,6 +411,8 @@
 <span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">mod</span> <span class="ident">macro_def</span>;
 
 <span class="doccomment">/// Methods for dotfile creation</span>
+<span class="comment">// TODO: if we had a proper Machine trait with associated state and event ID</span>
+<span class="comment">// types, some of this would be redundant</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">MachineDotfile</span> {
   <span class="comment">// required</span>
   <span class="kw">fn</span> <span class="ident">name</span>()                       <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
@@ -409,6 +420,7 @@
   <span class="kw">fn</span> <span class="ident">extended_state_names</span>()       <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
   <span class="kw">fn</span> <span class="ident">extended_state_types</span>()       <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
   <span class="kw">fn</span> <span class="ident">extended_state_defaults</span>()    <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
+  <span class="kw">fn</span> <span class="ident">self_reference</span>()   <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
   <span class="kw">fn</span> <span class="ident">states</span>()                     <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
   <span class="kw">fn</span> <span class="ident">state_data_names</span>()           <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;&gt;</span>;
   <span class="kw">fn</span> <span class="ident">state_data_types</span>()           <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;&gt;</span>;
@@ -542,13 +554,18 @@
     <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">extended_string</span>).<span class="ident">as_str</span>());
   } <span class="comment">// end extended state</span>
 
-  <span class="comment">// extended state transitions</span>
-  <span class="comment">// TODO</span>
-
   <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&lt;BR ALIGN=\&quot;LEFT\&quot;/&gt;&quot;</span>);
+  <span class="kw">let</span> <span class="ident">self_reference</span> <span class="op">=</span> <span class="ident">M</span>::<span class="ident">self_reference</span>();
+  <span class="kw">if</span> <span class="op">!</span><span class="ident">self_reference</span>.<span class="ident">is_empty</span>() <span class="op">&amp;&amp;</span> <span class="ident">mono_font</span> {
+    <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;@ {}&lt;BR ALIGN=\&quot;CENTER\&quot;/&gt;&quot;</span>, <span class="ident">self_reference</span>).<span class="ident">as_str</span>());
+  }
   <span class="kw">if</span> <span class="op">!</span><span class="ident">extended_state_names</span>.<span class="ident">is_empty</span>() {
     <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;\n      &quot;</span>);
   }
+
+  <span class="comment">// extended state transitions</span>
+  <span class="comment">// TODO</span>
+
   <span class="kw">if</span> <span class="ident">mono_font</span> {
     <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&lt;/FONT&gt;&lt;BR/&gt;&quot;</span>);
   }
@@ -662,6 +679,7 @@
   <span class="comment">// transitions (events)</span>
   <span class="comment">//</span>
   <span class="comment">// initial transition edge</span>
+  <span class="comment">// TODO: show initial action</span>
   <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(
     <span class="string">&quot;    INITIAL -&gt; {}\n&quot;</span>, <span class="ident">M</span>::<span class="ident">state_initial</span>()).<span class="ident">as_str</span>());
   <span class="kw">let</span> <span class="ident">event_sources</span> <span class="op">=</span> <span class="ident">M</span>::<span class="ident">event_sources</span>();
@@ -671,48 +689,47 @@
   <span class="comment">// for each event: transition edge</span>
   <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">event</span>) <span class="kw">in</span> <span class="ident">M</span>::<span class="ident">events</span>().<span class="ident">into_iter</span>().<span class="ident">enumerate</span>() {
     <span class="kw">let</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">event_sources</span>[<span class="ident">i</span>];
-    <span class="kw">let</span> <span class="ident">target</span> <span class="op">=</span> <span class="ident">event_targets</span>[<span class="ident">i</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">target</span> <span class="op">=</span> <span class="ident">event_targets</span>[<span class="ident">i</span>];
     <span class="kw">let</span> <span class="ident">action</span> <span class="op">=</span> <span class="ident">event_actions</span>[<span class="ident">i</span>];
-    <span class="comment">// external and universal transitions</span>
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">target</span>.<span class="ident">is_empty</span>() {
-      <span class="kw">if</span> <span class="ident">source</span> <span class="op">==</span> <span class="string">&quot;*&quot;</span> {
-        <span class="ident">universal</span> <span class="op">=</span> <span class="bool-val">true</span>;
-      }
-      <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(
-        <span class="string">&quot;    \&quot;{}\&quot; -&gt; {} [label=&lt;&lt;FONT FACE=\&quot;Sans Italic\&quot;&gt;{}&lt;/FONT&gt;&quot;</span>,
-        <span class="ident">source</span>, <span class="ident">target</span>, <span class="ident">event</span>
-      ).<span class="ident">as_str</span>());
+    <span class="kw">if</span> <span class="ident">target</span>.<span class="ident">is_empty</span>() {  <span class="comment">// internal transition source == target</span>
+      <span class="ident">target</span> <span class="op">=</span> <span class="ident">source</span>;
+    }
 
-      <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mono_font</span> <span class="op">=</span> <span class="bool-val">false</span>;
-      <span class="comment">// params</span>
-      <span class="comment">// TODO</span>
-      <span class="comment">// guards</span>
-      <span class="comment">// TODO</span>
+    <span class="kw">if</span> <span class="ident">source</span> <span class="op">==</span> <span class="string">&quot;*&quot;</span> {
+      <span class="ident">universal</span> <span class="op">=</span> <span class="bool-val">true</span>;
+    }
+    <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(
+      <span class="string">&quot;    \&quot;{}\&quot; -&gt; \&quot;{}\&quot; [label=&lt;&lt;FONT FACE=\&quot;Sans Italic\&quot;&gt;{}&lt;/FONT&gt;&quot;</span>,
+      <span class="ident">source</span>, <span class="ident">target</span>, <span class="ident">event</span>
+    ).<span class="ident">as_str</span>());
 
-      <span class="kw">if</span> <span class="op">!</span><span class="ident">action</span>.<span class="ident">is_empty</span>() {
-        <span class="kw">match</span> <span class="ident">action</span> {
-          <span class="comment">// don&#39;t render empty actions</span>
-          <span class="string">&quot;{}&quot;</span> <span class="op">|</span> <span class="string">&quot;{ }&quot;</span> <span class="op">=&gt;</span> {}
-          _ <span class="op">=&gt;</span> {
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">mono_font</span> {
-              <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&lt;FONT FACE=\&quot;Mono\&quot;&gt;&lt;BR/&gt;&quot;</span>);
-              <span class="ident">mono_font</span> <span class="op">=</span> <span class="bool-val">true</span>;
-            }
-            <span class="comment">// TODO: different formatting if params or guards were present</span>
-            <span class="comment">//action = &quot;  &quot;.to_string() + action.as_str();</span>
-            <span class="kw">let</span> <span class="ident">action</span> <span class="op">=</span> <span class="ident">action</span>.<span class="ident">escape</span>().<span class="ident">into_inner</span>();
-            <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">action</span>).<span class="ident">as_str</span>());
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mono_font</span> <span class="op">=</span> <span class="bool-val">false</span>;
+    <span class="comment">// params</span>
+    <span class="comment">// TODO</span>
+    <span class="comment">// guards</span>
+    <span class="comment">// TODO</span>
+
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">action</span>.<span class="ident">is_empty</span>() {
+      <span class="kw">match</span> <span class="ident">action</span> {
+        <span class="comment">// don&#39;t render empty actions</span>
+        <span class="string">&quot;{}&quot;</span> <span class="op">|</span> <span class="string">&quot;{ }&quot;</span> <span class="op">=&gt;</span> {}
+        _ <span class="op">=&gt;</span> {
+          <span class="kw">if</span> <span class="op">!</span><span class="ident">mono_font</span> {
+            <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&lt;FONT FACE=\&quot;Mono\&quot;&gt;&lt;BR/&gt;&quot;</span>);
+            <span class="ident">mono_font</span> <span class="op">=</span> <span class="bool-val">true</span>;
           }
+          <span class="comment">// TODO: different formatting if params or guards were present</span>
+          <span class="comment">//action = &quot;  &quot;.to_string() + action.as_str();</span>
+          <span class="kw">let</span> <span class="ident">action</span> <span class="op">=</span> <span class="ident">action</span>.<span class="ident">escape</span>().<span class="ident">into_inner</span>();
+          <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">action</span>).<span class="ident">as_str</span>());
         }
       }
+    }
 
-      <span class="kw">if</span> <span class="ident">mono_font</span> {
-        <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&lt;/FONT&gt;&quot;</span>);
-      }
-      <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&gt;]\n&quot;</span>);
-    } <span class="comment">// end external transition</span>
-    <span class="comment">// TODO internal transitions</span>
-
+    <span class="kw">if</span> <span class="ident">mono_font</span> {
+      <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&lt;/FONT&gt;&quot;</span>);
+    }
+    <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&gt;]\n&quot;</span>);
   } <span class="comment">// end for each event: transition edge</span>
 
   <span class="kw">if</span> <span class="ident">universal</span> {
@@ -723,6 +740,7 @@
   }
 
   <span class="comment">// terminal transition: node + edge</span>
+  <span class="comment">// TODO: show terminal action(s)</span>
   <span class="kw">let</span> <span class="ident">state_terminal</span> <span class="op">=</span> <span class="ident">M</span>::<span class="ident">state_terminal</span>();
   <span class="kw">if</span> <span class="op">!</span><span class="ident">state_terminal</span>.<span class="ident">is_empty</span>() {
     <span class="ident">s</span>.<span class="ident">push_str</span> (
