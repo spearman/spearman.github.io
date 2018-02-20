@@ -362,8 +362,40 @@
 <span id="316">316</span>
 <span id="317">317</span>
 <span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! State machine macros with logging and graphviz dotfile output</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! [Repository](https://github.com/spearman/macro-machines)</span>
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">escapade</span>;
 
@@ -373,7 +405,7 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">MachineDotfile</span> {
   <span class="comment">// required</span>
   <span class="kw">fn</span> <span class="ident">name</span>()                       <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
-  <span class="kw">fn</span> <span class="ident">type_vars</span>()                  <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
+  <span class="kw">fn</span> <span class="ident">type_vars</span>()                  <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>;
   <span class="kw">fn</span> <span class="ident">extended_state_names</span>()       <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
   <span class="kw">fn</span> <span class="ident">extended_state_types</span>()       <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
   <span class="kw">fn</span> <span class="ident">extended_state_defaults</span>()    <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
@@ -388,15 +420,22 @@
   <span class="kw">fn</span> <span class="ident">event_sources</span>()              <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
   <span class="kw">fn</span> <span class="ident">event_targets</span>()              <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
   <span class="kw">fn</span> <span class="ident">event_actions</span>()              <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>;
-  <span class="comment">// provided</span>
+  <span class="comment">// provided: these are intended to be called by the user</span>
+  <span class="doccomment">/// Generate a dotfile for the state machine that shows default expressions</span>
+  <span class="doccomment">/// for state fields and extended state fields</span>
   <span class="kw">fn</span> <span class="ident">dotfile</span>() <span class="op">-&gt;</span> <span class="ident">String</span> <span class="kw">where</span> <span class="self">Self</span> : <span class="ident">Sized</span> {
     <span class="ident">machine_dotfile</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> (<span class="bool-val">false</span>, <span class="bool-val">false</span>)
   }
+  <span class="doccomment">/// Generate a dotfile for the state machine that hides default expressions</span>
+  <span class="doccomment">/// for state fields and extended state fields</span>
   <span class="kw">fn</span> <span class="ident">dotfile_hide_defaults</span>() <span class="op">-&gt;</span> <span class="ident">String</span> <span class="kw">where</span> <span class="self">Self</span> : <span class="ident">Sized</span> {
     <span class="ident">machine_dotfile</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> (<span class="bool-val">true</span>, <span class="bool-val">false</span>)
   }
-  <span class="doccomment">/// &amp;#9888;: calling this this function constructs default values from default</span>
-  <span class="doccomment">/// expressions and pretty prints them.</span>
+  <span class="doccomment">/// Generate a dotfile for the state machine that pretty prints the *values*</span>
+  <span class="doccomment">/// of default expressions for state fields and extended state fields.</span>
+  <span class="doccomment">///</span>
+  <span class="doccomment">/// &amp;#9888; Calling this this function evaluates default expressions and</span>
+  <span class="doccomment">/// pretty prints the resulting values at runtime.</span>
   <span class="kw">fn</span> <span class="ident">dotfile_pretty_defaults</span>() <span class="op">-&gt;</span> <span class="ident">String</span> <span class="kw">where</span> <span class="self">Self</span> : <span class="ident">Sized</span> {
     <span class="ident">machine_dotfile</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> (<span class="bool-val">false</span>, <span class="bool-val">true</span>)
   }
@@ -418,7 +457,9 @@
   <span class="kw">use</span> <span class="ident">escapade</span>::<span class="ident">Escapable</span>;
 
   <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
+  <span class="comment">//</span>
   <span class="comment">// begin graph</span>
+  <span class="comment">//</span>
   <span class="ident">s</span>.<span class="ident">push_str</span> (
     <span class="string">&quot;digraph {\n  \
        rankdir=LR\n  \
@@ -434,7 +475,14 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
     <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="ident">M</span>::<span class="ident">name</span>());
     <span class="kw">if</span> <span class="op">!</span><span class="ident">M</span>::<span class="ident">type_vars</span>().<span class="ident">is_empty</span>() {
-      <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;&lt;{}&gt;&quot;</span>, <span class="ident">M</span>::<span class="ident">type_vars</span>()).<span class="ident">as_str</span>());
+      <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&lt;&quot;</span>);
+      <span class="kw">let</span> <span class="ident">type_vars</span> <span class="op">=</span> <span class="ident">M</span>::<span class="ident">type_vars</span>();
+      <span class="kw">for</span> <span class="ident">string</span> <span class="kw">in</span> <span class="ident">type_vars</span> {
+        <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="ident">string</span>.<span class="ident">as_str</span>());
+        <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;,&quot;</span>);
+      }
+      <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">pop</span>(), <span class="prelude-val">Some</span> (<span class="string">&#39;,&#39;</span>));
+      <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&gt;&quot;</span>);
     }
     <span class="ident">s</span>
   };
@@ -494,7 +542,7 @@
     <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">extended_string</span>).<span class="ident">as_str</span>());
   } <span class="comment">// end extended state</span>
 
-  <span class="comment">// internal state transitions</span>
+  <span class="comment">// extended state transitions</span>
   <span class="comment">// TODO</span>
 
   <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&lt;BR ALIGN=\&quot;LEFT\&quot;/&gt;&quot;</span>);
@@ -574,7 +622,7 @@
         <span class="kw">let</span> <span class="ident">spacer2</span> : <span class="ident">String</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">repeat</span> (<span class="string">&#39; &#39;</span>)
           .<span class="ident">take</span>(<span class="ident">longest_typename</span> <span class="op">-</span> <span class="ident">state_data_types</span>[<span class="ident">i</span>].<span class="ident">len</span>())
           .<span class="ident">collect</span>();
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">hide_defaults</span> {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">hide_defaults</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">state_data_defaults</span>[<span class="ident">i</span>].<span class="ident">is_empty</span>() {
           <span class="ident">data_string</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(
             <span class="string">&quot;{}{} : {}{} = {}&quot;</span>,
             <span class="ident">f</span>, <span class="ident">spacer1</span>, <span class="ident">state_data_types</span>[<span class="ident">i</span>], <span class="ident">spacer2</span>, <span class="ident">state_data_defaults</span>[<span class="ident">i</span>]
@@ -619,16 +667,19 @@
   <span class="kw">let</span> <span class="ident">event_sources</span> <span class="op">=</span> <span class="ident">M</span>::<span class="ident">event_sources</span>();
   <span class="kw">let</span> <span class="ident">event_targets</span> <span class="op">=</span> <span class="ident">M</span>::<span class="ident">event_targets</span>();
   <span class="kw">let</span> <span class="ident">event_actions</span> <span class="op">=</span> <span class="ident">M</span>::<span class="ident">event_actions</span>();
+  <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">universal</span> <span class="op">=</span> <span class="bool-val">false</span>;
   <span class="comment">// for each event: transition edge</span>
   <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">event</span>) <span class="kw">in</span> <span class="ident">M</span>::<span class="ident">events</span>().<span class="ident">into_iter</span>().<span class="ident">enumerate</span>() {
     <span class="kw">let</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">event_sources</span>[<span class="ident">i</span>];
     <span class="kw">let</span> <span class="ident">target</span> <span class="op">=</span> <span class="ident">event_targets</span>[<span class="ident">i</span>];
     <span class="kw">let</span> <span class="ident">action</span> <span class="op">=</span> <span class="ident">event_actions</span>[<span class="ident">i</span>];
-    <span class="comment">// external transition</span>
-    <span class="comment">// TODO internal transitions</span>
+    <span class="comment">// external and universal transitions</span>
     <span class="kw">if</span> <span class="op">!</span><span class="ident">target</span>.<span class="ident">is_empty</span>() {
+      <span class="kw">if</span> <span class="ident">source</span> <span class="op">==</span> <span class="string">&quot;*&quot;</span> {
+        <span class="ident">universal</span> <span class="op">=</span> <span class="bool-val">true</span>;
+      }
       <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(
-        <span class="string">&quot;    {} -&gt; {} [label=&lt;&lt;FONT FACE=\&quot;Sans Italic\&quot;&gt;{}&lt;/FONT&gt;&quot;</span>,
+        <span class="string">&quot;    \&quot;{}\&quot; -&gt; {} [label=&lt;&lt;FONT FACE=\&quot;Sans Italic\&quot;&gt;{}&lt;/FONT&gt;&quot;</span>,
         <span class="ident">source</span>, <span class="ident">target</span>, <span class="ident">event</span>
       ).<span class="ident">as_str</span>());
 
@@ -660,7 +711,16 @@
       }
       <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="string">&quot;&gt;]\n&quot;</span>);
     } <span class="comment">// end external transition</span>
+    <span class="comment">// TODO internal transitions</span>
+
   } <span class="comment">// end for each event: transition edge</span>
+
+  <span class="kw">if</span> <span class="ident">universal</span> {
+    <span class="kw">for</span> <span class="ident">state</span> <span class="kw">in</span> <span class="ident">M</span>::<span class="ident">states</span>() {
+      <span class="ident">s</span>.<span class="ident">push_str</span> (<span class="macro">format</span><span class="macro">!</span>(
+        <span class="string">&quot;    {} -&gt; \&quot;*\&quot; [style=dashed, color=gray]&quot;</span>, <span class="ident">state</span>).<span class="ident">as_str</span>());
+    }
+  }
 
   <span class="comment">// terminal transition: node + edge</span>
   <span class="kw">let</span> <span class="ident">state_terminal</span> <span class="op">=</span> <span class="ident">M</span>::<span class="ident">state_terminal</span>();
@@ -680,7 +740,7 @@
     <span class="string">&quot;  }\n\
     }&quot;</span>);
   <span class="ident">s</span>
-} <span class="comment">// end fn dotfile</span>
+} <span class="comment">// end fn machine_dotfile</span>
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
