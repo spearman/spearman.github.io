@@ -445,7 +445,7 @@
           ))<span class="op">+</span>
         ]
         <span class="ident">EVENTS</span> [
-          $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">transition</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source_context</span><span class="op">&gt;</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_context</span><span class="op">&gt;</span>)<span class="op">+</span>
+          $(<span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">transition</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source_context</span><span class="op">&gt;</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_context</span><span class="op">&gt;</span> ())<span class="op">+</span>
         ]
         <span class="ident">initial_state</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial_mode</span>
       }
@@ -742,7 +742,7 @@
 
             <span class="comment">// causes the current session to drop, calling the finish</span>
             <span class="comment">// method which sends any continuations to processes</span>
-            <span class="self">self</span>.<span class="ident">handle_event</span> (<span class="ident">transition</span>.<span class="ident">into</span>()).<span class="ident">unwrap</span>()
+            <span class="self">self</span>.<span class="ident">handle_event</span> (<span class="ident">Event</span>::<span class="ident">from_id</span> (<span class="ident">transition</span>)).<span class="ident">unwrap</span>()
 
           } <span class="kw">else</span> {
             <span class="comment">// no transition chosen, break loop</span>

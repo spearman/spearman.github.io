@@ -101,7 +101,11 @@
 <span id="55">55</span>
 <span id="56">56</span>
 <span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! Reactive session-oriented asynchronous process-calculus framework</span>
+
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">const_fn</span>)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">core_intrinsics</span>)]</span>
@@ -115,11 +119,11 @@
 <span class="comment">//extern crate bit_vec;</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">either</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">escapade</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">smallvec</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">vec_map</span>;
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">colored</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">escapade</span>;
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">unbounded_spsc</span>;
 
@@ -151,13 +155,13 @@
 <span class="comment">//  functions</span>
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">report</span> <span class="op">&lt;</span><span class="ident">CTX</span> : <span class="ident">session</span>::<span class="ident">Context</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span> () {
-  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;modes report...&quot;</span>);
-  <span class="ident">session</span>::<span class="ident">report</span>::<span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;</span>();
-  <span class="ident">process</span>::<span class="ident">report</span>::<span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;</span>();
-  <span class="ident">channel</span>::<span class="ident">report</span>::<span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;</span>();
-  <span class="ident">message</span>::<span class="ident">report</span>::<span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;</span>();
-  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;...modes report&quot;</span>);
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">report_sizes</span> <span class="op">&lt;</span><span class="ident">CTX</span> : <span class="ident">session</span>::<span class="ident">Context</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span> () {
+  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;apis report sizes...&quot;</span>);
+  <span class="ident">session</span>::<span class="ident">report_sizes</span>::<span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;</span>();
+  <span class="ident">process</span>::<span class="ident">report_sizes</span>::<span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;</span>();
+  <span class="ident">channel</span>::<span class="ident">report_sizes</span>::<span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;</span>();
+  <span class="ident">message</span>::<span class="ident">report_sizes</span>::<span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;</span>();
+  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;...apis report sizes&quot;</span>);
 }
 </pre>
 </section>

@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `Event` struct in crate `apis`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, Event">
+    <meta name="description" content="API documentation for the Rust `EventParams` enum in crate `apis`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, EventParams">
 
-    <title>apis::session::Event - Rust</title>
+    <title>apis::session::EventParams - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc struct">
+<body class="rustdoc enum">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -30,7 +30,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct Event</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.transition">transition</a><a href="#method.id">id</a><a href="#method.params">params</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-From%3CEventParams%3C%27event%3E%3E">From&lt;EventParams&lt;&#39;event&gt;&gt;</a></div></div><p class='location'><a href='../index.html'>apis</a>::<wbr><a href='index.html'>session</a></p><script>window.sidebarCurrent = {name: 'Event', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+        <p class='location'>Enum EventParams</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.Run">Run</a><a href="#variant.End">End</a><a href="#variant._PhantomData">_PhantomData</a></div><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.id">id</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-From%3CEventParams%3C%27event%3E%3E">From&lt;EventParams&lt;&#39;event&gt;&gt;</a></div></div><p class='location'><a href='../index.html'>apis</a>::<wbr><a href='index.html'>session</a></p><script>window.sidebarCurrent = {name: 'EventParams', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <nav class="sub">
@@ -45,19 +45,27 @@
     </nav>
 
     <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>apis</a>::<wbr><a href='index.html'>session</a>::<wbr><a class="struct" href=''>Event</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>apis</a>::<wbr><a href='index.html'>session</a>::<wbr><a class="enum" href=''>EventParams</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span></span></h1>
-<pre class='rust struct'>pub struct Event&lt;'event&gt; { /* fields omitted */ }</pre>
+<pre class='rust enum'>pub enum EventParams&lt;'event&gt; {
+    Run {},
+    End {},
+    _PhantomData(<a class="struct" href="https://doc.rust-lang.org/nightly/core/marker/struct.PhantomData.html" title="struct core::marker::PhantomData">PhantomData</a>&lt;&amp;'event <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>&gt;),
+}</pre><h2 id='variants' class='variants small-section-header'>
+                   Variants<a href='#variants' class='anchor'></a></h2>
+<span id="variant.Run" class="variant small-section-header"><a href="#variant.Run" class="anchor field"></a><span id='Run.v' class='invisible'><code>Run</code></span></span><span class='docblock autohide sub-variant' id='variant.Run.fields'><h3 class='fields'>Fields of <code>Run</code></h3>
+
+                           <table></table></span><span id="variant.End" class="variant small-section-header"><a href="#variant.End" class="anchor field"></a><span id='End.v' class='invisible'><code>End</code></span></span><span class='docblock autohide sub-variant' id='variant.End.fields'><h3 class='fields'>Fields of <code>End</code></h3>
+
+                           <table></table></span><span id="variant._PhantomData" class="variant small-section-header"><a href="#variant._PhantomData" class="anchor field"></a><span id='_PhantomData.v' class='invisible'><code>_PhantomData(<a class="struct" href="https://doc.rust-lang.org/nightly/core/marker/struct.PhantomData.html" title="struct core::marker::PhantomData">PhantomData</a>&lt;&amp;'event <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>&gt;)</code></span></span>
                     <h2 id='methods' class='small-section-header'>
                       Methods<a href='#methods' class='anchor'></a>
                     </h2>
-                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;'event&gt; <a class="struct" href="../../apis/session/struct.Event.html" title="struct apis::session::Event">Event</a>&lt;'event&gt;</code><a href='#impl' class='anchor'></a></span><span class='out-of-band'></span></h3>
-<div class='impl-items'><h4 id='method.transition' class="method"><span id='transition.v' class='invisible'><code>pub fn <a href='#method.transition' class='fnname'>transition</a>(&amp;self) -&gt; <a class="enum" href="../../apis/session/enum.Transition.html" title="enum apis::session::Transition">Transition</a></code></span></h4>
-<h4 id='method.id' class="method"><span id='id.v' class='invisible'><code>pub fn <a href='#method.id' class='fnname'>id</a>(&amp;self) -&gt; &amp;<a class="enum" href="../../apis/session/enum.EventId.html" title="enum apis::session::EventId">EventId</a></code></span></h4>
-<h4 id='method.params' class="method"><span id='params.v' class='invisible'><code>pub fn <a href='#method.params' class='fnname'>params</a>(&amp;self) -&gt; &amp;<a class="enum" href="../../apis/session/enum.EventParams.html" title="enum apis::session::EventParams">EventParams</a></code></span></h4>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;'event&gt; <a class="enum" href="../../apis/session/enum.EventParams.html" title="enum apis::session::EventParams">EventParams</a>&lt;'event&gt;</code><a href='#impl' class='anchor'></a></span><span class='out-of-band'></span></h3>
+<div class='impl-items'><h4 id='method.id' class="method"><span id='id.v' class='invisible'><code>pub fn <a href='#method.id' class='fnname'>id</a>(&amp;self) -&gt; <a class="enum" href="../../apis/session/enum.EventId.html" title="enum apis::session::EventId">EventId</a></code></span></h4>
 </div>
             <h2 id='implementations' class='small-section-header'>
               Trait Implementations<a href='#implementations' class='anchor'></a>

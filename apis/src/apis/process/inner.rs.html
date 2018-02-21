@@ -83,21 +83,9 @@
 <span id="37">37</span>
 <span id="38">38</span>
 <span id="39">39</span>
-<span id="40">40</span>
-<span id="41">41</span>
-<span id="42">42</span>
-<span id="43">43</span>
-<span id="44">44</span>
-<span id="45">45</span>
 </pre><pre class="rust ">
-<span class="kw">use</span> ::<span class="ident">std</span>;
-<span class="kw">use</span> ::<span class="ident">vec_map</span>;
-
-<span class="kw">use</span> ::<span class="ident">macro_machines</span>;
-
-<span class="kw">use</span> ::<span class="ident">channel</span>;
-<span class="kw">use</span> ::<span class="ident">process</span>;
-<span class="kw">use</span> ::<span class="ident">session</span>;
+<span class="kw">use</span> ::{<span class="ident">std</span>, <span class="ident">vec_map</span>};
+<span class="kw">use</span> ::{<span class="ident">channel</span>, <span class="ident">process</span>, <span class="ident">session</span>};
 
 <span class="doccomment">/// The `sourcepoints` field is wrapped in a `Refcell` and an `Option` so that</span>
 <span class="doccomment">/// it may be &quot;removed&quot; from the process with `take_endpoints` while the run</span>
@@ -110,22 +98,22 @@
     <span class="ident">sourcepoints</span>   : <span class="ident">vec_map</span>::<span class="ident">VecMap</span> <span class="op">&lt;</span><span class="ident">Box</span> <span class="op">&lt;</span><span class="ident">channel</span>::<span class="ident">Sourcepoint</span> <span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="ident">endpoints</span>      : <span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">RefCell</span> <span class="op">&lt;</span><span class="prelude-ty">Option</span> <span class="op">&lt;</span>
       <span class="ident">vec_map</span>::<span class="ident">VecMap</span> <span class="op">&lt;</span><span class="ident">Box</span> <span class="op">&lt;</span><span class="ident">channel</span>::<span class="ident">Endpoint</span> <span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;&gt;</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>
-  ) <span class="kw">where</span> <span class="kw">let</span> <span class="ident">_inner</span> <span class="op">=</span> <span class="self">self</span> {
+  ) @ <span class="ident">_inner</span> {
     <span class="ident">STATES</span> [
       <span class="ident">state</span> <span class="ident">Ready</span>   ()
       <span class="ident">state</span> <span class="ident">Running</span> ()
       <span class="ident">state</span> <span class="ident">Ended</span>   ()
     ]
     <span class="ident">EVENTS</span> [
-      <span class="ident">event</span> <span class="ident">Run</span> <span class="op">&lt;</span><span class="ident">Ready</span><span class="op">&gt;</span>   <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="ident">Running</span><span class="op">&gt;</span>
-      <span class="ident">event</span> <span class="ident">End</span> <span class="op">&lt;</span><span class="ident">Running</span><span class="op">&gt;</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="ident">Ended</span><span class="op">&gt;</span>
-      <span class="comment">//event Tick    &lt;Running&gt; =&gt; &lt;Running&gt;</span>
-      <span class="comment">//event Update  &lt;Running&gt; =&gt; &lt;Running&gt;</span>
-      <span class="comment">//event Message &lt;Running&gt; =&gt; &lt;Running&gt;</span>
-      <span class="comment">//event Abort   &lt;Ready&gt;   =&gt; &lt;Ended&gt;</span>
-      <span class="comment">//event Reset   &lt;Running&gt; =&gt; &lt;Ready&gt;</span>
-      <span class="comment">//event Resume  &lt;Ended&gt;   =&gt; &lt;Running&gt;</span>
-      <span class="comment">//event Restart &lt;Ended&gt;   =&gt; &lt;Ready&gt;</span>
+      <span class="ident">event</span> <span class="ident">Run</span> <span class="op">&lt;</span><span class="ident">Ready</span><span class="op">&gt;</span>   <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="ident">Running</span><span class="op">&gt;</span> ()
+      <span class="ident">event</span> <span class="ident">End</span> <span class="op">&lt;</span><span class="ident">Running</span><span class="op">&gt;</span> <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="ident">Ended</span><span class="op">&gt;</span>   ()
+      <span class="comment">//event Tick    &lt;Running&gt; =&gt; &lt;Running&gt; ()</span>
+      <span class="comment">//event Update  &lt;Running&gt; =&gt; &lt;Running&gt; ()</span>
+      <span class="comment">//event Message &lt;Running&gt; =&gt; &lt;Running&gt; ()</span>
+      <span class="comment">//event Abort   &lt;Ready&gt;   =&gt; &lt;Ended&gt;   ()</span>
+      <span class="comment">//event Reset   &lt;Running&gt; =&gt; &lt;Ready&gt;   ()</span>
+      <span class="comment">//event Resume  &lt;Ended&gt;   =&gt; &lt;Running&gt; ()</span>
+      <span class="comment">//event Restart &lt;Ended&gt;   =&gt; &lt;Ready&gt;   ()</span>
     ]
     <span class="ident">initial_state</span>:  <span class="ident">Ready</span>
     <span class="ident">terminal_state</span>: <span class="ident">Ended</span> {

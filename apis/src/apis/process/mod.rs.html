@@ -1153,6 +1153,7 @@
 <span id="1107">1107</span>
 <span id="1108">1108</span>
 <span id="1109">1109</span>
+<span id="1110">1110</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> ::<span class="ident">std</span>;
 
@@ -1522,7 +1523,7 @@
     <span class="kw">use</span> <span class="ident">num</span>::<span class="ident">FromPrimitive</span>;
     <span class="kw">use</span> <span class="ident">colored</span>::<span class="ident">Colorize</span>;
 
-    <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">Run</span>.<span class="ident">into</span>()).<span class="ident">unwrap</span>();
+    <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">Run</span>{}.<span class="ident">into</span>()).<span class="ident">unwrap</span>();
 
     <span class="kw">let</span> <span class="ident">t_start</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">SystemTime</span>::<span class="ident">now</span>();
     <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;process[{:?}] start time: {}&quot;</span>,
@@ -1556,7 +1557,7 @@
             <span class="ident">ControlFlow</span>::<span class="ident">Continue</span> <span class="op">=&gt;</span> {}
             <span class="ident">ControlFlow</span>::<span class="ident">Break</span>    <span class="op">=&gt;</span> {
               <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state_id</span>() <span class="op">==</span> <span class="ident">inner</span>::<span class="ident">StateId</span>::<span class="ident">Running</span> {
-                <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">End</span>.<span class="ident">into</span>())
+                <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">End</span>{}.<span class="ident">into</span>())
                   .<span class="ident">unwrap</span>();
               }
             }
@@ -1569,7 +1570,7 @@
           <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;process[{:?}] receive on channel[{:?}] failed: {}&quot;</span>,
               <span class="self">self</span>.<span class="ident">id</span>(), <span class="ident">channel_id</span>, <span class="string">&quot;sender disconnected&quot;</span>.<span class="ident">red</span>().<span class="ident">bold</span>());
           <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state_id</span>() <span class="op">==</span> <span class="ident">inner</span>::<span class="ident">StateId</span>::<span class="ident">Running</span> {
-            <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">End</span>.<span class="ident">into</span>())
+            <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">End</span>{}.<span class="ident">into</span>())
               .<span class="ident">unwrap</span>();
           }
         }
@@ -1581,7 +1582,7 @@
           <span class="ident">ControlFlow</span>::<span class="ident">Continue</span> <span class="op">=&gt;</span> {}
           <span class="ident">ControlFlow</span>::<span class="ident">Break</span>    <span class="op">=&gt;</span> {
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state_id</span>() <span class="op">==</span> <span class="ident">inner</span>::<span class="ident">StateId</span>::<span class="ident">Running</span> {
-              <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">End</span>.<span class="ident">into</span>())
+              <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">End</span>{}.<span class="ident">into</span>())
                 .<span class="ident">unwrap</span>();
             }
           }
@@ -1615,7 +1616,7 @@
   {
     <span class="kw">use</span> <span class="ident">colored</span>::<span class="ident">Colorize</span>;
 
-    <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">Run</span>.<span class="ident">into</span>()).<span class="ident">unwrap</span>();
+    <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">Run</span>{}.<span class="ident">into</span>()).<span class="ident">unwrap</span>();
 
     <span class="kw">let</span> <span class="ident">t_start</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">SystemTime</span>::<span class="ident">now</span>();
     <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;process[{:?}] start time: {}&quot;</span>,
@@ -1673,7 +1674,7 @@
             <span class="ident">ControlFlow</span>::<span class="ident">Continue</span> <span class="op">=&gt;</span> {}
             <span class="ident">ControlFlow</span>::<span class="ident">Break</span>    <span class="op">=&gt;</span> {
               <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state_id</span>() <span class="op">==</span> <span class="ident">inner</span>::<span class="ident">StateId</span>::<span class="ident">Running</span> {
-                <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">End</span>.<span class="ident">into</span>())
+                <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">End</span>{}.<span class="ident">into</span>())
                   .<span class="ident">unwrap</span>();
               }
             }
@@ -1721,7 +1722,7 @@
   {
     <span class="kw">use</span> <span class="ident">colored</span>::<span class="ident">Colorize</span>;
 
-    <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">Run</span>.<span class="ident">into</span>()).<span class="ident">unwrap</span>();
+    <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">Run</span>{}.<span class="ident">into</span>()).<span class="ident">unwrap</span>();
 
     <span class="kw">let</span> <span class="ident">t_start</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">SystemTime</span>::<span class="ident">now</span>();
     <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;process[{:?}] start time: {}&quot;</span>,
@@ -1778,7 +1779,7 @@
             <span class="ident">ControlFlow</span>::<span class="ident">Continue</span> <span class="op">=&gt;</span> {}
             <span class="ident">ControlFlow</span>::<span class="ident">Break</span>    <span class="op">=&gt;</span> {
               <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state_id</span>() <span class="op">==</span> <span class="ident">inner</span>::<span class="ident">StateId</span>::<span class="ident">Running</span> {
-                <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">End</span>.<span class="ident">into</span>())
+                <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">End</span>{}.<span class="ident">into</span>())
                   .<span class="ident">unwrap</span>();
               }
             }
@@ -1815,7 +1816,7 @@
   {
     <span class="kw">use</span> <span class="ident">colored</span>::<span class="ident">Colorize</span>;
 
-    <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">Run</span>.<span class="ident">into</span>()).<span class="ident">unwrap</span>();
+    <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">Run</span>{}.<span class="ident">into</span>()).<span class="ident">unwrap</span>();
 
     <span class="kw">let</span> <span class="ident">t_start</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">SystemTime</span>::<span class="ident">now</span>();
     <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;process[{:?}] start time: {}&quot;</span>,
@@ -1842,7 +1843,7 @@
         <span class="ident">ControlFlow</span>::<span class="ident">Continue</span> <span class="op">=&gt;</span> {}
         <span class="ident">ControlFlow</span>::<span class="ident">Break</span>    <span class="op">=&gt;</span> {
           <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state_id</span>() <span class="op">==</span> <span class="ident">inner</span>::<span class="ident">StateId</span>::<span class="ident">Running</span> {
-            <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">End</span>.<span class="ident">into</span>())
+            <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">End</span>{}.<span class="ident">into</span>())
               .<span class="ident">unwrap</span>()
           }
         }
@@ -2180,13 +2181,13 @@
 <span class="comment">//</span>
 <span class="comment">//  public</span>
 <span class="comment">//</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">report</span> <span class="op">&lt;</span><span class="ident">CTX</span> : <span class="ident">session</span>::<span class="ident">Context</span><span class="op">&gt;</span> () <span class="kw">where</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">report_sizes</span> <span class="op">&lt;</span><span class="ident">CTX</span> : <span class="ident">session</span>::<span class="ident">Context</span><span class="op">&gt;</span> () <span class="kw">where</span>
   <span class="ident">CTX</span> : <span class="lifetime">&#39;static</span>
 {
-  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;process report...&quot;</span>);
-  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;size of process::Def: {}&quot;</span>, <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">Def</span> <span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;&gt;</span>());
-  <span class="ident">Inner</span>::<span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;</span>::<span class="ident">report</span>();
-  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;...process report&quot;</span>);
+  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;process report sizes...&quot;</span>);
+  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;  size of process::Def: {}&quot;</span>, <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">Def</span> <span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;&gt;</span>());
+  <span class="ident">Inner</span>::<span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;</span>::<span class="ident">report_sizes</span>();
+  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;...process report sizes&quot;</span>);
 }
 
 <span class="comment">//</span>
@@ -2245,8 +2246,9 @@
               <span class="comment">// only transition to &quot;ended&quot; if this is the last channel</span>
               <span class="comment">// to close</span>
               <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">num_open_channels</span> <span class="op">==</span> <span class="number">0</span> {
-                <span class="ident">process</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (<span class="ident">inner</span>::<span class="ident">EventId</span>::<span class="ident">End</span>.<span class="ident">into</span>())
-                  .<span class="ident">unwrap</span>();
+                <span class="ident">process</span>.<span class="ident">inner_mut</span>().<span class="ident">handle_event</span> (
+                  <span class="ident">inner</span>::<span class="ident">EventParams</span>::<span class="ident">End</span>{}.<span class="ident">into</span>()
+                ).<span class="ident">unwrap</span>();
               }
               <span class="kw">break</span> <span class="lifetime">&#39;poll_inner</span>
             }

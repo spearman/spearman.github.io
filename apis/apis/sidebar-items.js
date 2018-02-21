@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["report",""]],"macro":[["def_program","Define a program state machine."],["def_session","Macro to define all parts of a session."]],"mod":[["channel",""],["message",""],["process",""],["program",""],["session",""]]});
+initSidebarItems({"fn":[["report_sizes",""]],"macro":[["def_program","Define a program state machine."],["def_session","Macro to define all parts of a session."]],"mod":[["channel",""],["message",""],["process",""],["program",""],["session",""]]});
