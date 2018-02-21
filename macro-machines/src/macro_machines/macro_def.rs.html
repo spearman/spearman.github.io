@@ -2247,6 +2247,14 @@
 <span id="2201">2201</span>
 <span id="2202">2202</span>
 <span id="2203">2203</span>
+<span id="2204">2204</span>
+<span id="2205">2205</span>
+<span id="2206">2206</span>
+<span id="2207">2207</span>
+<span id="2208">2208</span>
+<span id="2209">2209</span>
+<span id="2210">2210</span>
+<span id="2211">2211</span>
 </pre><pre class="rust ">
 <span class="doccomment">/// State machines with a default `initial` state.</span>
 <span class="doccomment">///</span>
@@ -2561,7 +2569,6 @@
     }
 
   };
-  <span class="comment">//  end alternate syntax</span>
 
   <span class="comment">//</span>
   <span class="comment">//  @impl_fn_handle_event</span>
@@ -2788,6 +2795,19 @@
   <span class="comment">//  @expr_default: use default</span>
   <span class="comment">//</span>
   ( @<span class="ident">expr_default</span> ) <span class="op">=&gt;</span> { <span class="ident">Default</span>::<span class="ident">default</span>() };
+
+<span class="comment">// FIXME</span>
+<span class="comment">/*
+  //
+  //  @expr_default_scope: override default
+  //
+  ( @expr_default_scope [$($reference:ident)*] $default:expr ) =&gt; { $default };
+
+  //
+  //  @expr_default_scope: use default
+  //
+  ( @expr_default_scope [$($reference:ident)*] ) =&gt; { Default::default() };
+*/</span>
 
   <span class="comment">//</span>
   <span class="comment">//  @expr_option: Some</span>
@@ -3027,7 +3047,7 @@
               <span class="ident">id</span>:   <span class="self">self</span>,
               <span class="ident">data</span>: <span class="ident">StateData</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">state</span> {
                 $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_name</span>:
-                  <span class="macro">def_machine_debug</span><span class="macro">!</span>(@<span class="ident">expr_default</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>)<span class="kw-2">*</span>)
+                  <span class="macro">def_machine</span><span class="macro">!</span>(@<span class="ident">expr_default</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>)<span class="kw-2">*</span>)
                 ),<span class="op">*</span>
               }
             }
@@ -3211,16 +3231,13 @@
         })<span class="op">+</span>
         <span class="ident">v</span>
       }
-      <span class="doccomment">/// &amp;#9888; This function creates default values for each state data field</span>
-      <span class="doccomment">/// and creates a pretty printed string of the value</span>
+      <span class="doccomment">/// This version does not evaluate expressions, only pretty prints them</span>
       <span class="kw">fn</span> <span class="ident">state_data_pretty_defaults</span>() <span class="op">-&gt;</span> <span class="ident">Vec</span> <span class="op">&lt;</span><span class="ident">Vec</span> <span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         $({
           <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">_w</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
           $(
-          <span class="kw">let</span> <span class="ident">default_val</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_type</span>
-            <span class="op">=</span> <span class="macro">def_machine</span><span class="macro">!</span>(@<span class="ident">expr_default</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>)<span class="kw-2">*</span>);
-          <span class="ident">_w</span>.<span class="ident">push</span> (<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:#?}&quot;</span>, <span class="ident">default_val</span>));
+          <span class="ident">_w</span>.<span class="ident">push</span> (<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:#?}&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">data_default</span>)<span class="kw-2">*</span>)));
           )<span class="op">*</span>
           <span class="ident">v</span>.<span class="ident">push</span> (<span class="ident">_w</span>);
         })<span class="op">+</span>
@@ -3663,7 +3680,6 @@
     }
 
   };
-  <span class="comment">//  end alternate syntax</span>
 
   <span class="comment">//</span>
   <span class="comment">//  @impl_fn_handle_event</span>
@@ -3683,7 +3699,7 @@
       <span class="ident">EXTENDED</span> [
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>:<span class="ident">ty</span> $(<span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_default</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">*</span>
       ]
-      $(<span class="ident">self_reference</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">self_reference</span>:<span class="ident">ident</span>)<span class="op">*</span> 
+      $(<span class="ident">self_reference</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">self_reference</span>:<span class="ident">ident</span>)<span class="op">*</span>
     }
 
   ) <span class="op">=&gt;</span> {
@@ -3783,7 +3799,7 @@
         }
 
       }
-    }
+    } <span class="comment">// end handle event</span>
 
   };  <span class="comment">// end @impl_fn_handle_event</span>
 
