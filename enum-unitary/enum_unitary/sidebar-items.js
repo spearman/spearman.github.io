@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["enum_unitary","Wraps \"unitary\" enums (i.e. enums where variants do not have payloads) with `enum_derive` derives (`IterVariants`, `NextVariant`, `PrevVariant`) and implements the `EnumUnitary` trait."]],"trait":[["EnumUnitary","A collection of constraints and methods for unitary enums."]]});
