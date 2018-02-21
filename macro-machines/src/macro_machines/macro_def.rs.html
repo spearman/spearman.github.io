@@ -2406,6 +2406,21 @@
 <span id="2360">2360</span>
 <span id="2361">2361</span>
 <span id="2362">2362</span>
+<span id="2363">2363</span>
+<span id="2364">2364</span>
+<span id="2365">2365</span>
+<span id="2366">2366</span>
+<span id="2367">2367</span>
+<span id="2368">2368</span>
+<span id="2369">2369</span>
+<span id="2370">2370</span>
+<span id="2371">2371</span>
+<span id="2372">2372</span>
+<span id="2373">2373</span>
+<span id="2374">2374</span>
+<span id="2375">2375</span>
+<span id="2376">2376</span>
+<span id="2377">2377</span>
 </pre><pre class="rust ">
 <span class="doccomment">/// State machines with a default `initial` state.</span>
 <span class="doccomment">///</span>
@@ -2661,6 +2676,28 @@
         }
       }
     }
+
+    <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> <span class="ident">Event</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
+      <span class="doccomment">/// Construct an event with default parameters for the given ID</span>
+      <span class="attribute">#[<span class="ident">inline</span>]</span>
+      <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_id</span> (<span class="ident">id</span> : <span class="ident">EventId</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">id</span>.<span class="ident">clone</span>().<span class="ident">into</span>();
+        <span class="ident">Event</span> { <span class="ident">id</span>, <span class="ident">params</span> }
+      }
+    }
+
+    <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> <span class="ident">From</span> <span class="op">&lt;</span><span class="ident">EventId</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
+      <span class="kw">fn</span> <span class="ident">from</span> (<span class="ident">id</span> : <span class="ident">EventId</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">match</span> <span class="ident">id</span> {
+          $(<span class="ident">EventId</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> <span class="op">=&gt;</span> <span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> {
+            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>:
+              <span class="macro">def_machine</span><span class="macro">!</span>(@<span class="ident">expr_default</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_default</span>)<span class="kw-2">*</span>)
+            ),<span class="op">*</span>
+          }),<span class="op">+</span>
+        }
+      }
+    }
+
   };
   <span class="comment">//  end main interface</span>
 
@@ -2749,14 +2786,14 @@
 
   ) <span class="op">=&gt;</span> {
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle_event</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">event</span> : <span class="ident">Event</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle_event</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">_event</span> : <span class="ident">Event</span>)
       <span class="op">-&gt;</span> <span class="prelude-ty">Result</span> <span class="op">&lt;</span>(), <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">HandleEventException</span><span class="op">&gt;</span>
     {
-      <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;{}::handle_event: {:?}&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>), <span class="ident">event</span>.<span class="ident">id</span>);
+      <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;{}::handle_event: {:?}&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>), <span class="ident">_event</span>.<span class="ident">id</span>);
       <span class="comment">// if only one kind of transition exists the following match expression</span>
       <span class="comment">// will detect the other branch as &quot;unreachable_code&quot;</span>
       <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unreachable_code</span>)]</span>
-      <span class="kw">match</span> <span class="ident">event</span>.<span class="ident">transition</span>() {
+      <span class="kw">match</span> <span class="ident">_event</span>.<span class="ident">transition</span>() {
 
         <span class="ident">Transition</span>::<span class="ident">Universal</span> (<span class="ident">target_id</span>) <span class="op">=&gt;</span> {
           <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;&lt;&lt;&lt; Ok: Universal ({:?} =&gt; {:?})&quot;</span>, <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">id</span>, <span class="ident">target_id</span>);
@@ -2766,14 +2803,15 @@
             <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">extended_state</span> {
               <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ExtendedState</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                 <span class="comment">// map each event to an action</span>
-                <span class="kw">match</span> <span class="ident">event</span>.<span class="ident">params</span> {
-                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
+                <span class="kw">match</span> <span class="ident">_event</span>.<span class="ident">params</span> {
+                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                     <span class="comment">// only expands universal actions, unreachable otherwise</span>
                     <span class="macro">def_machine</span><span class="macro">!</span>{
                       @<span class="ident">event_action_universal</span>
                       <span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span><span class="op">&gt;</span>)<span class="op">*</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>)<span class="op">*</span>
                     }
                   })<span class="op">+</span>
+                  _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;unreachable phantom data variant&quot;</span>)
                 }
               }
             }
@@ -2791,8 +2829,8 @@
             <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">extended_state</span> {
               <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ExtendedState</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                 <span class="comment">// map each event to an action</span>
-                <span class="kw">match</span> <span class="ident">event</span>.<span class="ident">params</span> {
-                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
+                <span class="kw">match</span> <span class="ident">_event</span>.<span class="ident">params</span> {
+                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                     <span class="comment">// for universal transitions there is no source state so</span>
                     <span class="comment">// this produces a wildcard pattern resulting in the</span>
                     <span class="comment">// last branch being unreachable</span>
@@ -2812,6 +2850,7 @@
                       _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;current state should match event source&quot;</span>)
                     }
                   })<span class="op">+</span>
+                  _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;unreachable phantom data variant&quot;</span>)
                 }
               }
             }
@@ -2832,14 +2871,15 @@
             <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">extended_state</span> {
               <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ExtendedState</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                 <span class="comment">// map each event to an action</span>
-                <span class="kw">match</span> <span class="ident">event</span>.<span class="ident">params</span> {
-                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
+                <span class="kw">match</span> <span class="ident">_event</span>.<span class="ident">params</span> {
+                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                     <span class="comment">// only expands external actions, unreachable otherwise</span>
                     <span class="macro">def_machine</span><span class="macro">!</span>{
                       @<span class="ident">event_action_external</span>
                       <span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span><span class="op">&gt;</span>)<span class="op">*</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>)<span class="op">*</span>
                     }
                   })<span class="op">+</span>
+                  _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;unreachable phantom data variant&quot;</span>)
                 }
               }
             }
@@ -3030,9 +3070,9 @@
       $(<span class="kw">pub</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_type</span>),<span class="op">*</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Event</span> {
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Event</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
       <span class="ident">id</span>     : <span class="ident">EventId</span>,
-      <span class="ident">params</span> : <span class="ident">EventParams</span>
+      <span class="ident">params</span> : <span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span>
     }
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Debug</span>,<span class="ident">PartialEq</span>)]</span>
@@ -3058,10 +3098,11 @@
       $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>),<span class="op">+</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventParams</span> {
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
       $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> {
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_type</span>),<span class="op">*</span>
-      }),<span class="op">+</span>
+      },)<span class="op">+</span>
+      <span class="ident">_PhantomData</span> (<span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;event</span> ()<span class="op">&gt;</span>)
     }
 
     <span class="kw">impl</span> $(<span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span> $(<span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span> <span class="kw">where</span>
@@ -3245,34 +3286,16 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="ident">EventParams</span> {
+    <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> <span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
       <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">id</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">EventId</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-          $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> {..} <span class="op">=&gt;</span> <span class="ident">EventId</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>),<span class="op">+</span>
+          $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> {..} <span class="op">=&gt;</span> <span class="ident">EventId</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>,)<span class="op">+</span>
+          _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;unreachable phantom data variant&quot;</span>)
         }
       }
     }
 
-    <span class="kw">impl</span> <span class="ident">From</span> <span class="op">&lt;</span><span class="ident">EventId</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">EventParams</span> {
-      <span class="kw">fn</span> <span class="ident">from</span> (<span class="ident">id</span> : <span class="ident">EventId</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">match</span> <span class="ident">id</span> {
-          $(<span class="ident">EventId</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> <span class="op">=&gt;</span> <span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> {
-            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>:
-              <span class="macro">def_machine</span><span class="macro">!</span>(@<span class="ident">expr_default</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_default</span>)<span class="kw-2">*</span>)
-            ),<span class="op">*</span>
-          }),<span class="op">+</span>
-        }
-      }
-    }
-
-    <span class="kw">impl</span> <span class="ident">Event</span> {
-      <span class="doccomment">/// Construct an event with default parameters for the given ID</span>
-      <span class="attribute">#[<span class="ident">inline</span>]</span>
-      <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_id</span> (<span class="ident">id</span> : <span class="ident">EventId</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">id</span>.<span class="ident">clone</span>().<span class="ident">into</span>();
-        <span class="ident">Event</span> { <span class="ident">id</span>, <span class="ident">params</span> }
-      }
-
+    <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> <span class="ident">Event</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
       <span class="attribute">#[<span class="ident">inline</span>]</span>
       <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">transition</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Transition</span> {
         <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">transition</span>()
@@ -3289,8 +3312,8 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="ident">From</span> <span class="op">&lt;</span><span class="ident">EventParams</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Event</span> {
-      <span class="kw">fn</span> <span class="ident">from</span> (<span class="ident">params</span> : <span class="ident">EventParams</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> <span class="ident">From</span> <span class="op">&lt;</span><span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Event</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
+      <span class="kw">fn</span> <span class="ident">from</span> (<span class="ident">params</span> : <span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">id</span>();
         <span class="ident">Event</span> { <span class="ident">id</span>, <span class="ident">params</span> }
       }
@@ -3840,6 +3863,27 @@
       }
     }
 
+    <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> <span class="ident">Event</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
+      <span class="doccomment">/// Construct an event with default parameters for the given ID</span>
+      <span class="attribute">#[<span class="ident">inline</span>]</span>
+      <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_id</span> (<span class="ident">id</span> : <span class="ident">EventId</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">id</span>.<span class="ident">clone</span>().<span class="ident">into</span>();
+        <span class="ident">Event</span> { <span class="ident">id</span>, <span class="ident">params</span> }
+      }
+    }
+
+    <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> <span class="ident">From</span> <span class="op">&lt;</span><span class="ident">EventId</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
+      <span class="kw">fn</span> <span class="ident">from</span> (<span class="ident">id</span> : <span class="ident">EventId</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">match</span> <span class="ident">id</span> {
+          $(<span class="ident">EventId</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> <span class="op">=&gt;</span> <span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> {
+            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>:
+              <span class="macro">def_machine_debug</span><span class="macro">!</span>(@<span class="ident">expr_default</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_default</span>)<span class="kw-2">*</span>)
+            ),<span class="op">*</span>
+          }),<span class="op">+</span>
+        }
+      }
+    }
+
   };
   <span class="comment">//  end main interface</span>
 
@@ -3928,14 +3972,14 @@
 
   ) <span class="op">=&gt;</span> {
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle_event</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">event</span> : <span class="ident">Event</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle_event</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">_event</span> : <span class="ident">Event</span>)
       <span class="op">-&gt;</span> <span class="prelude-ty">Result</span> <span class="op">&lt;</span>(), <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">HandleEventException</span><span class="op">&gt;</span>
     {
-      <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;{}::handle_event: {:?}&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>), <span class="ident">event</span>);
+      <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;{}::handle_event: {:?}&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span>), <span class="ident">_event</span>);
       <span class="comment">// if only one kind of transition exists the following match expression</span>
       <span class="comment">// will detect the other branch as &quot;unreachable_code&quot;</span>
       <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unreachable_code</span>)]</span>
-      <span class="kw">match</span> <span class="ident">event</span>.<span class="ident">transition</span>() {
+      <span class="kw">match</span> <span class="ident">_event</span>.<span class="ident">transition</span>() {
 
         <span class="ident">Transition</span>::<span class="ident">Universal</span> (<span class="ident">target_id</span>) <span class="op">=&gt;</span> {
           <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;&lt;&lt;&lt; Ok: Universal ({:?} =&gt; {:?})&quot;</span>, <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">id</span>, <span class="ident">target_id</span>);
@@ -3945,14 +3989,15 @@
             <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">extended_state</span> {
               <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ExtendedState</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                 <span class="comment">// map each event to an action</span>
-                <span class="kw">match</span> <span class="ident">event</span>.<span class="ident">params</span> {
-                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
+                <span class="kw">match</span> <span class="ident">_event</span>.<span class="ident">params</span> {
+                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                     <span class="comment">// only expands universal actions, unreachable otherwise</span>
                     <span class="macro">def_machine_debug</span><span class="macro">!</span>{
                       @<span class="ident">event_action_universal</span>
                       <span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span><span class="op">&gt;</span>)<span class="op">*</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>)<span class="op">*</span>
                     }
                   })<span class="op">+</span>
+                  _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;unreachable phantom data variant&quot;</span>)
                 }
               }
             }
@@ -3970,8 +4015,8 @@
             <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">extended_state</span> {
               <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ExtendedState</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                 <span class="comment">// map each event to an action</span>
-                <span class="kw">match</span> <span class="ident">event</span>.<span class="ident">params</span> {
-                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
+                <span class="kw">match</span> <span class="ident">_event</span>.<span class="ident">params</span> {
+                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                     <span class="comment">// for universal transitions there is no source state so</span>
                     <span class="comment">// this produces a wildcard pattern resulting in the</span>
                     <span class="comment">// last branch being unreachable</span>
@@ -3991,6 +4036,7 @@
                       _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;current state should match event source&quot;</span>)
                     }
                   })<span class="op">+</span>
+                  _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;unreachable phantom data variant&quot;</span>)
                 }
               }
             }
@@ -4011,14 +4057,15 @@
             <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">extended_state</span> {
               <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ExtendedState</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ext_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                 <span class="comment">// map each event to an action</span>
-                <span class="kw">match</span> <span class="ident">event</span>.<span class="ident">params</span> {
-                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
+                <span class="kw">match</span> <span class="ident">_event</span>.<span class="ident">params</span> {
+                  $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> { $(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>,)<span class="kw-2">*</span>.. } <span class="op">=&gt;</span> {
                     <span class="comment">// only expands external actions, unreachable otherwise</span>
                     <span class="macro">def_machine_debug</span><span class="macro">!</span>{
                       @<span class="ident">event_action_external</span>
                       <span class="ident">event</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">source</span><span class="op">&gt;</span> $(<span class="op">=&gt;</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target</span><span class="op">&gt;</span>)<span class="op">*</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">action</span>)<span class="op">*</span>
                     }
                   })<span class="op">+</span>
+                  _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;unreachable phantom data variant&quot;</span>)
                 }
               }
             }
@@ -4215,9 +4262,9 @@
     }
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Event</span> {
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Event</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
       <span class="ident">id</span>     : <span class="ident">EventId</span>,
-      <span class="ident">params</span> : <span class="ident">EventParams</span>
+      <span class="ident">params</span> : <span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span>
     }
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Debug</span>,<span class="ident">PartialEq</span>)]</span>
@@ -4245,10 +4292,11 @@
     }
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventParams</span> {
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
       $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> {
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_type</span>),<span class="op">*</span>
-      }),<span class="op">+</span>
+      },)<span class="op">+</span>
+      <span class="ident">_PhantomData</span> (<span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span> <span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;event</span> ()<span class="op">&gt;</span>)
     }
 
     <span class="kw">impl</span> $(<span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">machine</span> $(<span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type_var</span>),<span class="op">+</span><span class="op">&gt;</span>)<span class="op">*</span> <span class="kw">where</span>
@@ -4429,34 +4477,16 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="ident">EventParams</span> {
+    <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> <span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
       <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">id</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">EventId</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-          $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> {..} <span class="op">=&gt;</span> <span class="ident">EventId</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>),<span class="op">+</span>
+          $(<span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> {..} <span class="op">=&gt;</span> <span class="ident">EventId</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>,)<span class="op">+</span>
+          _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;unreachable phantom data variant&quot;</span>)
         }
       }
     }
 
-    <span class="kw">impl</span> <span class="ident">From</span> <span class="op">&lt;</span><span class="ident">EventId</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">EventParams</span> {
-      <span class="kw">fn</span> <span class="ident">from</span> (<span class="ident">id</span> : <span class="ident">EventId</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">match</span> <span class="ident">id</span> {
-          $(<span class="ident">EventId</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> <span class="op">=&gt;</span> <span class="ident">EventParams</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span> {
-            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_name</span>:
-              <span class="macro">def_machine_debug</span><span class="macro">!</span>(@<span class="ident">expr_default</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param_default</span>)<span class="kw-2">*</span>)
-            ),<span class="op">*</span>
-          }),<span class="op">+</span>
-        }
-      }
-    }
-
-    <span class="kw">impl</span> <span class="ident">Event</span> {
-      <span class="doccomment">/// Construct an event with default parameters for the given ID</span>
-      <span class="attribute">#[<span class="ident">inline</span>]</span>
-      <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_id</span> (<span class="ident">id</span> : <span class="ident">EventId</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">id</span>.<span class="ident">clone</span>().<span class="ident">into</span>();
-        <span class="ident">Event</span> { <span class="ident">id</span>, <span class="ident">params</span> }
-      }
-
+    <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> <span class="ident">Event</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
       <span class="attribute">#[<span class="ident">inline</span>]</span>
       <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">transition</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Transition</span> {
         <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">transition</span>()
@@ -4473,8 +4503,8 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="ident">From</span> <span class="op">&lt;</span><span class="ident">EventParams</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Event</span> {
-      <span class="kw">fn</span> <span class="ident">from</span> (<span class="ident">params</span> : <span class="ident">EventParams</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">impl</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> <span class="ident">From</span> <span class="op">&lt;</span><span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Event</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span> {
+      <span class="kw">fn</span> <span class="ident">from</span> (<span class="ident">params</span> : <span class="ident">EventParams</span> <span class="op">&lt;</span><span class="lifetime">&#39;event</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">id</span>();
         <span class="ident">Event</span> { <span class="ident">id</span>, <span class="ident">params</span> }
       }
