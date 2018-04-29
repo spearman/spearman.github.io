@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["report","Report some sizes of various range set types"]],"mod":[["range_compare","Type and functions for comparing inclusive ranges"]],"struct":[["Iter",""],["RangeSet","A set of primitive integers represented as a sorted list of inclusive ranges."]]});
+initSidebarItems({"fn":[["report_sizes","Report some sizes of various range set types"]],"mod":[["range_compare","Type and functions for comparing inclusive ranges"]],"struct":[["Iter",""],["RangeSet","A set of primitive integers represented as a sorted list of disjoint, inclusive ranges."]]});
