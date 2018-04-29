@@ -850,14 +850,43 @@
 <span id="793">793</span>
 <span id="794">794</span>
 <span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
 </pre><pre class="rust ">
-<span class="doccomment">//! Trait and macro for unitary enums.</span>
+<span class="doccomment">//! `EnumUnitary` trait and `enum_unitary!` macro.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [Repository](https://github.com/spearman/enum-unitary)</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The following `num` traits re-exported in the local crate:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```text</span>
+<span class="doccomment">//! use enum_unitary::{Bounded, FromPrimitive, ToPrimitive};</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The following macros are also re-exported because they are used in the</span>
+<span class="doccomment">//! `enum_unitary!` macro implementation and do not need to be used directly:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```text</span>
+<span class="doccomment">//! macro_attr::{macro_attr};</span>
+<span class="doccomment">//! enum_derive::{enum_derive_util, IterVariants, NextVariant, PrevVariant};</span>
+<span class="doccomment">//! ```</span>
 
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">test</span>, <span class="ident">feature</span>(<span class="ident">const_fn</span>))]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">macro_reexport</span>)]</span>
 
+<span class="comment">// TODO: hide documentation (macros 2.0)</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">test</span>, <span class="ident">macro_use</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_reexport</span>(<span class="ident">macro_attr</span>, <span class="ident">macro_attr_impl</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">macro_attr</span>;
@@ -865,7 +894,10 @@
 <span class="attribute">#[<span class="ident">macro_reexport</span>(<span class="ident">enum_derive_util</span>,<span class="ident">IterVariants</span>,<span class="ident">NextVariant</span>,<span class="ident">PrevVariant</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">enum_derive</span>;
 
-<span class="kw">pub</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num</span>;
+
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">num</span>::{<span class="ident">Bounded</span>, <span class="ident">FromPrimitive</span>, <span class="ident">ToPrimitive</span>};
 
 <span class="comment">//</span>
 <span class="comment">//  trait EnumUnitary</span>
@@ -906,9 +938,6 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// #![feature(const_fn)]</span>
-<span class="doccomment">/// extern crate num;</span>
-<span class="doccomment">/// #[macro_use] extern crate macro_attr;</span>
-<span class="doccomment">/// #[macro_use] extern crate enum_derive;</span>
 <span class="doccomment">/// #[macro_use] extern crate enum_unitary;</span>
 <span class="doccomment">/// fn main () {</span>
 <span class="doccomment">///   enum_unitary! {</span>
@@ -916,8 +945,7 @@
 <span class="doccomment">///       A, B, C</span>
 <span class="doccomment">///     }</span>
 <span class="doccomment">///   }</span>
-<span class="doccomment">///   use num::Bounded;</span>
-<span class="doccomment">///   use enum_unitary::EnumUnitary;</span>
+<span class="doccomment">///   use enum_unitary::{EnumUnitary, Bounded};</span>
 <span class="doccomment">///   assert_eq!(E::count(), 3);</span>
 <span class="doccomment">///   assert_eq!(Into::&lt;usize&gt;::into (E::A), 0);</span>
 <span class="doccomment">///   assert_eq!(Into::&lt;usize&gt;::into (E::B), 1);</span>
@@ -976,7 +1004,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">min_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">Void</span>
       }
@@ -985,7 +1013,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">from_i64</span> (<span class="ident">x</span> : <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">isize</span> {
           ::<span class="ident">std</span>::<span class="ident">isize</span>::<span class="ident">MAX</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span> (<span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">Void</span>),
@@ -1000,7 +1028,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">to_i64</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span> {
         <span class="prelude-val">Some</span> (<span class="self">self</span>.<span class="ident">clone</span>() <span class="kw">as</span> <span class="ident">i64</span>)
       }
@@ -1062,7 +1090,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">min_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">Void</span>
       }
@@ -1071,7 +1099,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">from_i64</span> (<span class="ident">x</span> : <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">isize</span> {
           ::<span class="ident">std</span>::<span class="ident">isize</span>::<span class="ident">MAX</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span> (<span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">Void</span>),
@@ -1086,7 +1114,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">to_i64</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span> {
         <span class="prelude-val">Some</span> (<span class="self">self</span>.<span class="ident">clone</span>() <span class="kw">as</span> <span class="ident">i64</span>)
       }
@@ -1148,7 +1176,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">min_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">singleton</span>
       }
@@ -1157,7 +1185,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">from_i64</span> (<span class="ident">x</span> : <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="ident">x</span> {
           <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span> (<span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">singleton</span>),
@@ -1172,7 +1200,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">to_i64</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span> {
         <span class="prelude-val">Some</span> (<span class="self">self</span>.<span class="ident">clone</span>() <span class="kw">as</span> <span class="ident">i64</span>)
       }
@@ -1234,7 +1262,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">min_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">singleton</span>
       }
@@ -1243,7 +1271,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">from_i64</span> (<span class="ident">x</span> : <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="ident">x</span> {
           <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span> (<span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">singleton</span>),
@@ -1258,7 +1286,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">to_i64</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span> {
         <span class="prelude-val">Some</span> (<span class="self">self</span>.<span class="ident">clone</span>() <span class="kw">as</span> <span class="ident">i64</span>)
       }
@@ -1338,7 +1366,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">min_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">min</span>
       }
@@ -1347,7 +1375,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">from_i64</span> (<span class="ident">x</span> : <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">const</span> <span class="ident">VARIANTS</span> : [<span class="macro-nonterminal">$</span><span class="kw">enum</span>; <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">count</span>()]
           <span class="op">=</span> [<span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">min</span>$(, <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>)<span class="kw-2">*</span>, <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>];
@@ -1360,7 +1388,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">to_i64</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span> {
         <span class="prelude-val">Some</span> (<span class="self">self</span>.<span class="ident">clone</span>() <span class="kw">as</span> <span class="ident">i64</span>)
       }
@@ -1440,7 +1468,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Bounded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">min_value</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">min</span>
       }
@@ -1449,7 +1477,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">FromPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">from_i64</span> (<span class="ident">x</span> : <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">const</span> <span class="ident">VARIANTS</span> : [<span class="macro-nonterminal">$</span><span class="kw">enum</span>; <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">count</span>()]
           <span class="op">=</span> [<span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">min</span>$(, <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>)<span class="kw-2">*</span>, <span class="macro-nonterminal">$</span><span class="kw">enum</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">max</span>];
@@ -1462,7 +1490,7 @@
       }
     }
 
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">num</span>::<span class="ident">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
+    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ToPrimitive</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> {
       <span class="kw">fn</span> <span class="macro-nonterminal">to_i64</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span> {
         <span class="prelude-val">Some</span> (<span class="self">self</span>.<span class="ident">clone</span>() <span class="kw">as</span> <span class="ident">i64</span>)
       }

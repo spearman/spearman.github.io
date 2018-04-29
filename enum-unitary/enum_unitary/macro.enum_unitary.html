@@ -60,7 +60,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/enum_unitary/lib.rs.html#89-638' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/enum_unitary/lib.rs.html#103-652' title='goto source code'>[src]</a></span></h1>
 <pre class="rust macro">
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">enum_unitary</span> {
     (
@@ -109,9 +109,6 @@ starting from <code>0</code>.</p>
 <h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">const_fn</span>)]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num</span>;
-<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">macro_attr</span>;
-<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">enum_derive</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">enum_unitary</span>;
 <span class="kw">fn</span> <span class="ident">main</span> () {
   <span class="macro">enum_unitary</span><span class="macro">!</span> {
@@ -119,8 +116,7 @@ starting from <code>0</code>.</p>
       <span class="ident">A</span>, <span class="ident">B</span>, <span class="ident">C</span>
     }
   }
-  <span class="kw">use</span> <span class="ident">num</span>::<span class="ident">Bounded</span>;
-  <span class="kw">use</span> <span class="ident">enum_unitary</span>::<span class="ident">EnumUnitary</span>;
+  <span class="kw">use</span> <span class="ident">enum_unitary</span>::{<span class="ident">EnumUnitary</span>, <span class="ident">Bounded</span>};
   <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">E</span>::<span class="ident">count</span>(), <span class="number">3</span>);
   <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Into</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>::<span class="ident">into</span> (<span class="ident">E</span>::<span class="ident">A</span>), <span class="number">0</span>);
   <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Into</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>::<span class="ident">into</span> (<span class="ident">E</span>::<span class="ident">B</span>), <span class="number">1</span>);
