@@ -10,8 +10,12 @@
     <title>macro_machines - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +37,13 @@
         <p class='location'>Crate macro_machines</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#macros">Macros</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'macro_machines', ty: 'mod', relpath: '../'};</script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -49,17 +60,80 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/macro_machines/lib.rs.html#1-357' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>State machine macros with logging and graphviz dotfile output</p>
-
+               </span><a class='srclink' href='../src/macro_machines/lib.rs.html#1-428' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>State machine macros with logging and graphviz dotfile generation</p>
 <p><a href="https://github.com/spearman/macro-machines">Repository</a></p>
+<p>An example that shows a number of features of the macro syntax is a <code>Door</code>
+state machine with:</p>
+<ul>
+<li>two <em>states</em>: <code>Closed</code> (with <em>state-local variable</em> <code>knock_count</code>) and
+<code>Open</code></li>
+<li>three <em>events</em>: one <em>internal event</em> <code>Knock</code> (with <em>action</em> on the
+<code>Closed</code> state) and two <em>external events</em> <code>Open</code> (wth associated action) and
+<code>Close</code> (without any action)</li>
+<li>an <code>open_count</code> <em>extended state variable</em> -- this variable is initialized
+once and is independent of the current machine state</li>
+</ul>
+<pre><code class="language-text">def_machine_debug! {
+  Door (open_count : u64) @ door {
+    STATES [
+      state Closed (knock_count : u64)
+      state Opened ()
+    ]
+    EVENTS [
+      event Knock &lt;Closed&gt; () { knock_count } =&gt; { *knock_count += 1; }
+      event Open  &lt;Closed&gt; =&gt; &lt;Opened&gt; ()  {} =&gt; { *open_count += 1; }
+      event Close &lt;Opened&gt; =&gt; &lt;Closed&gt; ()
+    ]
+    initial_state:  Closed {
+      initial_action: {
+        println!(&quot;hello&quot;);
+        println!(&quot;open_count: {:?}&quot;, door.as_ref().open_count);
+      }
+    }
+    terminal_state: Closed {
+      terminate_success: {
+        println!(&quot;open_count: {:?}&quot;, door.as_ref().open_count);
+        println!(&quot;goodbye&quot;)
+      }
+      terminate_failure: {
+        panic!(&quot;door was left: {:?}&quot;, door.state())
+      }
+    }
+  }
+}
+</code></pre>
+<p>To optionally make the state machine accessible in initial and terminal
+action blocks, the macro implementation requires an identifier <code>door</code> be
+introduced here following the <code>@</code> symbol. The variable is then brought into
+scope as an alias for a mutable self-reference in initial and terminal
+action blocks.</p>
+<p>In event actions, mutable references to extended state variables will
+implicitly be brought into scope of the associated action block, however
+local state variables need to be explicitly listed in the LHS brace of the
+action construct to be accessible (e.g. the <code>knock_count</code> local state
+variable in the <code>Knock</code> event action of the current example).</p>
+<p>The <code>Door::dotfile()</code> function will generate a dotfile string that can be
+saved and rendered as a PNG with graphviz <code>dot</code> layout:</p>
+<pre><code class="language-text">$ dot -Tpng door.dot &gt; door.png
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/spearman/macro-machines/master/door.png" alt="" /></p>
 </div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.debug.html"
+                                  title='macro macro_machines::debug'>debug</a></td>
+                           <td class='docblock-short'>
+                                <p>Logs a message at the debug level.</p>
+
+                           </td>
+                       </tr>
                        <tr class=' module-item'>
                            <td><a class="macro" href="macro.def_machine.html"
                                   title='macro macro_machines::def_machine'>def_machine</a></td>
                            <td class='docblock-short'>
                                 <p>State machines with a default <code>initial</code> state.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -67,6 +141,7 @@
                                   title='macro macro_machines::def_machine_debug'>def_machine_debug</a></td>
                            <td class='docblock-short'>
                                 <p>State machines with a default <code>initial</code> state and deriving <code>Debug</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -74,6 +149,7 @@
                                   title='macro macro_machines::def_machine_nodefault'>def_machine_nodefault</a></td>
                            <td class='docblock-short'>
                                 <p>State machine that requires runtime initialization.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -81,6 +157,47 @@
                                   title='macro macro_machines::def_machine_nodefault_debug'>def_machine_nodefault_debug</a></td>
                            <td class='docblock-short'>
                                 <p>State machine that requires runtime initialization and deriving <code>Debug</code>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.error.html"
+                                  title='macro macro_machines::error'>error</a></td>
+                           <td class='docblock-short'>
+                                <p>Logs a message at the error level.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.info.html"
+                                  title='macro macro_machines::info'>info</a></td>
+                           <td class='docblock-short'>
+                                <p>Logs a message at the info level.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.log.html"
+                                  title='macro macro_machines::log'>log</a></td>
+                           <td class='docblock-short'>
+                                <p>The standard logging macro.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.trace.html"
+                                  title='macro macro_machines::trace'>trace</a></td>
+                           <td class='docblock-short'>
+                                <p>Logs a message at the trace level.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.warn.html"
+                                  title='macro macro_machines::warn'>warn</a></td>
+                           <td class='docblock-short'>
+                                <p>Logs a message at the warn level.</p>
+
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -88,7 +205,8 @@
                            <td><a class="enum" href="enum.HandleEventException.html"
                                   title='enum macro_machines::HandleEventException'>HandleEventException</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Describes an exceptional result when attempting to handle an event.</p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -97,6 +215,7 @@
                                   title='trait macro_machines::MachineDotfile'>MachineDotfile</a></td>
                            <td class='docblock-short'>
                                 <p>Methods for dotfile creation</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -111,20 +230,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

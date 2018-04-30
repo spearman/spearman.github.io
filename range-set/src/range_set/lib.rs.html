@@ -811,7 +811,7 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">report_sizes</span>() {
   <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">RangeInclusive</span>;
 
-  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;RangeSet report...&quot;</span>);
+  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;RangeSet report sizes...&quot;</span>);
 
   <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;  size of RangeSet &lt;[RangeInclusive &lt;u32&gt;; 1]&gt;: {}&quot;</span>,
     <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">RangeSet</span> <span class="op">&lt;</span>[<span class="ident">RangeInclusive</span> <span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>; <span class="number">1</span>]<span class="op">&gt;&gt;</span>());
@@ -868,7 +868,7 @@
   <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;  size of RangeSet &lt;[RangeInclusive &lt;usize&gt;; 16]&gt;: {}&quot;</span>,
     <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">RangeSet</span> <span class="op">&lt;</span>[<span class="ident">RangeInclusive</span> <span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>; <span class="number">16</span>]<span class="op">&gt;&gt;</span>());
 
-  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;...RangeSet report&quot;</span>);
+  <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;...RangeSet report sizes&quot;</span>);
 }
 
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
