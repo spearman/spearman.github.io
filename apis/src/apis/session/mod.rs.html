@@ -852,6 +852,7 @@
 <span id="795">795</span>
 <span id="796">796</span>
 <span id="797">797</span>
+<span id="798">798</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> ::{<span class="ident">std</span>, <span class="ident">either</span>, <span class="ident">vec_map</span>,
   <span class="ident">num_traits</span> <span class="kw">as</span> <span class="ident">num</span>};
@@ -1267,17 +1268,18 @@
     <span class="ident">channels</span>
   }
 
-  <span class="doccomment">/// Generate a graphviz diagram for the defined session</span>
+  <span class="doccomment">/// Generate a graphviz DOT file of the data flow diagram for the defined</span>
+  <span class="doccomment">/// session</span>
   <span class="attribute">#[<span class="ident">inline</span>]</span>
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dotfile</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
-    <span class="self">self</span>.<span class="ident">session_dotfile</span> (<span class="bool-val">false</span>)
+    <span class="self">self</span>.<span class="ident">session_dotfile</span> (<span class="bool-val">true</span>)
   }
 
-  <span class="doccomment">/// Generate a graphviz diagram for the defined session with default</span>
-  <span class="doccomment">/// expressions hidden</span>
+  <span class="doccomment">/// Generate a graphviz diagram of the data flow diagram for the defined</span>
+  <span class="doccomment">/// session with default expressions shown</span>
   <span class="attribute">#[<span class="ident">inline</span>]</span>
-  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dotfile_hide_defaults</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
-    <span class="self">self</span>.<span class="ident">session_dotfile</span> (<span class="bool-val">true</span>)
+  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dotfile_show_defaults</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="self">self</span>.<span class="ident">session_dotfile</span> (<span class="bool-val">false</span>)
   }
 
   <span class="comment">//</span>
