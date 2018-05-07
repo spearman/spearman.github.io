@@ -788,6 +788,70 @@
 <span id="731">731</span>
 <span id="732">732</span>
 <span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> ::{<span class="ident">std</span>, <span class="ident">either</span>, <span class="ident">vec_map</span>,
   <span class="ident">num_traits</span> <span class="kw">as</span> <span class="ident">num</span>};
@@ -797,7 +861,7 @@
 <span class="comment">//  submodules</span>
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 
-<span class="kw">mod</span> <span class="ident">macro_def</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">mod</span> <span class="ident">macro_def</span>;
 
 <span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
 <span class="comment">//  structs</span>
@@ -1521,6 +1585,70 @@
   <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;  size of Session: {}&quot;</span>, <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">Session</span> <span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;&gt;</span>());
   <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;  size of session::Def: {}&quot;</span>, <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">Def</span> <span class="op">&lt;</span><span class="ident">CTX</span><span class="op">&gt;&gt;</span>());
   <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;...session report sizes&quot;</span>);
+}
+
+<span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
+<span class="comment">//  test mock                                                                //</span>
+<span class="comment">///////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;test&quot;</span>, <span class="ident">test</span>))]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mock</span> {
+  <span class="macro">def_session</span><span class="macro">!</span> {
+    <span class="ident">context</span> <span class="ident">Mycontext</span> {
+      <span class="ident">PROCESSES</span> <span class="kw">where</span>
+        <span class="kw">let</span> <span class="ident">process</span>    <span class="op">=</span> <span class="self">self</span>,
+        <span class="kw">let</span> <span class="ident">message_in</span> <span class="op">=</span> <span class="ident">message_in</span>
+      [
+        <span class="ident">process</span> <span class="ident">A</span> () {
+          <span class="ident">kind</span>           { ::<span class="ident">process</span>::<span class="ident">Kind</span>::<span class="ident">isochronous_default</span>() }
+          <span class="ident">sourcepoints</span>   []
+          <span class="ident">endpoints</span>      []
+          <span class="ident">handle_message</span> { ::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+          <span class="ident">update</span>         { ::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+        }
+        <span class="ident">process</span> <span class="ident">B</span> () {
+          <span class="ident">kind</span>           { ::<span class="ident">process</span>::<span class="ident">Kind</span>::<span class="ident">isochronous_default</span>() }
+          <span class="ident">sourcepoints</span>   []
+          <span class="ident">endpoints</span>      []
+          <span class="ident">handle_message</span> { ::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+          <span class="ident">update</span>         { ::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+        }
+        <span class="ident">process</span> <span class="ident">C</span> () {
+          <span class="ident">kind</span>           { ::<span class="ident">process</span>::<span class="ident">Kind</span>::<span class="ident">isochronous_default</span>() }
+          <span class="ident">sourcepoints</span>   []
+          <span class="ident">endpoints</span>      []
+          <span class="ident">handle_message</span> { ::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+          <span class="ident">update</span>         { ::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+        }
+        <span class="ident">process</span> <span class="ident">D</span> () {
+          <span class="ident">kind</span>           { ::<span class="ident">process</span>::<span class="ident">Kind</span>::<span class="ident">isochronous_default</span>() }
+          <span class="ident">sourcepoints</span>   []
+          <span class="ident">endpoints</span>      []
+          <span class="ident">handle_message</span> { ::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+          <span class="ident">update</span>         { ::<span class="ident">process</span>::<span class="ident">ControlFlow</span>::<span class="ident">Break</span> }
+        }
+      ]
+      <span class="ident">CHANNELS</span>  [
+        <span class="ident">channel</span> <span class="ident">X</span> <span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> (<span class="ident">Simplex</span>) {
+          <span class="ident">producers</span> [<span class="ident">A</span>]
+          <span class="ident">consumers</span> [<span class="ident">B</span>]
+        }
+        <span class="ident">channel</span> <span class="ident">Y</span> <span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span> (<span class="ident">Source</span>) {
+          <span class="ident">producers</span> [<span class="ident">A</span>]
+          <span class="ident">consumers</span> [<span class="ident">B</span>]
+        }
+        <span class="ident">channel</span> <span class="ident">Z</span> <span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span> (<span class="ident">Sink</span>) {
+          <span class="ident">producers</span> [<span class="ident">A</span>]
+          <span class="ident">consumers</span> [<span class="ident">B</span>]
+        }
+      ]
+      <span class="ident">MESSAGES</span> [
+        <span class="ident">message</span> <span class="ident">T</span> {}
+        <span class="ident">message</span> <span class="ident">U</span> {}
+        <span class="ident">message</span> <span class="ident">V</span> {}
+      ]
+    }
+  }
 }
 </pre>
 </section>

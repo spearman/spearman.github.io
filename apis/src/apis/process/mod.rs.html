@@ -1153,11 +1153,6 @@
 <span id="1096">1096</span>
 <span id="1097">1097</span>
 <span id="1098">1098</span>
-<span id="1099">1099</span>
-<span id="1100">1100</span>
-<span id="1101">1101</span>
-<span id="1102">1102</span>
-<span id="1103">1103</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> ::{<span class="ident">std</span>, <span class="ident">either</span>, <span class="ident">smallvec</span>, <span class="ident">vec_map</span>,
   <span class="ident">num_traits</span> <span class="kw">as</span> <span class="ident">num</span>};
@@ -1892,9 +1887,8 @@
   <span class="doccomment">///</span>
   <span class="doccomment">/// ```</span>
   <span class="doccomment">/// # extern crate apis;</span>
-  <span class="doccomment">/// # extern crate mock;</span>
   <span class="doccomment">/// # use apis::{channel,message,process};</span>
-  <span class="doccomment">/// # use mock::*;</span>
+  <span class="doccomment">/// # use apis::session::mock::*;</span>
   <span class="doccomment">/// # fn main() {</span>
   <span class="doccomment">/// let result = process::Def::&lt;Mycontext&gt;::define (</span>
   <span class="doccomment">///   ProcessId::A,</span>
@@ -1910,9 +1904,8 @@
   <span class="doccomment">///</span>
   <span class="doccomment">/// ```</span>
   <span class="doccomment">/// # extern crate apis;</span>
-  <span class="doccomment">/// # extern crate mock;</span>
   <span class="doccomment">/// # use apis::{channel,message,process};</span>
-  <span class="doccomment">/// # use mock::*;</span>
+  <span class="doccomment">/// # use apis::session::mock::*;</span>
   <span class="doccomment">/// # fn main() {</span>
   <span class="doccomment">/// let result = process::Def::&lt;Mycontext&gt;::define (</span>
   <span class="doccomment">///   ProcessId::A,</span>
@@ -1928,9 +1921,8 @@
   <span class="doccomment">///</span>
   <span class="doccomment">/// ```</span>
   <span class="doccomment">/// # extern crate apis;</span>
-  <span class="doccomment">/// # extern crate mock;</span>
   <span class="doccomment">/// # use apis::{channel,message,process};</span>
-  <span class="doccomment">/// # use mock::*;</span>
+  <span class="doccomment">/// # use apis::session::mock::*;</span>
   <span class="doccomment">/// # fn main() {</span>
   <span class="doccomment">/// let result = process::Def::&lt;Mycontext&gt;::define (</span>
   <span class="doccomment">///   ProcessId::A,</span>
@@ -1946,10 +1938,9 @@
   <span class="doccomment">///</span>
   <span class="doccomment">/// ```</span>
   <span class="doccomment">/// # extern crate apis;</span>
-  <span class="doccomment">/// # extern crate mock;</span>
   <span class="doccomment">/// # use apis::{channel,message,process};</span>
+  <span class="doccomment">/// # use apis::session::mock::*;</span>
   <span class="doccomment">/// # use channel::Id;</span>
-  <span class="doccomment">/// # use mock::*;</span>
   <span class="doccomment">/// # fn main() {</span>
   <span class="doccomment">/// let result = process::Def::&lt;Mycontext&gt;::define (</span>
   <span class="doccomment">///   ProcessId::A,</span>
@@ -1966,10 +1957,9 @@
   <span class="doccomment">///</span>
   <span class="doccomment">/// ```</span>
   <span class="doccomment">/// # extern crate apis;</span>
-  <span class="doccomment">/// # extern crate mock;</span>
   <span class="doccomment">/// # use apis::{channel,message,process};</span>
+  <span class="doccomment">/// # use apis::session::mock::*;</span>
   <span class="doccomment">/// # use channel::Id;</span>
-  <span class="doccomment">/// # use mock::*;</span>
   <span class="doccomment">/// # fn main() {</span>
   <span class="doccomment">/// let result = process::Def::&lt;Mycontext&gt;::define (</span>
   <span class="doccomment">///   ProcessId::A,</span>
