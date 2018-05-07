@@ -10,8 +10,12 @@
     <title>macro_def.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -33,6 +37,13 @@
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -407,8 +418,29 @@
 <span id="361">361</span>
 <span id="362">362</span>
 <span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
 </pre><pre class="rust ">
-<span class="doccomment">/// Define a program state machine.</span>
+<span class="doccomment">/// Define a Program state machine.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The transition system defined by a Program is implemented as a state</span>
+<span class="doccomment">/// machine.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The two parts to the Program definition are the mode definitions and</span>
+<span class="doccomment">/// transition definitions.</span>
+<span class="comment">// TODO: remove the requirement to provide a module path</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">def_program</span> {
 
@@ -457,7 +489,7 @@
     <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Program</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">program</span> {
       <span class="doccomment">/// Run the program to completion.</span>
       <span class="kw">fn</span> <span class="ident">run</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">use</span> <span class="ident">colored</span>::<span class="ident">Colorize</span>;
+        <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">colored</span>::<span class="ident">Colorize</span>;
         <span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;program[{}]: {}&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">program</span>), <span class="string">&quot;run...&quot;</span>.<span class="ident">cyan</span>().<span class="ident">bold</span>());
         <span class="comment">// TODO: create program ready/ended states and transitions</span>
         <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">state</span>.<span class="ident">id</span>, <span class="ident">StateId</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">initial_mode</span>);
@@ -469,10 +501,10 @@
         $(
         <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_context</span> {
           <span class="kw">pub</span> <span class="ident">channels</span> :
-            <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="ident">vec_map</span>::<span class="ident">VecMap</span>
+            <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vec_map</span>::<span class="ident">VecMap</span>
               <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">Channel</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_mod</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_context</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
           <span class="kw">pub</span> <span class="ident">process_handles</span> :
-            <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="ident">vec_map</span>::<span class="ident">VecMap</span>
+            <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vec_map</span>::<span class="ident">VecMap</span>
               <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">process</span>::<span class="ident">Handle</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_mod</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_context</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
           <span class="kw">pub</span> <span class="ident">main_process</span> :
             <span class="prelude-ty">Option</span> <span class="op">&lt;</span><span class="ident">Box</span> <span class="op">&lt;</span>
@@ -497,10 +529,12 @@
               <span class="kw">if</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_mod</span>.<span class="ident">channels</span>.<span class="ident">is_none</span>() {
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_mod</span>.<span class="ident">channels</span> <span class="op">=</span> <span class="prelude-val">Some</span> (<span class="ident">session</span>.<span class="ident">as_ref</span>().<span class="ident">def</span>.<span class="ident">create_channels</span>());
               }
+              <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_variables</span>)]</span>
+              <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
               <span class="kw">let</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">result</span> <span class="op">=</span> <span class="ident">session</span>.<span class="ident">run_with</span> (
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_mod</span>.<span class="ident">channels</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>(),
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_mod</span>.<span class="ident">process_handles</span>.<span class="ident">take</span>().<span class="ident">unwrap_or_else</span> (
-                  <span class="op">||</span> <span class="ident">vec_map</span>::<span class="ident">VecMap</span>::<span class="ident">new</span>()),
+                  <span class="op">||</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vec_map</span>::<span class="ident">VecMap</span>::<span class="ident">new</span>()),
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mode_mod</span>.<span class="ident">main_process</span>.<span class="ident">take</span>()
               );
               <span class="macro">def_program</span><span class="macro">!</span>(@<span class="ident">option_transition_choice</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">transition_choice</span>)<span class="kw-2">*</span>)
@@ -534,7 +568,7 @@
                     <span class="kw">let</span> <span class="ident">target_session_def</span>
                       <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_mod</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_context</span>::<span class="ident">def</span>().<span class="ident">unwrap</span>();
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">channels</span> <span class="op">=</span> <span class="ident">target_session_def</span>.<span class="ident">create_channels</span>();
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">process_handles</span> <span class="op">=</span> <span class="ident">vec_map</span>::<span class="ident">VecMap</span>::<span class="ident">new</span>();
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">process_handles</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vec_map</span>::<span class="ident">VecMap</span>::<span class="ident">new</span>();
 
                     <span class="comment">// handle continuations</span>
                     $($({
@@ -576,15 +610,15 @@
 
                       <span class="comment">// peer channels</span>
                       <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sourcepoints</span>
-                        : <span class="ident">vec_map</span>::<span class="ident">VecMap</span> <span class="op">&lt;</span><span class="ident">Box</span>
+                        : <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vec_map</span>::<span class="ident">VecMap</span> <span class="op">&lt;</span><span class="ident">Box</span>
                           <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">channel</span>::<span class="ident">Sourcepoint</span>
                             <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_mod</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_context</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>
-                        <span class="op">=</span> <span class="ident">vec_map</span>::<span class="ident">VecMap</span>::<span class="ident">new</span>();
+                        <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vec_map</span>::<span class="ident">VecMap</span>::<span class="ident">new</span>();
                       <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">endpoints</span>
-                        : <span class="ident">vec_map</span>::<span class="ident">VecMap</span> <span class="op">&lt;</span><span class="ident">Box</span>
+                        : <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vec_map</span>::<span class="ident">VecMap</span> <span class="op">&lt;</span><span class="ident">Box</span>
                           <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">channel</span>::<span class="ident">Endpoint</span>
                             <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_mod</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_context</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>
-                        <span class="op">=</span> <span class="ident">vec_map</span>::<span class="ident">VecMap</span>::<span class="ident">new</span>();
+                        <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vec_map</span>::<span class="ident">VecMap</span>::<span class="ident">new</span>();
                       <span class="kw">for</span> (<span class="ident">cid</span>, <span class="ident">channel</span>) <span class="kw">in</span> <span class="ident">channels</span>.<span class="ident">iter_mut</span>() {
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span> (<span class="ident">sourcepoint</span>)
                           <span class="op">=</span> <span class="ident">channel</span>.<span class="ident">sourcepoints</span>.<span class="ident">remove</span> (<span class="ident">next_pid</span>)
@@ -638,17 +672,22 @@
                             <span class="prelude-val">Some</span> (<span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">RefCell</span>::<span class="ident">new</span> (<span class="prelude-val">Some</span> (<span class="ident">endpoints</span>)))
                           ).<span class="ident">unwrap</span>()
                         );
+                        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_variables</span>)]</span>
+                        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">next_proc</span>
                           <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_mod</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_proc</span>::<span class="ident">new</span> (<span class="ident">inner</span>);
 
                         <span class="comment">// perform custom continuation code and drop the process</span>
                         <span class="kw">match</span> <span class="ident">prev_gproc</span> {
-                          <span class="macro-nonterminal">$</span><span class="macro-nonterminal">source_mod</span>::<span class="ident">GlobalProcess</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">source_proc</span> (<span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">prev_proc</span>)
+                          <span class="macro-nonterminal">$</span><span class="macro-nonterminal">source_mod</span>::<span class="ident">GlobalProcess</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">source_proc</span> (<span class="ident">prev_proc</span>)
                           <span class="op">=&gt;</span> {
+                            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_variables</span>)]</span>
+                            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span>
+                            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">prev_proc</span> <span class="op">=</span> <span class="ident">prev_proc</span>;
                             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">closure_block</span>
                             <span class="ident">drop</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">prev_proc</span>);
                           }
-                          _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;gproc should match intended recipient&quot;</span>)
+                          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;gproc should match intended recipient&quot;</span>)
                         }
                         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">next_proc</span>
                       });
@@ -669,7 +708,7 @@
                         <span class="comment">// create the next process handle</span>
                         <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">process</span>::<span class="ident">Handle</span> {
                           <span class="ident">result_rx</span>, <span class="ident">continuation_tx</span>,
-                          <span class="ident">join_or_continue</span>: <span class="ident">either</span>::<span class="ident">Either</span>::<span class="ident">Right</span> (<span class="prelude-val">None</span>)
+                          <span class="ident">join_or_continue</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">either</span>::<span class="ident">Either</span>::<span class="ident">Right</span> (<span class="prelude-val">None</span>)
                         }
                       } <span class="kw">else</span> {
                         <span class="comment">// create a continuation function</span>
@@ -694,7 +733,7 @@
                         <span class="kw">let</span> <span class="ident">join_handle</span> <span class="op">=</span> <span class="ident">prev_process_handle</span>.<span class="ident">join_or_continue</span>
                           .<span class="ident">left</span>().<span class="ident">unwrap</span>();
                         <span class="ident">prev_process_handle</span>.<span class="ident">join_or_continue</span>
-                          <span class="op">=</span> <span class="ident">either</span>::<span class="ident">Either</span>::<span class="ident">Right</span> (<span class="prelude-val">Some</span> (<span class="ident">continuation</span>));
+                          <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">either</span>::<span class="ident">Either</span>::<span class="ident">Right</span> (<span class="prelude-val">Some</span> (<span class="ident">continuation</span>));
                         <span class="macro">assert</span><span class="macro">!</span>{
                           <span class="ident">_session</span>.<span class="ident">as_mut</span>().<span class="ident">process_handles</span>.<span class="ident">insert</span> (
                             <span class="ident">prev_pid</span>, <span class="ident">prev_process_handle</span>).<span class="ident">is_none</span>()
@@ -703,7 +742,7 @@
                         <span class="comment">// create the next process handle</span>
                         <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">process</span>::<span class="ident">Handle</span> {
                           <span class="ident">result_rx</span>, <span class="ident">continuation_tx</span>,
-                          <span class="ident">join_or_continue</span>: <span class="ident">either</span>::<span class="ident">Either</span>::<span class="ident">Left</span> (<span class="ident">join_handle</span>)
+                          <span class="ident">join_or_continue</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">either</span>::<span class="ident">Either</span>::<span class="ident">Left</span> (<span class="ident">join_handle</span>)
                         }
                       };
                       <span class="macro">assert</span><span class="macro">!</span>{
@@ -733,7 +772,7 @@
                     <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_mod</span>.<span class="ident">process_handles</span>.<span class="ident">is_none</span>());
                     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">target_mod</span>.<span class="ident">process_handles</span> <span class="op">=</span> <span class="prelude-val">Some</span> (<span class="ident">process_handles</span>);
                   } <span class="comment">// end branch source context</span>
-                  _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(
+                  <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(
                     <span class="string">&quot;transition source session should match current session&quot;</span>)
                 } <span class="comment">// end match state data</span>
               })<span class="op">+</span> <span class="comment">// end transition case</span>
@@ -785,20 +824,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

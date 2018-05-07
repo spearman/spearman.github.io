@@ -10,8 +10,12 @@
     <title>apis::process::Kind - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -30,9 +34,16 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Enum Kind</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.Asynchronous">Asynchronous</a><a href="#variant.Isochronous">Isochronous</a><a href="#variant.Mesochronous">Mesochronous</a><a href="#variant.Anisochronous">Anisochronous</a></div><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.asynchronous_default">asynchronous_default</a><a href="#method.isochronous_default">isochronous_default</a><a href="#method.mesochronous_default">mesochronous_default</a><a href="#method.anisochronous_default">anisochronous_default</a><a href="#method.new_asynchronous">new_asynchronous</a><a href="#method.new_isochronous">new_isochronous</a><a href="#method.new_mesochronous">new_mesochronous</a><a href="#method.new_anisochronous">new_anisochronous</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Clone">Clone</a><a href="#impl-Debug">Debug</a><a href="#impl-Eq">Eq</a><a href="#impl-PartialEq">PartialEq</a></div></div><p class='location'><a href='../index.html'>apis</a>::<wbr><a href='index.html'>process</a></p><script>window.sidebarCurrent = {name: 'Kind', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+        <p class='location'>Enum Kind</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.Asynchronous">Asynchronous</a><a href="#variant.Isochronous">Isochronous</a><a href="#variant.Mesochronous">Mesochronous</a><a href="#variant.Anisochronous">Anisochronous</a></div><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.asynchronous_default">asynchronous_default</a><a href="#method.isochronous_default">isochronous_default</a><a href="#method.mesochronous_default">mesochronous_default</a><a href="#method.anisochronous_default">anisochronous_default</a><a href="#method.new_asynchronous">new_asynchronous</a><a href="#method.new_isochronous">new_isochronous</a><a href="#method.new_mesochronous">new_mesochronous</a><a href="#method.new_anisochronous">new_anisochronous</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Clone">Clone</a><a href="#impl-Debug">Debug</a><a href="#impl-Eq">Eq</a><a href="#impl-PartialEq">PartialEq</a></div><a class="sidebar-title" href="#synthetic-implementations">Auto Trait Implementations</a><div class="sidebar-links"><a href="#impl-Send">Send</a><a href="#impl-Sync">Sync</a></div></div><p class='location'><a href='../index.html'>apis</a>::<wbr><a href='index.html'>process</a></p><script>window.sidebarCurrent = {name: 'Kind', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -49,7 +60,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/apis/process/mod.rs.html#73-108' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/apis/process/mod.rs.html#66-101' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum Kind {
     Asynchronous {
         messages_per_update: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>,
@@ -64,22 +75,20 @@
     },
     Anisochronous,
 }</pre><div class='docblock'><p>Specifies the loop behavior of a process.</p>
-
 <ul>
 <li><code>Asynchronous</code> is a loop that blocks waiting on exactly one channel
 endpoint.</li>
 <li><code>Isochronous</code> is a fixed-timestep loop in which endpoints are polled
-once per &#39;tick&#39; and will attempt to &quot;catch up&quot; if it falls behind.</li>
+once per 'tick' and will attempt to &quot;catch up&quot; if it falls behind.</li>
 <li><code>Mesochronous</code> is a rate-limited loop that polls processes and loops
 immediately if enough time has passed and otherwise sleeps for the
-remaining duration until the next &#39;tick&#39;.</li>
+remaining duration until the next 'tick'.</li>
 <li><code>Anisochronous</code> is an un-timed polling loop which always loops immediately
 and always processes one update per tick.</li>
 </ul>
 </div><h2 id='variants' class='variants small-section-header'>
                    Variants<a href='#variants' class='anchor'></a></h2>
 <span id="variant.Asynchronous" class="variant small-section-header"><a href="#variant.Asynchronous" class="anchor field"></a><span id='Asynchronous.v' class='invisible'><code>Asynchronous</code></span></span><div class='docblock'><p>Block waiting on one or more endpoints.</p>
-
 <p>Asynchronous processes can only hold multiple endpoints of compatible
 kinds of channels. Currently this is either any number of sink endpoints,
 or else any number and combination of simplex or source endpoints. This is
@@ -95,10 +104,8 @@ behind.</p>
 </div><span class='docblock autohide sub-variant' id='variant.Mesochronous.fields'><h3 class='fields'>Fields of <code>Mesochronous</code></h3>
 
                            <table><tr><td id='variant.Mesochronous.field.tick_ms'><span id='Mesochronous.v.tick_ms.v' class='invisible'><code>tick_ms:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span></td><td></td></tr><tr><td id='variant.Mesochronous.field.ticks_per_update'><span id='Mesochronous.v.ticks_per_update.v' class='invisible'><code>ticks_per_update:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span></td><td></td></tr></table></span><span id="variant.Anisochronous" class="variant small-section-header"><a href="#variant.Anisochronous" class="anchor field"></a><span id='Anisochronous.v' class='invisible'><code>Anisochronous</code></span></span><div class='docblock'><p>Poll to exhaustion and update immediately.</p>
-
 <p>This is useful for blocking update functions as in a readline loop or a
 rendering loop.</p>
-
 <p>Note that unlike other polling process kinds (<code>Isochronous</code> and
 <code>Mesochronous</code>), ticks and updates are always one-to-one since an
 external blocking mechanism is expected to be used in the <code>update</code>
@@ -107,34 +114,42 @@ function.</p>
                     <h2 id='methods' class='small-section-header'>
                       Methods<a href='#methods' class='anchor'></a>
                     </h2>
-                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#907-1009' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.asynchronous_default' class="method"><span id='asynchronous_default.v' class='invisible'><code>pub fn <a href='#method.asynchronous_default' class='fnname'>asynchronous_default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#908-911' title='goto source code'>[src]</a></span></h4>
-<h4 id='method.isochronous_default' class="method"><span id='isochronous_default.v' class='invisible'><code>pub fn <a href='#method.isochronous_default' class='fnname'>isochronous_default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#913-917' title='goto source code'>[src]</a></span></h4>
-<h4 id='method.mesochronous_default' class="method"><span id='mesochronous_default.v' class='invisible'><code>pub fn <a href='#method.mesochronous_default' class='fnname'>mesochronous_default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#919-923' title='goto source code'>[src]</a></span></h4>
-<h4 id='method.anisochronous_default' class="method"><span id='anisochronous_default.v' class='invisible'><code>pub fn <a href='#method.anisochronous_default' class='fnname'>anisochronous_default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#925-927' title='goto source code'>[src]</a></span></h4>
-<h4 id='method.new_asynchronous' class="method"><span id='new_asynchronous.v' class='invisible'><code>pub fn <a href='#method.new_asynchronous' class='fnname'>new_asynchronous</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;messages_per_update: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="enum" href="../../apis/process/enum.KindError.html" title="enum apis::process::KindError">KindError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#929-941' title='goto source code'>[src]</a></span></h4>
-<h4 id='method.new_isochronous' class="method"><span id='new_isochronous.v' class='invisible'><code>pub fn <a href='#method.new_isochronous' class='fnname'>new_isochronous</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;tick_ms: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;ticks_per_update: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="enum" href="../../apis/process/enum.KindError.html" title="enum apis::process::KindError">KindError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#943-958' title='goto source code'>[src]</a></span></h4>
-<h4 id='method.new_mesochronous' class="method"><span id='new_mesochronous.v' class='invisible'><code>pub fn <a href='#method.new_mesochronous' class='fnname'>new_mesochronous</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;tick_ms: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;ticks_per_update: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="enum" href="../../apis/process/enum.KindError.html" title="enum apis::process::KindError">KindError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#960-975' title='goto source code'>[src]</a></span></h4>
-<h4 id='method.new_anisochronous' class="method"><span id='new_anisochronous.v' class='invisible'><code>pub fn <a href='#method.new_anisochronous' class='fnname'>new_anisochronous</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#978-980' title='goto source code'>[src]</a></span></h4>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#900-1002' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.asynchronous_default' class="method"><span id='asynchronous_default.v' class='invisible'><code>pub fn <a href='#method.asynchronous_default' class='fnname'>asynchronous_default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#901-904' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.isochronous_default' class="method"><span id='isochronous_default.v' class='invisible'><code>pub fn <a href='#method.isochronous_default' class='fnname'>isochronous_default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#906-910' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.mesochronous_default' class="method"><span id='mesochronous_default.v' class='invisible'><code>pub fn <a href='#method.mesochronous_default' class='fnname'>mesochronous_default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#912-916' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.anisochronous_default' class="method"><span id='anisochronous_default.v' class='invisible'><code>pub fn <a href='#method.anisochronous_default' class='fnname'>anisochronous_default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#918-920' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.new_asynchronous' class="method"><span id='new_asynchronous.v' class='invisible'><code>pub fn <a href='#method.new_asynchronous' class='fnname'>new_asynchronous</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;messages_per_update: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="enum" href="../../apis/process/enum.KindError.html" title="enum apis::process::KindError">KindError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#922-934' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.new_isochronous' class="method"><span id='new_isochronous.v' class='invisible'><code>pub fn <a href='#method.new_isochronous' class='fnname'>new_isochronous</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;tick_ms: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;ticks_per_update: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="enum" href="../../apis/process/enum.KindError.html" title="enum apis::process::KindError">KindError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#936-951' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.new_mesochronous' class="method"><span id='new_mesochronous.v' class='invisible'><code>pub fn <a href='#method.new_mesochronous' class='fnname'>new_mesochronous</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;tick_ms: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;ticks_per_update: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="enum" href="../../apis/process/enum.KindError.html" title="enum apis::process::KindError">KindError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#953-968' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.new_anisochronous' class="method"><span id='new_anisochronous.v' class='invisible'><code>pub fn <a href='#method.new_anisochronous' class='fnname'>new_anisochronous</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#971-973' title='goto source code'>[src]</a></span></h4>
 </div>
             <h2 id='implementations' class='small-section-header'>
               Trait Implementations<a href='#implementations' class='anchor'></a>
             </h2>
-        <h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#72' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#72' title='goto source code'>[src]</a></span></h4>
+            <div id='implementations-list'>
+        <h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#65' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#65' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
 </div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Self)</code></span><span class='out-of-band'><div class='ghost'></div><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div><a class='srclink' href='https://doc.rust-lang.org/nightly/src/core/clone.rs.html#112-114' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
-</div></div><h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#72' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#72' title='goto source code'>[src]</a></span></h4>
+</div></div><h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#65' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#65' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
-</div></div><h3 id='impl-Eq' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> for <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl-Eq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#72' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'></div><h3 id='impl-PartialEq' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> for <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl-PartialEq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#72' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#72' title='goto source code'>[src]</a></span></h4>
+</div></div><h3 id='impl-Eq' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> for <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl-Eq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#65' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 id='impl-PartialEq' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> for <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl-PartialEq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#65' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#65' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
-</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#72' title='goto source code'>[src]</a></span></h4>
+</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/apis/process/mod.rs.html#65' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>This method tests for <code>!=</code>.</p>
-</div></div></section>
+</div></div></div>
+                <h2 id='synthetic-implementations' class='small-section-header'>
+                  Auto Trait Implementations<a href='#synthetic-implementations' class='anchor'></a>
+                </h2>
+                <div id='synthetic-implementations-list'>
+            <h3 id='impl-Send' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl-Send' class='anchor'></a></span><span class='out-of-band'></span></h3>
+<div class='impl-items'></div><h3 id='impl-Sync' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="enum" href="../../apis/process/enum.Kind.html" title="enum apis::process::Kind">Kind</a></code><a href='#impl-Sync' class='anchor'></a></span><span class='out-of-band'></span></h3>
+<div class='impl-items'></div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -147,20 +162,22 @@ function.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
