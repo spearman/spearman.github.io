@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `info` mod in crate `gl_utils`."><meta name="keywords" content="rust, rustlang, rust-lang, info"><title>gl_utils::info - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Module info</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>gl_utils</a></p><script>window.sidebarCurrent = {name: 'info', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>gl_utils</a>::<wbr><a class="mod" href=''>info</a></span><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../src/gl_utils/info.rs.html#1-481' title='goto source code'>[src]</a></span></h1><div class='docblock'><p>Functions for writing various <code>glium</code> and <code>glutin</code> context info to a file
+handle.</p>
+<h1 id="glutin" class="section-header"><a href="#glutin"><code>glutin</code></a></h1>
+<p>The main datatypes in <code>glutin</code> are the <code>glutin::GlWindow</code> and
+<code>glutin::HeadlessContext</code>, both of which implement the <code>glutin::GlContext</code>
+trait:</p>
+<ul>
+<li>
+<p><strong><code>glutin::GlWindow</code></strong>
+-- a <code>glutin::Context</code> and an associated <code>glutin::Window</code> which are
+constructed from <code>glutin::ContextBuilder</code>s and <code>glutin::WindowBuilder</code>s,
+respectively</p>
+</li>
+<li>
+<p><strong><code>glutin::HeadlessContext</code></strong>
+-- simply implements the <code>glutin::GlContext</code> trait; constructed from
+<code>glutin::HeadlessRendererBuilder</code>s</p>
+</li>
+<li>
+<p><strong><code>glutin::Context</code></strong>
+-- an OpenGL context associated with a single <code>Window</code> or shared between
+multiple windows; implements <code>glutin::GlContext</code> and is constructed by
+<code>glutin::ContextBuilder</code></p>
+</li>
+<li>
+<p><strong><code>glutin::Window</code></strong>
+-- represents a window with associated <code>EventsLoop</code>; can be built
+directly from a new <code>glutin::EventsLoop</code> or by passing it to
+<code>glutin::WindowBuilder::build</code>, or by passing the <code>glutin::WindowBuilder</code>
+itself (which configures a <code>glutin::WindowAttributes</code> struct) to
+<code>glutin::GlWindow::new</code></p>
+</li>
+<li>
+<p><strong><code>glutin::EventsLoop</code></strong>
+-- retrieves events from the system and from the <em>windows</em> that were
+registered to the events loop</p>
+</li>
+</ul>
+<p>Traits:</p>
+<ul>
+<li><strong><code>glutin::GlContext</code></strong>
+-- represents an OpenGL context that can be shared between multiple
+windows; a new <code>Context</code> that is not yet shared can be <em>only</em> be acquired
+by passing a <code>glutin::ContextBuilder</code> (which configures a
+<code>glutin::GlAttributes</code> struct) to <code>glutin::GlWindow::new</code></li>
+</ul>
+<pre><code class="language-text">[Traits ]                         GlContext
+                                     /\
+                                     ||
+[Structs]  GlAttributes       ==&gt; HeadlessContext
+           GlAttributes       ==&gt; Context
+           + WindowAttributes ==&gt; GlWindow
+
+
+GlContext --&gt; PixelFormat
+          --&gt; Api
+          --&gt; is_current(), make_current()
+          --&gt; get_proc_address()
+          --&gt; resize()
+          --&gt; swap_buffers()
+</code></pre>
+<p><code>glutin::PixelFormat</code> -- of a <code>GlContext</code> is the pixel format of the main
+framebuffer.</p>
+<p><code>glutin::Api</code> -- indicates whether <code>OpenGl</code>, <code>OpenGlEs</code>, or <code>WebGl</code> is
+being used</p>
+<p><code>is_current</code>, <code>make_current</code> -- queries and sets whether this context is
+the current one in this thread</p>
+<p><code>get_proc_address</code> -- required method for getting addresses of OpenGL
+functions used internally</p>
+<p><code>resize</code> -- required for contexts on some platforms (macOS, Wayland) to be
+<em>manually updated</em> when their <em>window or surface</em> is resized, i.e. it
+<code>resize</code> should be called for each <code>Resized</code> window event that is received</p>
+<p><code>swap_buffers</code> -- according to the documentation for <code>glutin</code> 0.12.0
+(<a href="https://docs.rs/glutin/0.12.0/glutin/trait.GlContext.html#tymethod.swap_buffers">https://docs.rs/glutin/0.12.0/glutin/trait.GlContext.html#tymethod.swap_buffers</a>),
+drivers may choose to override vsync settings to it is not possible to know
+in advance whether <code>swap_buffers()</code> will block or not.</p>
+<h1 id="glium" class="section-header"><a href="#glium"><code>glium</code></a></h1>
+<p>Glium extends the <code>glutin::GlWindow</code> and <code>glutin::HeadlessContext</code> datatypes
+with the <code>glium::Display</code> and <code>glium::HeadlessRenderer</code> datatypes, both of
+which dereference to a <code>glium::backend::Context</code> which is an implementor of
+<code>glium::backend::Facade</code>:</p>
+<ul>
+<li>
+<p><strong><code>glium::Display</code></strong>
+-- (re-export of <code>glium::backend::glutin::Display</code>) a combination of a
+<code>glutin::GlWindow</code> and a <code>glium::backend::Context</code></p>
+</li>
+<li>
+<p><strong><code>glium::HeadlessRenderer</code></strong>
+-- (re-export of <code>glium::backend::glutin::headless::Headless</code>) a
+<code>glium::backend::Context</code> without an associated window</p>
+</li>
+</ul>
+<p>Traits:</p>
+<ul>
+<li><strong><code>glium::backend::Facade</code></strong>
+-- a trait providing safe access for glium functions, implemented by
+<code>glium::backend::Context</code> and indirectly (via deref to a context) for
+<code>glium::Display</code> and <code>glium::Headlessrenderer</code></li>
+</ul>
+<pre><code class="language-text">[Traits ]                      Facade    CapabilitiesSource   Surface
+                                 /\  \           /\             /\
+                                 ||   \------\\\\||             ||
+[Structs]     GlWindow     ==&gt; Display  ====&gt; Context =======&gt; Frame
+           HeadlessContext ==&gt; Headless ====&gt;  \\\\==========&gt; DefaultFramebuffer
+                                                \\\==========&gt; EmptyFramebuffer,
+                                                 \\==========&gt; SimpleFramebuffer,
+                                                  \==========&gt; MultiOutputFramebuffer
+</code></pre>
+</div><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.glium_capabilities_source_info_write.html"
+                                  title='fn gl_utils::info::glium_capabilities_source_info_write'>glium_capabilities_source_info_write</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.glium_context_info_write.html"
+                                  title='fn gl_utils::info::glium_context_info_write'>glium_context_info_write</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.glium_display_info_write.html"
+                                  title='fn gl_utils::info::glium_display_info_write'>glium_display_info_write</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.glium_info_write.html"
+                                  title='fn gl_utils::info::glium_info_write'>glium_info_write</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.glium_surface_info_write.html"
+                                  title='fn gl_utils::info::glium_surface_info_write'>glium_surface_info_write</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.glutin_events_loop_info_write.html"
+                                  title='fn gl_utils::info::glutin_events_loop_info_write'>glutin_events_loop_info_write</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.glutin_gl_context_info_write.html"
+                                  title='fn gl_utils::info::glutin_gl_context_info_write'>glutin_gl_context_info_write</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.glutin_gl_window_info_write.html"
+                                  title='fn gl_utils::info::glutin_gl_window_info_write'>glutin_gl_window_info_write</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.glutin_info_write.html"
+                                  title='fn gl_utils::info::glutin_info_write'>glutin_info_write</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.glutin_window_info_write.html"
+                                  title='fn gl_utils::info::glutin_window_info_write'>glutin_window_info_write</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "gl_utils";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

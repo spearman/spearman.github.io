@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Builder",""],["Viewport","A viewport defined by a `glium::Rect` structure, with associated 2D and 3D cameras"]]});
