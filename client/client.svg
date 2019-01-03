@@ -22,7 +22,7 @@
 <!-- Splash -->
 <g id="node2" class="node">
 <title>Splash</title>
-<g id="a_node2"><a xlink:href="./splash.svg" xlink:title="&lt;FONT COLOR=&quot;blue&quot;&gt;&lt;B&gt;Splash&lt;/B&gt;&lt;/FONT&gt;|&lt;FONT FACE=&quot;Mono&quot;&gt;&lt;BR/&gt;&#10;session : ::Session&amp;lt;splash::Splash&amp;gt;&lt;BR ALIGN=&quot;LEFT&quot;/&gt;&lt;/FONT&gt;">
+<g id="a_node2"><a xlink:href="./splash.png" xlink:title="&lt;FONT COLOR=&quot;blue&quot;&gt;&lt;B&gt;Splash&lt;/B&gt;&lt;/FONT&gt;|&lt;FONT FACE=&quot;Mono&quot;&gt;&lt;BR/&gt;&#10;session : ::Session&amp;lt;splash::Splash&amp;gt;&lt;BR ALIGN=&quot;LEFT&quot;/&gt;&lt;/FONT&gt;">
 <path fill="none" stroke="#000000" d="M117,-104.6C117,-104.6 398,-104.6 398,-104.6 404,-104.6 410,-110.6 410,-116.6 410,-116.6 410,-155.4 410,-155.4 410,-161.4 404,-167.4 398,-167.4 398,-167.4 117,-167.4 117,-167.4 111,-167.4 105,-161.4 105,-155.4 105,-155.4 105,-116.6 105,-116.6 105,-110.6 111,-104.6 117,-104.6"/>
 <text text-anchor="start" x="230" y="-153.2" font-family="Sans Bold" font-weight="bold" font-size="14.00" fill="#0000ff">Splash</text>
 <polyline fill="none" stroke="#000000" points="105,-144.4 410,-144.4 "/>
@@ -39,7 +39,7 @@
 <!-- TitleMenu -->
 <g id="node3" class="node">
 <title>TitleMenu</title>
-<g id="a_node3"><a xlink:href="./title_menu.svg" xlink:title="&lt;FONT COLOR=&quot;blue&quot;&gt;&lt;B&gt;TitleMenu&lt;/B&gt;&lt;/FONT&gt;|&lt;FONT FACE=&quot;Mono&quot;&gt;&lt;BR/&gt;&#10;session : ::Session&amp;lt;title_menu::TitleMenu&amp;gt;&lt;BR ALIGN=&quot;LEFT&quot;/&gt;&lt;/FONT&gt;">
+<g id="a_node3"><a xlink:href="./title_menu.png" xlink:title="&lt;FONT COLOR=&quot;blue&quot;&gt;&lt;B&gt;TitleMenu&lt;/B&gt;&lt;/FONT&gt;|&lt;FONT FACE=&quot;Mono&quot;&gt;&lt;BR/&gt;&#10;session : ::Session&amp;lt;title_menu::TitleMenu&amp;gt;&lt;BR ALIGN=&quot;LEFT&quot;/&gt;&lt;/FONT&gt;">
 <path fill="none" stroke="#000000" d="M630,-104.6C630,-104.6 969,-104.6 969,-104.6 975,-104.6 981,-110.6 981,-116.6 981,-116.6 981,-155.4 981,-155.4 981,-161.4 975,-167.4 969,-167.4 969,-167.4 630,-167.4 630,-167.4 624,-167.4 618,-161.4 618,-155.4 618,-155.4 618,-116.6 618,-116.6 618,-110.6 624,-104.6 630,-104.6"/>
 <text text-anchor="start" x="758.5" y="-153.2" font-family="Sans Bold" font-weight="bold" font-size="14.00" fill="#0000ff">TitleMenu</text>
 <polyline fill="none" stroke="#000000" points="618,-144.4 981,-144.4 "/>
@@ -57,7 +57,7 @@
 <!-- Practice -->
 <g id="node4" class="node">
 <title>Practice</title>
-<g id="a_node4"><a xlink:href="./practice.svg" xlink:title="&lt;FONT COLOR=&quot;blue&quot;&gt;&lt;B&gt;Practice&lt;/B&gt;&lt;/FONT&gt;|&lt;FONT FACE=&quot;Mono&quot;&gt;&lt;BR/&gt;&#10;session : ::Session&amp;lt;practice::Practice&amp;gt;&lt;BR ALIGN=&quot;LEFT&quot;/&gt;&lt;/FONT&gt;">
+<g id="a_node4"><a xlink:href="./practice.png" xlink:title="&lt;FONT COLOR=&quot;blue&quot;&gt;&lt;B&gt;Practice&lt;/B&gt;&lt;/FONT&gt;|&lt;FONT FACE=&quot;Mono&quot;&gt;&lt;BR/&gt;&#10;session : ::Session&amp;lt;practice::Practice&amp;gt;&lt;BR ALIGN=&quot;LEFT&quot;/&gt;&lt;/FONT&gt;">
 <path fill="none" stroke="#000000" d="M1250,-21.6C1250,-21.6 1564,-21.6 1564,-21.6 1570,-21.6 1576,-27.6 1576,-33.6 1576,-33.6 1576,-72.4 1576,-72.4 1576,-78.4 1570,-84.4 1564,-84.4 1564,-84.4 1250,-84.4 1250,-84.4 1244,-84.4 1238,-78.4 1238,-72.4 1238,-72.4 1238,-33.6 1238,-33.6 1238,-27.6 1244,-21.6 1250,-21.6"/>
 <text text-anchor="start" x="1374" y="-70.2" font-family="Sans Bold" font-weight="bold" font-size="14.00" fill="#0000ff">Practice</text>
 <polyline fill="none" stroke="#000000" points="1238,-61.4 1576,-61.4 "/>
@@ -75,7 +75,7 @@
 <!-- MultiSetup -->
 <g id="node5" class="node">
 <title>MultiSetup</title>
-<g id="a_node5"><a xlink:href="./multi_setup.svg" xlink:title="&lt;FONT COLOR=&quot;blue&quot;&gt;&lt;B&gt;MultiSetup&lt;/B&gt;&lt;/FONT&gt;|&lt;FONT FACE=&quot;Mono&quot;&gt;&lt;BR/&gt;&#10;session : ::Session&amp;lt;multi_setup::MultiSetup&amp;gt;&lt;BR ALIGN=&quot;LEFT&quot;/&gt;&lt;/FONT&gt;">
+<g id="a_node5"><a xlink:href="./multi_setup.png" xlink:title="&lt;FONT COLOR=&quot;blue&quot;&gt;&lt;B&gt;MultiSetup&lt;/B&gt;&lt;/FONT&gt;|&lt;FONT FACE=&quot;Mono&quot;&gt;&lt;BR/&gt;&#10;session : ::Session&amp;lt;multi_setup::MultiSetup&amp;gt;&lt;BR ALIGN=&quot;LEFT&quot;/&gt;&lt;/FONT&gt;">
 <path fill="none" stroke="#000000" d="M1229,-107.6C1229,-107.6 1585,-107.6 1585,-107.6 1591,-107.6 1597,-113.6 1597,-119.6 1597,-119.6 1597,-158.4 1597,-158.4 1597,-164.4 1591,-170.4 1585,-170.4 1585,-170.4 1229,-170.4 1229,-170.4 1223,-170.4 1217,-164.4 1217,-158.4 1217,-158.4 1217,-119.6 1217,-119.6 1217,-113.6 1223,-107.6 1229,-107.6"/>
 <text text-anchor="start" x="1361.5" y="-156.2" font-family="Sans Bold" font-weight="bold" font-size="14.00" fill="#0000ff">MultiSetup</text>
 <polyline fill="none" stroke="#000000" points="1217,-147.4 1597,-147.4 "/>
@@ -107,7 +107,7 @@
 <!-- MultiRun -->
 <g id="node6" class="node">
 <title>MultiRun</title>
-<g id="a_node6"><a xlink:href="./multi_run.svg" xlink:title="&lt;FONT COLOR=&quot;blue&quot;&gt;&lt;B&gt;MultiRun&lt;/B&gt;&lt;/FONT&gt;|&lt;FONT FACE=&quot;Mono&quot;&gt;&lt;BR/&gt;&#10;session : ::Session&amp;lt;multi_run::MultiRun&amp;gt;&lt;BR ALIGN=&quot;LEFT&quot;/&gt;&lt;/FONT&gt;">
+<g id="a_node6"><a xlink:href="./multi_run.png" xlink:title="&lt;FONT COLOR=&quot;blue&quot;&gt;&lt;B&gt;MultiRun&lt;/B&gt;&lt;/FONT&gt;|&lt;FONT FACE=&quot;Mono&quot;&gt;&lt;BR/&gt;&#10;session : ::Session&amp;lt;multi_run::MultiRun&amp;gt;&lt;BR ALIGN=&quot;LEFT&quot;/&gt;&lt;/FONT&gt;">
 <path fill="none" stroke="#000000" d="M1837,-133.6C1837,-133.6 2160,-133.6 2160,-133.6 2166,-133.6 2172,-139.6 2172,-145.6 2172,-145.6 2172,-184.4 2172,-184.4 2172,-190.4 2166,-196.4 2160,-196.4 2160,-196.4 1837,-196.4 1837,-196.4 1831,-196.4 1825,-190.4 1825,-184.4 1825,-184.4 1825,-145.6 1825,-145.6 1825,-139.6 1831,-133.6 1837,-133.6"/>
 <text text-anchor="start" x="1961" y="-182.2" font-family="Sans Bold" font-weight="bold" font-size="14.00" fill="#0000ff">MultiRun</text>
 <polyline fill="none" stroke="#000000" points="1825,-173.4 2172,-173.4 "/>
