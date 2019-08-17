@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["CreateObjectResult","Events resulting from object creation"],["Input","An input event"],["ObjectModify","An object modification event"],["ObjectModifyDynamic",""],["ObjectModifyStatic",""],["Output","An event that results from handling an input"]],"struct":[["CollisionResolve","A TOI collision"]]});

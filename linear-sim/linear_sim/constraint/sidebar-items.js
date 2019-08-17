@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Penetration","An inter-penetration constraint"],["Planar","A planar constraint"]],"trait":[["Constraint","Constraint interface trait"]]});

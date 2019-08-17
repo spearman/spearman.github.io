@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Relation",""]],"struct":[["Intersection","Describes the inter-penetration of a pair of bounded objects"]]});

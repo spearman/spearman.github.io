@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Relation","Relation configuration of a pair of bounded objects."]],"struct":[["Proximity","Result of a proximity query between a pair of bounded objects."]]});

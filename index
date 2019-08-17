@@ -6,6 +6,7 @@ Rust library documentation:
 
 | [apis](apis/apis/index.html)
 | [enum-unitary](enum-unitary/enum_unitary/index.html)
+| [linear-sim](linear-sim/linear_sim/index.html)
 | [macro-machines](macro-machines/macro_machines/index.html)
 | [range-set](range-set/range_set/index.html)
 | [rs-utils](rs-utils/rs_utils/index.html)

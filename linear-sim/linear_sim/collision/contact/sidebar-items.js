@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["group","Contact groups"]],"struct":[["Colliding","A \"TOI contact\"."],["Contact",""]]});

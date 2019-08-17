@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Group","A group of contacts that are directly or indirectly connected by sharing common objects"]],"type":[["KeyType","Type used for group keys."]]});

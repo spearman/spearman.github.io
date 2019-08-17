@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["SemiImplicitEuler","Semi-implicit Euler integrator"]],"trait":[["Integrator","Interface trait for integrators of objects with time derivatives"]]});

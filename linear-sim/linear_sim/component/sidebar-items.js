@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["MATERIAL_STONE",""],["MATERIAL_WOOD",""]],"struct":[["Bound","A bounding volume"],["Derivatives","First (velocity) and second (acceleration) time derivatives of position"],["Mass","A point mass; does not currently enforce that mass is nonzero or positive"],["Material","Surface material properties"],["Position","A point in 3D space"]]});
